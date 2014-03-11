@@ -91,6 +91,7 @@ namespace ISeeN
                 Data =
                     new User
                     {
+                        Name = "Slim Shady", 
                         Bio = "This is bio",
                         City = "Such City",
                         Country = "Much Country",
