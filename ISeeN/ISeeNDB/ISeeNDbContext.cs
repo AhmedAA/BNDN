@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
-using ISeeN.Entities;
 
 namespace ISeeN_DB
 {
-    class Program
+    class ISeeNDbContext : DbContext
     {
-        static void Main(string[] args)
-        {
-
-        }
+        public DbSet<ISeeN_DB.User> Users { get; set; }
     }
 }

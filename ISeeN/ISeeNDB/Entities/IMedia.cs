@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 
-namespace ISeeN.Entities
+namespace ISeeN_DB
 {
-    public interface IMedia : DbContext
+    public interface IMedia
     {
         //Id of media
         int Id { get; set; }

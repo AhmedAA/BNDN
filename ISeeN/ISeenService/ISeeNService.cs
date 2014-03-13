@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
-using ISeeN.Entities;
+//using ISeeN.Entities;
 
 namespace ISeenService
 {
@@ -22,7 +22,7 @@ namespace ISeenService
         /// <returns>A report containing either a list of matches based on best-hit
         /// or an error int</returns>
         [OperationContract]
-        Report<IList<IMedia>> SearchMediaByName(string searchParam);
+        ISeeN_DB.Report<IList<ISeeN_DB.IMedia>> SearchMediaByName(string searchParam);
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "test/{te}")]
         //[WebGet(UriTemplate = "Test?id={t}", ResponseFormat = WebMessageFormat.Json)]

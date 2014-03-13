@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Data.Entity;
 
-namespace ISeeN.Entities
+namespace ISeeN_DB
 {
-    public class Reminder : DbContext
+    public class Reminder
     {
         public int Id { get; set; }
         public int UserId { get; set; }

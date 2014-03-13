@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Data.Entity;
 
-namespace ISeeN.Entities
+namespace ISeeN_DB
 {
-    public class Report<TData> : DbContext
+    public class Report<TData>
     {
         public TData Data { get; set; }
         //int corresponds to specific error code.

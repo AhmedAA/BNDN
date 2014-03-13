@@ -57,19 +57,14 @@
     <Compile Include="Entities\Report.cs" />
     <Compile Include="Entities\Statistic.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ISeeNDbContext.cs" />
+    <Compile Include="MainProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Entities\EntityDiagram.cd" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ISeenService\ISeenService.csproj">
-      <Project>{085206db-7673-4783-878d-a7a72c4a61bc}</Project>
-      <Name>ISeenService</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
