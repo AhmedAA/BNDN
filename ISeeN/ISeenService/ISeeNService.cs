@@ -13,16 +13,16 @@ namespace ISeenService
     [ServiceContract()]
     public interface ISeeNService
     {
-        //#region SearchOp
+        #region SearchOp
 
-        ///// <summary>
-        ///// Seach for medias where the name contains the searchParam
-        ///// </summary>
-        ///// <param name="searchParam">Search param to look for in media name</param>
-        ///// <returns>A report containing either a list of matches based on best-hit
-        ///// or an error int</returns>
-        //[OperationContract]
-        //Report<IList<IMedia>> SearchMediaByName(string searchParam);
+        /// <summary>
+        /// Seach for medias where the name contains the searchParam
+        /// </summary>
+        /// <param name="searchParam">Search param to look for in media name</param>
+        /// <returns>A report containing either a list of matches based on best-hit
+        /// or an error int</returns>
+        [OperationContract]
+        Report<IList<IMedia>> SearchMediaByName(string searchParam);
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "test/{te}")]
         //[WebGet(UriTemplate = "Test?id={t}", ResponseFormat = WebMessageFormat.Json)]
@@ -48,9 +48,9 @@ namespace ISeenService
         //[OperationContract]
         //Report<IList<IMedia>> SearchMediaByNameType(string searchParam, int type);
 
-        //#endregion
+        #endregion
 
-        //#region AccountOp
+        #region AccountOp
 
         ///// <summary>
         ///// Creates a new account in the service
@@ -91,9 +91,9 @@ namespace ISeenService
         //[OperationContract]
         //Report<User> SetAccountInfo(Potato potato, User editedUser);
 
-        //#endregion
+        #endregion
 
-        //#region MediaOp
+        #region MediaOp
 
         ///// <summary>
         ///// Rent the media corresponding to the id for the user in the potato
@@ -134,9 +134,9 @@ namespace ISeenService
         //[OperationContract]
         //Report<Statistic> GetStatisticsForMedia(int id);
 
-        //#endregion
+        #endregion
 
-        //#region ReminderOp
+        #region ReminderOp
 
         ///// <summary>
         ///// Checks whether new reminders are available for the user of the potato
@@ -147,6 +147,6 @@ namespace ISeenService
         //[OperationContract]
         //Report<IList<Reminder>> CheckReminders(Potato potato);
 
-        //#endregion
+        #endregion
     }
 }
