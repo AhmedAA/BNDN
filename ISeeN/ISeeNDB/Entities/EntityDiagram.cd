@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="ISeeN.Entities.Potato">
+    <Position X="3.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Potato.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ISeeN.Entities.Statistic">
+    <Position X="3.75" Y="2.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Statistic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ISeeN.Entities.User">
+    <Position X="8.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAICAAAAAQACAIAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ISeeN.Entities.Reminder">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAEAAAAAAAAgAAIAAAEAAAAAAIAAAAAA=</HashCode>
+      <FileName>Entities\Reminder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ISeeN.Entities.Report&lt;TData&gt;">
+    <Position X="6" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Report.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ISeeN.Entities.IMedia">
+    <Position X="0.5" Y="3.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAoAEAAAAAAAAAACAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Entities\IMedia.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

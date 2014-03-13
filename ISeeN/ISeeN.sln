@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeenService", "ISeenService\ISeenService.csproj", "{085206DB-7673-4783-878D-A7A72C4A61BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeenHost", "ISeenHost\ISeenHost.csproj", "{A1CE629A-09E7-4CB7-8A3F-8B44E004A686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISeeN_DB", "ISeeNDB\ISeeN_DB.csproj", "{D3614053-CC14-40EB-810B-0F193C2C0738}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +21,10 @@ Global
 		{A1CE629A-09E7-4CB7-8A3F-8B44E004A686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1CE629A-09E7-4CB7-8A3F-8B44E004A686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1CE629A-09E7-4CB7-8A3F-8B44E004A686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3614053-CC14-40EB-810B-0F193C2C0738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3614053-CC14-40EB-810B-0F193C2C0738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3614053-CC14-40EB-810B-0F193C2C0738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3614053-CC14-40EB-810B-0F193C2C0738}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
