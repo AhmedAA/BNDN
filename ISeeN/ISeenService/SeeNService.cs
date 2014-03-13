@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
 using System.Text;
 using ISeeN.Entities;
 using ISeeN.TestRelated_Entities;
 
-namespace ISeeN
+namespace ISeenService
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
-    public class Service1 : IService1
+    [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
+    public class SeeNService : ISeeNService
     {
         readonly List<IMedia> _database = new List<IMedia>
             {
@@ -36,9 +37,9 @@ namespace ISeeN
                 }
             };
 
-        public string test(string t)
+        public string Test(string te)
         {
-            return t;
+            return te;
         }
 
         public Report<IList<IMedia>> SearchMediaByName(string searchParam)
@@ -57,8 +58,8 @@ namespace ISeeN
         {
             var toReturn = new Report<IList<IMedia>>();
             var tmp = from data in _database
-                where data.Type == type
-                select data;
+                      where data.Type == type
+                      select data;
 
             if (!tmp.Any())
                 toReturn.Error = 1;
@@ -70,13 +71,13 @@ namespace ISeeN
 
         public Report<IList<IMedia>> SearchMediaByNameType(string searchParam, int type)
         {
-            return new Report<IList<IMedia>>{Error = 1};
+            return new Report<IList<IMedia>> { Error = 1 };
 
         }
 
         public Report<Potato> CreateAccount(User newUser)
         {
-            return new Report<Potato>{Data = new Potato{EncPassword = "SuchEncryptionMuchWow", Id = newUser.Id}};
+            return new Report<Potato> { Data = new Potato { EncPassword = "SuchEncryptionMuchWow", Id = newUser.Id } };
         }
 
         public Report<Potato> Login(string email, string password)
@@ -91,7 +92,7 @@ namespace ISeeN
                 Data =
                     new User
                     {
-                        Name = "Slim Shady", 
+                        Name = "Slim Shady",
                         Bio = "This is bio",
                         City = "Such City",
                         Country = "Much Country",
@@ -105,14 +106,14 @@ namespace ISeeN
 
         public Report<User> SetAccountInfo(Potato potato, User editedUser)
         {
-            return new Report<User> {Data = editedUser};
+            return new Report<User> { Data = editedUser };
         }
 
         public Report<IMedia> RentMedia(int id, Potato potato)
         {
             var tmp = from data in _database
-                where data.Id == id
-                select data;
+                      where data.Id == id
+                      select data;
 
             var toReturn = new Report<IMedia>();
 
@@ -126,12 +127,12 @@ namespace ISeeN
 
         public Report<IMedia> NewMedia(IMedia media, byte[] file)
         {
-            return new Report<IMedia>{Data = media};
+            return new Report<IMedia> { Data = media };
         }
 
         public Report<IMedia> GetMediaById(int id)
         {
-            return RentMedia(id,new Potato());
+            return RentMedia(id, new Potato());
         }
 
         public Report<Statistic> GetStatisticsForMedia(int id)
