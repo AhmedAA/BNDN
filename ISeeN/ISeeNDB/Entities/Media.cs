@@ -17,7 +17,14 @@ namespace ISeeN_DB.Entities
         public int Type { get; set; }
         //Release time of media
         [DataMember]
-        public DateTime? ReleaseDate { get; set; }
+        public string ReleaseDate
+        {
+            get { return _ReleaseDate.ToString(); }
+            set { _ReleaseDate = DateTime.Parse(value);  }
+        }
+
+        public DateTime _ReleaseDate = DateTime.MinValue;
+
         //Description of media
         [DataMember]
         public string Description { get; set; }

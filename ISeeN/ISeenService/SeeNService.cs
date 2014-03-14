@@ -20,7 +20,7 @@ namespace ISeenService
                 {
                     Description = "TestDesc",
                     Id = 1,
-                    ReleaseDate = new DateTime(1993, 12, 21),
+                    _ReleaseDate = new DateTime(1993, 12, 21),
                     Title = "Media",
                     Type = 1
                 },
@@ -28,7 +28,7 @@ namespace ISeenService
                 {
                     Description = "Description blabla",
                     Id = 2,
-                    ReleaseDate = new DateTime(1992, 12, 21),
+                    _ReleaseDate = new DateTime(1992, 12, 21),
                     Title = "Test",
                     Type = 2
                 },
@@ -36,7 +36,7 @@ namespace ISeenService
                 {
                     Description = "This is a test",
                     Id = 3,
-                    ReleaseDate = new DateTime(1998, 12, 21),
+                    _ReleaseDate = new DateTime(1991, 12, 21),
                     Title = "GoodFellas",
                     Type = 1
                 }
@@ -129,12 +129,32 @@ namespace ISeenService
         {
             try
             {
-                //if (int.Parse(id) == 1)
-                    return new Report<Statistic> { Data = new Statistic { DatesRented = { DateTime.Now }, MediaId = 1 } };
+                if (int.Parse(id) == 1)
+                {
+                    var toReturn = new Report<Statistic>
+                    {
+                        Data = new Statistic
+                        {
+                            _DatesRented = new List<DateTime>
+                            {
+                                DateTime.Now,
+                                DateTime.Now,
+                                DateTime.Now,
+                                DateTime.Now,
+                                DateTime.Now,
+                                DateTime.Now
+                            },
+                            MediaId = 1
+                        }
+                    };
+
+                    return toReturn;
+                }
                 throw new ArgumentException();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 //TODO: IMPLEMENT REAL ERROR CODE
                 return new Report<Statistic> { Error = 1 };
             }
