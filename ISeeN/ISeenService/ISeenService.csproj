@@ -49,8 +49,6 @@
     <Compile Include="ISeeNService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeeNService.cs" />
-    <Compile Include="TestRelated_Entities\TMedia.cs" />
-    <Compile Include="TestRelated_Entities\TMovie.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\IMedia.cs" />
+    <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Potato.cs" />
     <Compile Include="Entities\Reminder.cs" />
     <Compile Include="Entities\Report.cs" />

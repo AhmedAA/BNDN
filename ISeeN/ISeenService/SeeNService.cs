@@ -1,183 +1,157 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Web;
 using System.Text;
-using ISeeN.Entities;
-using ISeeN.TestRelated_Entities;
+using System.Text.RegularExpressions;
+using ISeeN_DB;
+using ISeeN_DB.Entities;
 
 namespace ISeenService
 {
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class SeeNService : ISeeNService
     {
-        readonly List<IMedia> _database = new List<IMedia>
+        readonly List<Media> _mediaList = new List<Media>
+        #region TestRelatedMEDIA
             {
-                new TMedia
+                new Media
                 {
                     Description = "TestDesc",
                     Id = 1,
                     ReleaseDate = new DateTime(1993, 12, 21),
-                    Title = "Test Media",
+                    Title = "Media",
                     Type = 1
                 },
-                new TMovie
+                new Media()
                 {
-                    Description = "TestDesc",
-                    Id = 1,
-                    ReleaseDate = new DateTime(1993, 12, 21),
-                    Title = "Test Media",
-                    Type = 2,
-                    SomeMovieField = "SomeSpecific",
-                    SomethingElse = 11
+                    Description = "Description blabla",
+                    Id = 2,
+                    ReleaseDate = new DateTime(1992, 12, 21),
+                    Title = "Test",
+                    Type = 2
+                },
+                new Media()
+                {
+                    Description = "This is a test",
+                    Id = 3,
+                    ReleaseDate = new DateTime(1998, 12, 21),
+                    Title = "GoodFellas",
+                    Type = 1
                 }
             };
+        #endregion
 
-        public string Test(string te)
+        public Report<IList<Media>> SearchMedia(string searchParam)
         {
-            return te;
-        }
+            try
+            {
+                //first lets take out textParam and typeParam
+                var splitted = Regex.Split(searchParam, "==");
+                //determine if text only or both text and type
+                bool textOnly = splitted.Length < 2;
+                int type;
 
-        public Report<IList<IMedia>> SearchMediaByName(string searchParam)
-        {
-            var toReturn = new Report<IList<IMedia>>();
+                var toReturn = new Report<IList<Media>>();
 
-            if (searchParam.ToLower().Equals("work"))
-                toReturn.Data = _database;
-            else
-                toReturn.Error = 1;
+                //text search case
+                if (textOnly)
+                    return new Report<IList<Media>> { Data = MediaBySearchText(splitted[0], _mediaList).ToList() };
+                //type search case
+                if (int.TryParse(splitted[1], out type) && string.IsNullOrEmpty(splitted[0]))
+                {
+                    return new Report<IList<Media>> { Data = MediaBySearchType(type, _mediaList).ToList() };
+                }
+                //text and type search
+                if (int.TryParse(splitted[1], out type))
+                {
+                    var byText = MediaBySearchText(splitted[0], _mediaList);
+                    var byBoth = MediaBySearchType(type, byText);
+                    return new Report<IList<Media>> { Data = byBoth.ToList() };
+                }
 
-            return toReturn;
-        }
-
-        public Report<IList<IMedia>> SearchMediaByType(int type)
-        {
-            var toReturn = new Report<IList<IMedia>>();
-            var tmp = from data in _database
-                      where data.Type == type
-                      select data;
-
-            if (!tmp.Any())
-                toReturn.Error = 1;
-            else
-                toReturn.Data = tmp.ToList();
-
-            return toReturn;
-        }
-
-        public Report<IList<IMedia>> SearchMediaByNameType(string searchParam, int type)
-        {
-            return new Report<IList<IMedia>> { Error = 1 };
-
+                throw new FileNotFoundException();
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<IList<Media>>{Error = 1};
+            }
         }
 
         public Report<Potato> CreateAccount(User newUser)
         {
-            return new Report<Potato> { Data = new Potato { EncPassword = "SuchEncryptionMuchWow", Id = newUser.Id } };
-        }
-
-        public Report<Potato> Login(string email, string password)
-        {
-            return new Report<Potato> { Data = new Potato { EncPassword = "SuchEncryptionMuchWow", Id = 1 } };
-        }
-
-        public Report<User> GetAccountInfo(Potato potato)
-        {
-            return new Report<User>
+            try
             {
-                Data =
-                    new User
-                    {
-                        Name = "Slim Shady",
-                        Bio = "This is bio",
-                        City = "Such City",
-                        Country = "Much Country",
-                        Email = "Very@Email.com",
-                        Id = 1,
-                        IsAdmin = false,
-                        Password = "ThisIsPassword!!"
-                    }
-            };
-        }
-
-        public Report<User> SetAccountInfo(Potato potato, User editedUser)
-        {
-            return new Report<User> { Data = editedUser };
-        }
-
-        public Report<IMedia> RentMedia(int id, Potato potato)
-        {
-            var tmp = from data in _database
-                      where data.Id == id
-                      select data;
-
-            var toReturn = new Report<IMedia>();
-
-            if (!tmp.Any())
-                toReturn.Error = 1;
-            else
-                toReturn.Data = tmp.First();
-
-            return toReturn;
-        }
-
-        public Report<IMedia> NewMedia(IMedia media, byte[] file)
-        {
-            return new Report<IMedia> { Data = media };
-        }
-
-        public Report<IMedia> GetMediaById(int id)
-        {
-            return RentMedia(id, new Potato());
-        }
-
-        public Report<Statistic> GetStatisticsForMedia(int id)
-        {
-            return new Report<Statistic>
+                return new Report<Potato>() { Data = new Potato { EncPassword = "ThisIsVeryEncrypted", Id = 2 } };
+            }
+            catch (Exception e)
             {
-                Data = new Statistic
-                {
-                    DatesRented =
-                        new List<DateTime>
-                    {
-                        DateTime.Now,
-                        DateTime.Now,
-                        DateTime.Now,
-                        DateTime.Now,
-                        DateTime.Now,
-                        DateTime.Now,
-                        DateTime.Now,
-                        new DateTime(1993, 12, 21)
-                    },
-                    MediaId = id
-                }
-            };
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<Potato> { Error = 1 };
+            }
         }
 
-        public Report<IList<Reminder>> CheckReminders(Potato potato)
+        public Report<IList<Media>> GetAllMedia()
         {
-            var toReturn = new Report<IList<Reminder>>
+            try
             {
-                Data = new List<Reminder>
-                {
-                    new Reminder
-                    {
-                        DateReceived = DateTime.Now,
-                        DateSent = DateTime.Now,
-                        Id = 1,
-                        MediaId = 1,
-                        Title = "This is a reminder :-)",
-                        Message = "Lorum ipsum this is awsum",
-                        UserId = potato.Id
-                    }
-                }
-            };
+                return new Report<IList<Media>> {Data = _mediaList};
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<IList<Media>> { Error = 1 };
+            }
+        }
 
-            return toReturn;
+        public Report<Media> GetMediaForId(string id)
+        {
+            try
+            {
+                var search = from media in _mediaList
+                    where media.Id == int.Parse(id)
+                    select media;
+                if (search.Any())
+                    return new Report<Media> {Data = search.First()};
+
+                throw new FileNotFoundException();
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<Media> { Error = 1 };
+            }
+        }
+
+        public Report<Statistic> GetStatsForId(string id)
+        {
+            try
+            {
+                //if (int.Parse(id) == 1)
+                    return new Report<Statistic> { Data = new Statistic { DatesRented = { DateTime.Now }, MediaId = 1 } };
+                throw new ArgumentException();
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<Statistic> { Error = 1 };
+            }
+        }
+
+        private IEnumerable<Media> MediaBySearchText(string s, IEnumerable<Media> medias)
+        {
+            return from media in medias
+                   where media.Title.Contains(s)
+                   select media;
+        }
+
+        private IEnumerable<Media> MediaBySearchType(int type, IEnumerable<Media> medias)
+        {
+            return from media in medias
+                   where media.Id == type
+                   select media;
         }
     }
 }
