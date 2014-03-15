@@ -11,7 +11,21 @@ namespace ISeeN_DB
     {
         [DataMember]
         public int MediaId { get; set; }
+
         [DataMember]
-        public IList<DateTime> DatesRented { get; set; }  
+        public IList<string> DatesRented
+        {
+            get { return _DatesRented.Select(date => date.ToString()).ToList(); }
+            set 
+            {
+                _DatesRented = new List<DateTime>();
+                foreach (var date in value)
+                {
+                    _DatesRented.Add(DateTime.Parse(date));
+                }
+            }
+        }
+
+        public IList<DateTime> _DatesRented = new List<DateTime>();
     }
 }

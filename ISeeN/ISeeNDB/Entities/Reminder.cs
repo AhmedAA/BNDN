@@ -11,17 +11,35 @@ namespace ISeeN_DB
     {
         [DataMember]
         public int Id { get; set; }
+
         [DataMember]
         public int UserId { get; set; }
+
         [DataMember]
         public int MediaId { get; set; }
+
         [DataMember]
         public string Title { get; set; }
+
         [DataMember]
         public string Message { get; set; }
+
         [DataMember]
-        public DateTime? DateSent { get; set; }
+        public string DateSent
+        {
+            get { return _DateSent.ToString(); }
+            set { _DateSent = DateTime.Parse(value); }
+        }
+
+        public DateTime _DateSent = DateTime.MinValue;
+
         [DataMember]
-        public DateTime? DateReceived { get; set; }
+        public string DateReceived
+        {
+            get { return _DateReceived.ToString(); }
+            set { _DateReceived = DateTime.Parse(value); }
+        }
+
+        public DateTime _DateReceived = DateTime.MinValue;
     }
 }

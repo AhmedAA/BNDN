@@ -23,6 +23,7 @@ namespace ISeenHost
                 //Console.WriteLine("ASP.Net : " + ServiceHostingEnvironment.AspNetCompatibilityEnabled);
                 Console.WriteLine("Host is running... Press <Enter> key to stop");
                 Console.ReadLine();
+                Console.WriteLine("HOST IS CLOSED");
             }
             catch (Exception ex)
             {
