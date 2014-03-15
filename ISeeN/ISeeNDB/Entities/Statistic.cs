@@ -16,6 +16,7 @@ namespace ISeeN_DB
         public IList<string> DatesRented
         {
             get { return _DatesRented.Select(date => date.ToString()).ToList(); }
+            //private set, not used atm.
             set 
             {
                 _DatesRented = new List<DateTime>();

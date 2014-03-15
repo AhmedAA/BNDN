@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -47,6 +48,10 @@ namespace ISeenService
         #endregion
 
         #region ReminderOp
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Reminder/Check")]
+        [OperationContract]
+        Report<IList<Reminder>> CheckReminders(Stream streamdata);
 
         #endregion
     }

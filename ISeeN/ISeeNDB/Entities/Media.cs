@@ -20,6 +20,7 @@ namespace ISeeN_DB.Entities
         public string ReleaseDate
         {
             get { return _ReleaseDate.ToString(); }
+            //private set, not used atm.
             set { _ReleaseDate = DateTime.Parse(value);  }
         }
 

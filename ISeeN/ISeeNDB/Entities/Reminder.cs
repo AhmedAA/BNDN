@@ -28,7 +28,8 @@ namespace ISeeN_DB
         public string DateSent
         {
             get { return _DateSent.ToString(); }
-            set { _DateSent = DateTime.Parse(value); }
+            //private set, not used atm.
+            private set { _DateSent = DateTime.Parse(value); }
         }
 
         public DateTime _DateSent = DateTime.MinValue;
@@ -37,7 +38,8 @@ namespace ISeeN_DB
         public string DateReceived
         {
             get { return _DateReceived.ToString(); }
-            set { _DateReceived = DateTime.Parse(value); }
+            //private set, not used atm.
+            private set { _DateReceived = DateTime.Parse(value); }
         }
 
         public DateTime _DateReceived = DateTime.MinValue;

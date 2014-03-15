@@ -160,6 +160,29 @@ namespace ISeenService
             }
         }
 
+        public Report<IList<Reminder>> CheckReminders(Stream streamdata)
+        {
+            var received = StringFromStream(streamdata);
+
+            Console.WriteLine("Received: " + received);
+
+            var toReturn = new Report<IList<Reminder>> { Data = new List<Reminder>() };
+            toReturn.Data.Add(new Reminder{_DateReceived = DateTime.Now, _DateSent = DateTime.MinValue,Id = 1,MediaId = 1,Message = "This is a reminder about blabla...", Title = "Reminder Much Title", UserId = 1});
+
+            return toReturn;
+        }
+
+        private string StringFromStream(Stream stream)
+        {
+            string s;
+            using (var reader = new StreamReader(stream))
+            {
+                s = reader.ReadToEnd();
+            }
+
+            return s;
+        }
+
         private IEnumerable<Media> MediaBySearchText(string s, IEnumerable<Media> medias)
         {
             return from media in medias
