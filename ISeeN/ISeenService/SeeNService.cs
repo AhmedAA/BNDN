@@ -162,14 +162,23 @@ namespace ISeenService
 
         public Report<IList<Reminder>> CheckReminders(Stream streamdata)
         {
-            var received = StringFromStream(streamdata);
-
-            Console.WriteLine("Received: " + received);
+            var received = StringFromStreamDebug(streamdata);
 
             var toReturn = new Report<IList<Reminder>> { Data = new List<Reminder>() };
             toReturn.Data.Add(new Reminder{_DateReceived = DateTime.Now, _DateSent = DateTime.MinValue,Id = 1,MediaId = 1,Message = "This is a reminder about blabla...", Title = "Reminder Much Title", UserId = 1});
 
             return toReturn;
+        }
+
+        private string StringFromStreamDebug(Stream stream)
+        {
+            var s = StringFromStream(stream);
+            var currentFor = Console.ForegroundColor;
+            var currentBac = Console.BackgroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Stream = |" + s + "|");
+            Console.ForegroundColor = currentFor;
+            return s;
         }
 
         private string StringFromStream(Stream stream)

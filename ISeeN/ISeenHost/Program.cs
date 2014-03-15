@@ -14,19 +14,26 @@ namespace ISeenHost
         {
             try
             {
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Clear();
                 Uri httpUrl = new Uri("http://localhost:8090/service/SeeNService");
                 WebServiceHost host = new WebServiceHost(typeof(ISeenService.SeeNService), httpUrl);
                 host.Open();
 
                 foreach (ServiceEndpoint se in host.Description.Endpoints)
-                    Console.WriteLine("Service is host with endpoint " + se.Address);
+                    Console.WriteLine("Service is hosted at endpoint: " + se.Address + "\n");
                 //Console.WriteLine("ASP.Net : " + ServiceHostingEnvironment.AspNetCompatibilityEnabled);
                 Console.WriteLine("Host is running... Press <Enter> key to stop");
                 Console.ReadLine();
-                Console.WriteLine("HOST IS CLOSED");
             }
             catch (Exception ex)
             {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("EXCEPTION");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
