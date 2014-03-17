@@ -20,7 +20,7 @@ namespace ISeenService
                 {
                     Description = "TestDesc",
                     Id = 1,
-                    _ReleaseDate = new DateTime(1993, 12, 21),
+                    _ReleaseDate = new DateTime(1993, 11, 21),
                     Title = "Media",
                     Type = 1
                 },
