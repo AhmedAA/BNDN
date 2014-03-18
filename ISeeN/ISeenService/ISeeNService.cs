@@ -7,7 +7,6 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using ISeeN_DB;
-using ISeeN_DB.Entities;
 
 namespace ISeenService
 {
@@ -68,6 +67,14 @@ namespace ISeenService
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/New")]
         [OperationContract]
         Report<Media> CreateNewMedia(Stream streamdata);
+
+        [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Edit")]
+        [OperationContract]
+        Report<Media> EditMedia(Stream streamdata);
+
+        [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Delete/{id}")]
+        [OperationContract]
+        Report<Media> DeleteMedia(string id, Stream streamdata);
 
         #endregion
 

@@ -6,7 +6,6 @@ using System.ServiceModel.Activation;
 using System.Text;
 using System.Text.RegularExpressions;
 using ISeeN_DB;
-using ISeeN_DB.Entities;
 using Newtonsoft.Json.Linq;
 
 namespace ISeenService
@@ -84,6 +83,7 @@ namespace ISeenService
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1,e.ToString());
                 return new Report<IList<Media>>{Error = 1};
             }
         }
@@ -105,6 +105,7 @@ namespace ISeenService
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<Potato> { Error = 1 };
             }
         }
@@ -126,9 +127,10 @@ namespace ISeenService
                 //TODO: Maybe send user from database or just the one we're supposed to set?
                 return new Report<User>{Data = recUser};
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<User> {Error = 1};
             }
         }
@@ -160,9 +162,10 @@ namespace ISeenService
                         }
                 };
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<User> {Error = 1};
             }
         }
@@ -180,9 +183,10 @@ namespace ISeenService
 
                 return new Report<Potato> {Data = new Potato {EncPassword = "ThisIsMuchEncrypted", Id = 1}};
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<Potato> { Error = 1 };
             }
 
@@ -190,6 +194,7 @@ namespace ISeenService
 
         public Report<int> DeleteAccount(Stream streamdata)
         {
+            //TODO: Not done at all
             StringFromStreamDebug(streamdata);
             return new Report<int>{Data = 1};
         }
@@ -200,9 +205,10 @@ namespace ISeenService
             {
                 return new Report<IList<Media>> {Data = _mediaList};
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<IList<Media>> { Error = 1 };
             }
         }
@@ -219,9 +225,10 @@ namespace ISeenService
 
                 throw new FileNotFoundException();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<Media> { Error = 1 };
             }
         }
@@ -256,6 +263,7 @@ namespace ISeenService
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<Statistic> { Error = 1 };
             }
         }
@@ -275,9 +283,10 @@ namespace ISeenService
                 return GetMediaForId(mediaId);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<Media> { Error = (int)ErrorCodes.GeneralError };
             }
         }
@@ -296,21 +305,81 @@ namespace ISeenService
 
                 LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
-                Console.WriteLine("Start of byte[] //");
-                foreach (var byt in recByteAr)
-                {
-                    Console.WriteLine(byt.ToString());
-                }
-                Console.WriteLine("// End of byte[]");
-
                 return new Report<Media> {Data = recMedia};
 
                 //TODO: Actually put this in the database
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
+                return new Report<Media> { Error = (int)ErrorCodes.GeneralError };
+            }
+        }
+
+        public Report<Media> EditMedia(Stream streamdata)
+        {
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato, media and byte[] from JSON string
+
+                var jArray = JArray.Parse(jsonString);
+
+                var recPotato = jArray[0].ToObject<Potato>();
+                var recMedia = jArray[1].ToObject<Media>();
+
+                //TODO: Check if user has priviledges
+
+                LogAction("Edit media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
+
+                //Is a slow edit (byte array to overwrite)
+                if (jArray.Count == 3)
+                {
+                    var recByteAr = jArray[2].ToObject<byte[]>();
+                    //TODO: Actually put this in database
+                    Console.WriteLine("Start of byte[] //");
+                    foreach (var byt in recByteAr)
+                    {
+                        Console.WriteLine(byt.ToString());
+                    }
+                    Console.WriteLine("// End of byte[]");
+                }
+
+                return new Report<Media> {Data = recMedia};
+
+                //TODO: Actually put this in the database
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
+                return new Report<Media> { Error = (int)ErrorCodes.GeneralError };
+            }
+        }
+
+        public Report<Media> DeleteMedia(string id, Stream streamdata)
+        {
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato from JSON string
+
+                var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
+
+                //TODO: Check if allowed to delete
+
+                LogAction("Delete", "Potato ID#" + recPotato.Id);
+
+                //TODO: ACTUALLY DELETE
+
+                return new Report<Media> {Data = _mediaList[0]};
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
                 return new Report<Media> { Error = (int)ErrorCodes.GeneralError };
             }
         }
@@ -356,12 +425,12 @@ namespace ISeenService
             Console.ForegroundColor = currentFor;
         }
 
-        private void LogError(int error)
+        private void LogError(int error, string message)
         {
             var currentFor = Console.ForegroundColor;
             var currentBac = Console.BackgroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ERROR " + error);
+            Console.WriteLine("ERROR#" + error + " " + message);
             Console.ForegroundColor = currentFor;
         }
 
