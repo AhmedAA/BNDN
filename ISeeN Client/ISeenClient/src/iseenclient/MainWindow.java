@@ -11,7 +11,7 @@ package iseenclient;
  * @author neo
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form MainWindow
      */
@@ -101,6 +101,6 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField testerTextField;
+    public javax.swing.JTextField testerTextField;
     // End of variables declaration//GEN-END:variables
 }
