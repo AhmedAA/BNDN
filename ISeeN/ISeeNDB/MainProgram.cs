@@ -29,23 +29,21 @@ namespace ISeeN_DB
 
             // calling the method
             UserDB.AddUser(user);
+            var result = UserDB.GetAllUsers();
 
-            using (var db = new ISeeNDbContext())
+            foreach (var re in result)
             {
+                Console.WriteLine(re.ToString());
+            }
 
-                var query = from b in db.Users
-                    orderby b.Id
-                    select b;
+            var resUser = UserDB.GetUserById(10);
 
-                // write result to nice console
-                foreach (var item in query)
-                {
-                    Console.WriteLine(item.Name);
-                }
+            Console.WriteLine(resUser.Id);
+            Console.WriteLine(resUser.Name);
+            Console.WriteLine(resUser.Bio);
 
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
             }
         }
     }
-}

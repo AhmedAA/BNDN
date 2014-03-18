@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,16 +34,45 @@ namespace ISeeN_DB
             }
         }
 
-        public IList<int> GetAllUsers()
+        public static List<int> GetAllUsers()
         {
-            // implement
-            return null;
+            _context = new ISeeNDbContext();
+            var _allUsers = new List<int>();
+            using (var db = _context)
+            {
+                var query = from b in db.Users
+                    orderby b.Id
+                    select b;
+
+                _allUsers.AddRange(query.Select(item => item.Id));
+            }
+            return _allUsers;
         }
 
-        public int GetUserById(ISeeN_DB.User user)
+        public static ISeeN_DB.User GetUserById(int userid)
         {
-            // implement
-            return 0;
+            _context = new ISeeNDbContext();
+            var _userid = userid;
+            var _user = new ISeeN_DB.User();
+            using (var db = _context)
+            {
+                var query = from b in db.Users
+                    where b.Id == _userid
+                    select b;
+
+                foreach (var m in query)
+                {
+                    _user.Id = m.Id;
+                    _user.Bio = m.Bio;
+                    _user.City = m.City;
+                    _user.Country = m.Country;
+                    _user.Email = m.Email;
+                    _user.IsAdmin = m.IsAdmin;
+                    _user.Name = m.Name;
+                    _user.Password = m.Password;
+                }
+            }
+            return _user;
         }
     }
 }
