@@ -7,6 +7,7 @@
 package iseenclient;
 
 import com.google.gson.Gson;
+import iseenclient.*;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -27,15 +28,15 @@ public class httpCommunication {
         try {
             //get request
             String requestResult = sendGet("media");
+            //make object from response (JSON)
+            Gson gson = new Gson();
+            gson.fromJson(requestResult, Media);
+            //return list of media
+            //ArrayList<media>
+        return new ArrayList<Media>();
         } catch (Exception ex) {
             Logger.getLogger(httpCommunication.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //make object from response (JSON)
-        Gson gson = new Gson();
-        gson.fromJson(requestResult, Media);
-        //return list of media
-        //ArrayList<media>
-        return new ArrayList<Media>();
     }
     
     public static String USER_AGENT = "Mozilla/5.0";
