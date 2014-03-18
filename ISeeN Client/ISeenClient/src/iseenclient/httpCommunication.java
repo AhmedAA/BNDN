@@ -6,6 +6,7 @@
 
 package iseenclient;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -13,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,8 +24,15 @@ import java.util.List;
 public class httpCommunication {
     
     public List<Media> GetMedia() {
-        //get request
+        try {
+            //get request
+            String requestResult = sendGet("media");
+        } catch (Exception ex) {
+            Logger.getLogger(httpCommunication.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //make object from response (JSON)
+        Gson gson = new Gson();
+        gson.fromJson(requestResult, Media);
         //return list of media
         //ArrayList<media>
         return new ArrayList<Media>();

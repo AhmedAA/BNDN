@@ -15,6 +15,6 @@ import com.google.gson.Gson;
 public class JSON {
     public void gson(){
         Gson gson = new Gson();
-        
+        //gson.fromJson(null, null)
     }
 }
