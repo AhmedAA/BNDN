@@ -7,12 +7,20 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ISeeN_DB;
 using ISeeN_DB.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace ISeenService
 {
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class SeeNService : ISeeNService
     {
+        public enum ErrorCodes
+        {
+            NoError = 0,
+            GeneralError = 1,
+
+        }
+
         readonly List<Media> _mediaList = new List<Media>
         #region TestRelatedMEDIA
             {
@@ -80,17 +88,110 @@ namespace ISeenService
             }
         }
 
-        public Report<Potato> CreateAccount(User newUser)
+        public Report<Potato> CreateAccount(Stream streamdata)
         {
             try
             {
-                return new Report<Potato>() { Data = new Potato { EncPassword = "ThisIsVeryEncrypted", Id = 2 } };
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get user from JSON string
+
+                var recUser = JObject.Parse(jsonString).ToObject<User>();
+
+                //TODO: ACTUALLY CREATE USER
+
+                //TODO: ACTUALLY GET POTATO FROM SERVER
+                return new Report<Potato>() { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} };
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 return new Report<Potato> { Error = 1 };
             }
+        }
+
+        public Report<User> EditAccount(Stream streamdata)
+        {
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato and user from JSON string
+
+                var jArray = JArray.Parse(jsonString);
+                var recPotato = jArray[0].ToObject<Potato>();
+                var recUser = jArray[1].ToObject<User>();
+
+
+                //TODO: Potato check with database that potato is correct for user
+
+                //TODO: Maybe send user from database or just the one we're supposed to set?
+                return new Report<User>{Data = recUser};
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<User> {Error = 1};
+            }
+        }
+
+        public Report<User> GetAccount(Stream streamdata)
+        {
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato from JSON string
+
+                var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
+
+                //TODO: Get actual user from database
+
+                return new Report<User>
+                {
+                    Data =
+                        new User
+                        {
+                            Bio = "This is bio",
+                            Id = 1,
+                            Name = "Name is my",
+                            City = "Compton",
+                            Country = "The Great Denmark",
+                            Email = "This@Is.me",
+                            IsAdmin = true,
+                            Password = "DECRYPTED(" + recPotato.EncPassword + ")"
+                        }
+                };
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<User> {Error = 1};
+            }
+        }
+
+        public Report<Potato> AccountLogin(string email, Stream streamdata)
+        {
+            try
+            {
+                LogAction("Login", email);
+                var password = StringFromStreamDebug(streamdata);
+                
+                //TODO: PASSWORD SHOULD BE ENCRYPTED MAYBE
+
+                //TODO: Actually check email & password with database
+
+                return new Report<Potato> {Data = new Potato {EncPassword = "ThisIsMuchEncrypted", Id = 1}};
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<Potato> { Error = 1 };
+            }
+
+        }
+
+        public Report<int> DeleteAccount(Stream streamdata)
+        {
+            StringFromStreamDebug(streamdata);
+            return new Report<int>{Data = 1};
         }
 
         public Report<IList<Media>> GetAllMedia()
@@ -154,9 +255,63 @@ namespace ISeenService
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 //TODO: IMPLEMENT REAL ERROR CODE
                 return new Report<Statistic> { Error = 1 };
+            }
+        }
+
+        public Report<Media> RentMediaById(string mediaId, Stream streamdata)
+        {
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato from JSON string
+
+                var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
+                LogAction("Rent","Potato ID#" + recPotato.Id);
+
+                //TODO: Actually rent the movie
+
+                return GetMediaForId(mediaId);
+
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<Media> { Error = (int)ErrorCodes.GeneralError };
+            }
+        }
+
+        public Report<Media> CreateNewMedia(Stream streamdata)
+        {
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato, media and byte[] from JSON string
+
+                var jArray = JArray.Parse(jsonString);
+                var recPotato = jArray[0].ToObject<Potato>();
+                var recMedia = jArray[1].ToObject<Media>();
+                var recByteAr = jArray[2].ToObject<byte[]>();
+
+                LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
+
+                Console.WriteLine("Start of byte[] //");
+                foreach (var byt in recByteAr)
+                {
+                    Console.WriteLine(byt.ToString());
+                }
+                Console.WriteLine("// End of byte[]");
+
+                return new Report<Media> {Data = recMedia};
+
+                //TODO: Actually put this in the database
+
+            }
+            catch (Exception)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                return new Report<Media> { Error = (int)ErrorCodes.GeneralError };
             }
         }
 
@@ -170,17 +325,6 @@ namespace ISeenService
             return toReturn;
         }
 
-        private string StringFromStreamDebug(Stream stream)
-        {
-            var s = StringFromStream(stream);
-            var currentFor = Console.ForegroundColor;
-            var currentBac = Console.BackgroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Stream = |" + s + "|");
-            Console.ForegroundColor = currentFor;
-            return s;
-        }
-
         private string StringFromStream(Stream stream)
         {
             string s;
@@ -190,6 +334,35 @@ namespace ISeenService
             }
 
             return s;
+        }
+
+        private string StringFromStreamDebug(Stream stream)
+                {
+                    var s = StringFromStream(stream);
+                    var currentFor = Console.ForegroundColor;
+                    var currentBac = Console.BackgroundColor;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("Stream = |" + s + "|");
+                    Console.ForegroundColor = currentFor;
+                    return s;
+                }
+
+        private void LogAction(string whatRequest, string forWho)
+        {
+            var currentFor = Console.ForegroundColor;
+            var currentBac = Console.BackgroundColor;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(whatRequest + " requested for: " + forWho);
+            Console.ForegroundColor = currentFor;
+        }
+
+        private void LogError(int error)
+        {
+            var currentFor = Console.ForegroundColor;
+            var currentBac = Console.BackgroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("ERROR " + error);
+            Console.ForegroundColor = currentFor;
         }
 
         private IEnumerable<Media> MediaBySearchText(string s, IEnumerable<Media> medias)

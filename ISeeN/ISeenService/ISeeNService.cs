@@ -25,9 +25,25 @@ namespace ISeenService
 
         #region AccountOp
 
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, UriTemplate = "Account")]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/New")]
         [OperationContract]
-        Report<Potato> CreateAccount(User newUser);
+        Report<Potato> CreateAccount(Stream streamdata);
+
+        [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/Edit")]
+        [OperationContract]
+        Report<User> EditAccount(Stream streamdata);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account")]
+        [OperationContract]
+        Report<User> GetAccount(Stream streamdata);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/Login/{email}")]
+        [OperationContract]
+        Report<Potato> AccountLogin(string email, Stream streamdata);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/Delete")]
+        [OperationContract]
+        Report<int> DeleteAccount(Stream streamdata);
 
         #endregion
 
@@ -44,6 +60,14 @@ namespace ISeenService
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Stats/{id}")]
         [OperationContract]
         Report<Statistic> GetStatsForId(string id);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Rent/{mediaId}")]
+        [OperationContract]
+        Report<Media> RentMediaById(string mediaId, Stream streamdata);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/New")]
+        [OperationContract]
+        Report<Media> CreateNewMedia(Stream streamdata);
 
         #endregion
 
