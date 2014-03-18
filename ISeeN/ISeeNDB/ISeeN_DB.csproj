@@ -51,6 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBfunc\MediaDB.cs" />
+    <Compile Include="DBfunc\PotatoDB.cs" />
+    <Compile Include="DBfunc\ReminderDB.cs" />
+    <Compile Include="DBfunc\StatisticDB.cs" />
+    <Compile Include="DBfunc\UserDB.cs" />
     <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Medias\MediasEnum.cs" />
     <Compile Include="Entities\Medias\Movie.cs" />
