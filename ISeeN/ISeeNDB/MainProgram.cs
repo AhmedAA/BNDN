@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
@@ -12,30 +14,36 @@ namespace ISeeN_DB
     {
         static void Main(string[] args)
         {
-            using (var db = new ISeeNDbContext())
+            // testing UserDB.AddUser()
+            var user = new ISeeN_DB.User()
             {
-                // Create and save a new Blog 
-                Console.Write("Enter a name for a new User: ");
-                var name = Console.ReadLine();
+                Name = "Rasmus Løbner Christensen",
+                Bio = "Flot fyr i sin bedste alder",
+                City = "Frederiksberg",
+                Country = "Denmark",
+                Email = "rloc@itu.dk",
+                Id = 1337,
+                IsAdmin = true,
+                Password = "Hemmeligt!"
+            };
 
-                var user = new ISeeN_DB.User { Name = name };
-                db.Users.Add(user);
-                db.SaveChanges();
+            // calling the method
+            UserDB.AddUser(user);
+            var result = UserDB.GetAllUsers();
 
-                // Display all Blogs from the database 
-                var query = from b in db.Users
-                            orderby b.Name
-                            select b;
+            foreach (var re in result)
+            {
+                Console.WriteLine(re.ToString());
+            }
 
-                Console.WriteLine("All users in the database:");
-                foreach (var item in query)
-                {
-                    Console.WriteLine(item.Name);
-                }
+            var resUser = UserDB.GetUserById(10);
 
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
-            } 
+            Console.WriteLine(resUser.Id);
+            Console.WriteLine(resUser.Name);
+            Console.WriteLine(resUser.Bio);
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+            }
         }
     }
-}

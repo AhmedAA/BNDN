@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ISeeN_DB.Entities
+namespace ISeeN_DB
 {
     [DataContract]
     public class Media
