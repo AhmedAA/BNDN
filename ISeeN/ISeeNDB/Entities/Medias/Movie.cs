@@ -7,12 +7,12 @@ using System.Web;
 namespace ISeeN_DB
 {
     [DataContract]
-    public class Potato
+    class Movie
     {
         [DataMember]
         public int Id { get; set; }
-        //Password encrypted using serverside algorithm
         [DataMember]
-        public string EncPassword { get; set; }
+        public string Director { get; set; }
+
     }
 }

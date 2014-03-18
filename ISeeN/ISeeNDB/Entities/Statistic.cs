@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace ISeeN_DB
 {
@@ -10,6 +11,7 @@ namespace ISeeN_DB
     public class Statistic
     {
         [DataMember]
+        [Key]
         public int MediaId { get; set; }
 
         [DataMember]
@@ -26,7 +28,7 @@ namespace ISeeN_DB
                 }
             }
         }
-
-        public IList<DateTime> _DatesRented = new List<DateTime>();
+        [DataMember]
+        public IList<DateTime> _DatesRented { get; set;}
     }
 }
