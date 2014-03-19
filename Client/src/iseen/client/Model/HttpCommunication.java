@@ -1,4 +1,4 @@
-package iseen.client.Helpers;
+package iseen.client.Model;
 
 import com.google.gson.Gson;
 import iseen.client.Entities.Media;
@@ -6,17 +6,12 @@ import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by SebastianDybdal on 18-03-2014.

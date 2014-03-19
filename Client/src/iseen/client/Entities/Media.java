@@ -1,6 +1,5 @@
 package iseen.client.Entities;
 
-import iseen.client.Helpers.HttpCommunication;
 import java.util.Date;
 
 /**
