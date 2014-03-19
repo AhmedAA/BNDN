@@ -118,7 +118,6 @@ UpgradeLog*.XML
 *.war
 *.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-/ISeeN Client/ISeenClient/nbproject/private/
-/ISeeN Client/ISeenClient/build/
+########## INTELLIJ IDEA #############
+**/.idea/workspace.xml
+**/.idea/tasks.xml
