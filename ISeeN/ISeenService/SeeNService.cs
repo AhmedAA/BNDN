@@ -68,7 +68,7 @@ namespace ISeenService
 
                 var recUser = JObject.Parse(jsonString).ToObject<User>();
 
-                //TODO: ACTUALLY CREATE USER
+                UserDB.AddUser(recUser);
 
                 //TODO: ACTUALLY GET POTATO FROM SERVER
                 return new Report<Potato>() { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} };
@@ -115,23 +115,7 @@ namespace ISeenService
 
                 var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
 
-                //TODO: Get actual user from database
-
-                return new Report<User>
-                {
-                    Data =
-                        new User
-                        {
-                            Bio = "This is bio",
-                            Id = 1,
-                            Name = "Name is my",
-                            City = "Compton",
-                            Country = "The Great Denmark",
-                            Email = "This@Is.me",
-                            IsAdmin = true,
-                            Password = "DECRYPTED(" + recPotato.EncPassword + ")"
-                        }
-                };
+                return new Report<User> { Data = UserDB.GetUserByPotato(recPotato)};
             }
             catch (Exception e)
             {
@@ -174,7 +158,7 @@ namespace ISeenService
         {
             try
             {
-                return new Report<IList<Media>> {Data = _mediaList};
+                return new Report<IList<Media>> {Data = MediaDB.GetAllMedia()};
             }
             catch (Exception e)
             {
@@ -188,13 +172,7 @@ namespace ISeenService
         {
             try
             {
-                var search = from media in _mediaList
-                    where media.Id == int.Parse(id)
-                    select media;
-                if (search.Any())
-                    return new Report<Media> {Data = search.First()};
-
-                throw new FileNotFoundException();
+                return new Report<Media> {Data = MediaDB.GetMediaForId(int.Parse(id))};
             }
             catch (Exception e)
             {
@@ -206,6 +184,7 @@ namespace ISeenService
 
         public Report<Statistic> GetStatsForId(string id)
         {
+            //TODO: DUMMY
             try
             {
                 if (int.Parse(id) == 1)
@@ -276,9 +255,11 @@ namespace ISeenService
 
                 LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
-                return new Report<Media> {Data = recMedia};
+                MediaDB.AddMedia(recMedia);
 
-                //TODO: Actually put this in the database
+                //TODO: Return media with new ID AND SAVE FILE
+
+                return new Report<Media> {Data = recMedia};
 
             }
             catch (Exception e)
@@ -343,7 +324,7 @@ namespace ISeenService
 
                 LogAction("Delete", "Potato ID#" + recPotato.Id);
 
-                //TODO: ACTUALLY DELETE
+                MediaDB.DeleteMedia(int.Parse(id));
 
                 return new Report<Media> {Data = _mediaList[0]};
             }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ISeeN_DB
 {
-    class UserDB
+    public class UserDB
     {
         private static ISeeNDbContext _context;
 
@@ -50,10 +50,10 @@ namespace ISeeN_DB
             return _allUsers;
         }
 
-        public static User GetUserById(int userid)
+        public static User GetUserByPotato(Potato potato)
         {
             _context = new ISeeNDbContext();
-            var _userid = userid;
+            var _userid = potato.Id;
             var _user = new User();
             using (var db = _context)
             {
