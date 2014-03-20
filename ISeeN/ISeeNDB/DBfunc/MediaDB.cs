@@ -13,17 +13,46 @@ namespace ISeeN_DB
         private static ISeeNDbContext _context;
         private static List<Media> _result;
 
-        public static List<Media> SearhForMedia(MediasEnum type)
+        public static IList<Media> SearhForMedia(MediasEnum type)
         {
-            throw new NotImplementedException();
+            _context = new ISeeNDbContext();
+            _result = new List<Media>();
+
+            using (var db = _context)
+            {
+                var query = (from m in db.Medias
+                    where m.Type == type
+                    select m).Take(10);
+
+                foreach (var res in query)
+                {
+                    _result.Add(res);
+                }
+            }
+            return _result;
         }
 
-        public static List<Media> SearhForMedia(string searchString)
+        public static IList<Media> SearhForMedia(string searchString)
         {
-            throw new NotImplementedException();
+            _context = new ISeeNDbContext();
+            _result = new List<Media>();
+            if (searchString == null) throw new ArgumentNullException("searchString");
+
+            using (var db = _context)
+            {
+                var query = from m in db.Medias
+                            where m.Title.Contains(searchString)
+                            select m;
+
+                foreach (var res in query)
+                {
+                    _result.Add(res);
+                }
+            }
+            return _result;
         }
 
-        public static List<Media> SearhForMedia(string searchString, MediasEnum type)
+        public static IList<Media> SearhForMedia(string searchString, MediasEnum type)
         {
             _context = new ISeeNDbContext();
             _result = new List<Media>();
@@ -59,6 +88,33 @@ namespace ISeeN_DB
                 db.Medias.Add(_media);
                 db.SaveChanges();
             }
+        }
+
+        public static IList<Media> GetAllMedia()
+        {
+            // implement
+            return null;
+        }
+
+        public static Media GetMediaForId(int id)
+        {
+            //implement
+            return null;
+        }
+
+        public static void RentMediaById(int id, Potato potato)
+        {
+            //implement
+        }
+
+        public static void EditMedia(Media media)
+        {
+            //implement
+        }
+
+        public static void DeleteMedia(Media media)
+        {
+            //implement
         }
     }
 }

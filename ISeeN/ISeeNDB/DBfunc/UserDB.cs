@@ -74,5 +74,20 @@ namespace ISeeN_DB
             }
             return _user;
         }
+
+        public static void EditAccount(Potato potato, User user)
+        {
+            //implement
+        }
+
+        public static void LoginUser(User user)
+        {
+            //implement
+        }
+
+        public static void DeleteUser(User user, Potato potato)
+        {
+            //implement
+        }
     }
 }

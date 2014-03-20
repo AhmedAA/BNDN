@@ -8,6 +8,10 @@ namespace ISeeN_DB
 {
     class StatisticDB
     {
-        // implement
+        public static Statistic GetStatsForId(int id)
+        {
+            //implement
+            return null;
+        }
     }
 }
