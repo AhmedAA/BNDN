@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Security.Principal;
 using System.ServiceModel.Description;
 using System.ServiceModel.Web;
 using System.Text;
@@ -12,6 +16,31 @@ namespace ISeenHost
     {
         static void Main(string[] args)
         {
+            //Prompt for admin rights
+            var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            bool hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
+            if (!hasAdministrativeRight)
+            {
+                // relaunch the application with admin rights
+                string fileName = Assembly.GetExecutingAssembly().Location;
+                var processInfo = new ProcessStartInfo();
+                processInfo.Verb = "runas";
+                processInfo.FileName = fileName;
+
+                try
+                {
+                    Process.Start(processInfo);
+                }
+                catch (Win32Exception)
+                {
+                    // This will be thrown if the user cancels the prompt
+                }
+
+                return;
+            }
+
+
+            //Actual host
             try
             {
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
