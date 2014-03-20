@@ -14,7 +14,7 @@ namespace ISeeN_DB
         public string Title { get; set; }
         //Type of media (int = type, 0=movie...)
         [DataMember]
-        public int Type { get; set; }
+        public MediasEnum Type { get; set; }
         //Release time of media
         [DataMember]
         public string ReleaseDate

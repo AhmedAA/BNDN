@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ISeeN_DB
 {
-    enum MediasEnum
+    public enum MediasEnum
     {
         Movie = 1,
         Music = 2,

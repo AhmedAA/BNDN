@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
@@ -14,33 +15,36 @@ namespace ISeeN_DB
     {
         static void Main(string[] args)
         {
-            // testing UserDB.AddUser()
-            var user = new ISeeN_DB.User()
+            // testing
+            var media0 = new ISeeN_DB.Media()
             {
-                Name = "Rasmus Løbner Christensen",
-                Bio = "Flot fyr i sin bedste alder",
-                City = "Frederiksberg",
-                Country = "Denmark",
-                Email = "rloc@itu.dk",
+                Title = "1. Film",
                 Id = 1337,
-                IsAdmin = true,
-                Password = "Hemmeligt!"
+                Type = MediasEnum.Movie
+            };
+            var media1 = new ISeeN_DB.Media()
+            {
+                Title = "2. Film",
+                Id = 1337,
+                Type = MediasEnum.Movie
+            };
+            var media2 = new ISeeN_DB.Media()
+            {
+                Title = "3. Film",
+                Id = 1337,
+                Type = MediasEnum.Movie
             };
 
-            // calling the method
-            UserDB.AddUser(user);
-            var result = UserDB.GetAllUsers();
+            MediaDB.AddMedia(media0);
+            MediaDB.AddMedia(media1);
+            MediaDB.AddMedia(media2);
 
-            foreach (var re in result)
+            var searchResult = MediaDB.SearhForMedia("Film", MediasEnum.Movie);
+
+            foreach (var elem in searchResult)
             {
-                Console.WriteLine(re.ToString());
+                Console.WriteLine(elem.Title);
             }
-
-            var resUser = UserDB.GetUserById(10);
-
-            Console.WriteLine(resUser.Id);
-            Console.WriteLine(resUser.Name);
-            Console.WriteLine(resUser.Bio);
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();

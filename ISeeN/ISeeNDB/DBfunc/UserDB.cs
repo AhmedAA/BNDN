@@ -11,12 +11,12 @@ namespace ISeeN_DB
     {
         private static ISeeNDbContext _context;
 
-        public static void AddUser(ISeeN_DB.User user)
+        public static void AddUser(User user)
         {
             _context = new ISeeNDbContext();
             using (var db = _context)
             {
-                var _user = new ISeeN_DB.User()
+                var _user = new User()
                 {
                     Name = user.Name,
                     Bio = user.Bio,
@@ -49,11 +49,11 @@ namespace ISeeN_DB
             return _allUsers;
         }
 
-        public static ISeeN_DB.User GetUserById(int userid)
+        public static User GetUserById(int userid)
         {
             _context = new ISeeNDbContext();
             var _userid = userid;
-            var _user = new ISeeN_DB.User();
+            var _user = new User();
             using (var db = _context)
             {
                 var query = from b in db.Users
