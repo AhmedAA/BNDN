@@ -21,6 +21,12 @@ public class AppStartController {
             //TODO: GET THIS FROM SERVER
             Memory.CurrentUser = new User();
             Memory.CurrentUser.Name = "Sebastian Dybdal Ehlers";
+            Memory.CurrentUser.Gender = "M";
+            Memory.CurrentUser.IsAdmin = true;
+            Memory.CurrentUser.Email = "sdeh@itu.dk";
+            Memory.CurrentUser.Country = "Denmark";
+            Memory.CurrentUser.City = "Copenhagen";
+            Memory.CurrentUser.Bio = "I am an awesome guy :-) \n Lol \n \n Sups?";
             Main.This().GoToPersonalPage();
         } catch (IOException e) {
             e.printStackTrace();

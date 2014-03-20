@@ -19,6 +19,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 750, 500));
 
         _primaryStage = primaryStage;
+
         _this = this;
 
         primaryStage.show();
@@ -33,12 +34,19 @@ public class Main extends Application {
     }
 
     public void GoToPersonalPage () throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Views/PersonalPageView.fxml"));
-        _primaryStage.setScene(new Scene(root, 750, 500));
+        GoToPage("Views/PersonalPageView.fxml");
     }
 
     public void GoToCreateUserForm () throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Views/CreateUserForm.fxml"));
+        GoToPage("Views/CreateUserForm.fxml");
+    }
+
+    public void GoToSearchFieldForm() throws IOException {
+        GoToPage("Views/SearchFieldForm.fxml");
+    }
+
+    private void GoToPage(String url) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(url));
         _primaryStage.setScene(new Scene(root, 750, 500));
     }
 }

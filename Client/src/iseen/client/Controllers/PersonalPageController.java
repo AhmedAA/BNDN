@@ -1,10 +1,13 @@
 package iseen.client.Controllers;
 
+import iseen.client.Entities.User;
+import iseen.client.Main;
 import iseen.client.Storage.Memory;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,16 +16,28 @@ import java.util.ResourceBundle;
  */
 public class PersonalPageController implements Initializable {
     public Label TitlePersonName;
+    public Label InfoField;
 
     public void FindNewMediaAction(ActionEvent actionEvent) {
+        try {
+            Main.This().GoToSearchFieldForm();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void AddNewMediaAction(ActionEvent actionEvent) {
 
     }
 
+    public void EditAccountInfo(ActionEvent actionEvent) {
+
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        TitlePersonName.setText(Memory.CurrentUser.Name);
+        User currentUser = Memory.CurrentUser;
+        InfoField.setText(currentUser.Email + " - " + currentUser.City + ", " + currentUser.Country + " - " + currentUser.Gender + " - " + Boolean.toString(currentUser.IsAdmin) );
+        TitlePersonName.setText(currentUser.Name);
     }
 }

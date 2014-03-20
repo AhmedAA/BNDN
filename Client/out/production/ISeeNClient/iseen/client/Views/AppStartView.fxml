@@ -28,7 +28,7 @@
 </VBox.margin>
 <cursor>
 <Cursor fx:constant="HAND" />
-</cursor></Button><Label onMouseClicked="#CreateNewUser" text="Create new user" textFill="#130aff" underline="true">
+</cursor></Button><Label onMouseClicked="#CreateNewUser" text="Create new user" textFill="BLUE" underline="true">
 <cursor>
 <Cursor fx:constant="HAND" />
 </cursor></Label>
