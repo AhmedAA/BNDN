@@ -67,7 +67,7 @@ public class HttpCommunication {
 
     // HTTP POST request
     private static String sendPost() throws Exception {
-        String url = "http://192.168.1.206:8090/service/seenservice/media";
+        String url = "http://rentit.itu.dk/rentit02/media";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
@@ -95,7 +95,7 @@ public class HttpCommunication {
 
     // HTTP GET request
     private static String sendGet(String service) throws IOException {
-        String url = "http://localhost:8090/service/seenservice/" + service;
+        String url = "http://rentit.itu.dk/rentit02/" + service;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
