@@ -1,5 +1,6 @@
 package iseen.client.Storage;
 
+import iseen.client.Entities.Potato;
 import iseen.client.Entities.User;
 
 /**
@@ -7,4 +8,5 @@ import iseen.client.Entities.User;
  */
 public class Memory {
     public static User CurrentUser;
+    public static Potato CurrentPotato;
 }

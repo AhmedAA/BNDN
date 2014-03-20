@@ -26,7 +26,7 @@ public class TestController {
     public void GetAllMedia(ActionEvent actionEvent) {
         try {
             //First we print all medias to the console
-            ArrayList<Media> medias = MediaTools.GetMedia();
+            ArrayList<Media> medias = MediaTools.GetMedia("hej");
             System.out.println("===========================================");
             System.out.println("Medias received");
             System.out.println("===========================================");

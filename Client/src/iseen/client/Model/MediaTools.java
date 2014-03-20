@@ -5,6 +5,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import iseen.client.Entities.Media;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -20,50 +21,71 @@ import java.util.List;
 public class MediaTools {
 
     public static List<Media> GetAllMedia () {
-
+        throw new NotImplementedException();
     }
 
     public static Media GetMediaById (int id) {
-
+        throw new NotImplementedException();
     }
 
     public static Media RentMedia (int id) {
 
-        //Should sen the potato in the message body
+        //Should send the potato in the message body
         PotatoTools.Potato_To_Json();
+
+        throw new NotImplementedException();
     }
 
     public static Media CreateNewMedia (Media media, byte[] file) {
 
+        //Should send the potato in the message body
+        PotatoTools.Potato_To_Json();
+
+        throw new NotImplementedException();
     }
 
     public static Media EditMedia (Media media) {
-
+        return EditMedia(media, null, false);
     }
 
     public static Media EditMedia (Media media, byte[] file) {
+        return EditMedia(media, file, true);
+    }
 
+    private static Media EditMedia (Media media, byte[] file, boolean FileWasEdited) {
+
+        //Should send the potato in the message body
+        PotatoTools.Potato_To_Json();
+
+        throw new NotImplementedException();
     }
 
     public static Media DeleteMedia (int id) {
 
+        //Should send the potato in the message body
+        PotatoTools.Potato_To_Json();
+
+        throw new NotImplementedException();
     }
 
-    public static Media JsonRapportOfMedia_To_Media (String Json) {
-
+    public static Media JsonReportOfMedia_To_Media (String Json) {
+        throw new NotImplementedException();
     }
 
-    public static List<Media> JsonRapportOfListOfMedia_To_ListOfMedia (String Json) {
-
+    public static List<Media> JsonReportOfListOfMedia_To_ListOfMedia (String Json) {
+        throw new NotImplementedException();
     }
 
     public static String Media_To_Json (Media media) {
-
+        throw new NotImplementedException();
     }
 
     public static String File_To_Json (byte[] file) {
-
+        throw new NotImplementedException();
     }
+
+
+    //TODO: BELOW SHALL NOT PASS (on in the next milestone)!!!
 
     public static ArrayList<iseen.client.Entities.Media> GetMedia(String service) throws IOException, ParseException, GeneralError {
         //get request
