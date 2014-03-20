@@ -25,7 +25,8 @@ namespace ISeeN_DB
                     Email = user.Email,
                     Id = user.Id,
                     IsAdmin = user.IsAdmin,
-                    Password = user.Password
+                    Password = user.Password,
+                    Gender = user.Gender
                 };
 
                 db.Users.Add(_user);
@@ -70,9 +71,25 @@ namespace ISeeN_DB
                     _user.IsAdmin = m.IsAdmin;
                     _user.Name = m.Name;
                     _user.Password = m.Password;
+                    _user.Gender = m.Gender;
                 }
             }
             return _user;
+        }
+
+        public static void EditAccount(Potato potato, User user)
+        {
+            //implement
+        }
+
+        public static void LoginUser(User user)
+        {
+            //implement
+        }
+
+        public static void DeleteUser(User user, Potato potato)
+        {
+            //implement
         }
     }
 }

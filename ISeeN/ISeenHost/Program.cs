@@ -46,7 +46,7 @@ namespace ISeenHost
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Clear();
-                Uri httpUrl = new Uri("http://localhost:80/RentIt02");
+                Uri httpUrl = new Uri("http://localhost:8090/RentIt02");
                 WebServiceHost host = new WebServiceHost(typeof(ISeenService.SeeNService), httpUrl);
                 host.Open();
 
