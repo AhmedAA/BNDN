@@ -92,14 +92,44 @@ namespace ISeeN_DB
 
         public static IList<Media> GetAllMedia()
         {
-            // implement
-            return null;
+            _context = new ISeeNDbContext();
+            _result = new List<Media>();
+
+            using (var db = _context)
+            {
+                var query = from m in db.Medias
+                    orderby m.Title
+                    select m;
+
+                foreach (var res in query)
+                {
+                    _result.Add(res);
+                }
+            }
+            return _result;
         }
 
         public static Media GetMediaForId(int id)
         {
-            //implement
-            return null;
+            _context = new ISeeNDbContext();
+            var _mediaRes = new Media();
+
+            using (var db = _context)
+            {
+                var query = from media in db.Medias
+                    where media.Id == id
+                    select media;
+
+                foreach (var media in query)
+                {
+                    _mediaRes.Description = media.Description;
+                    _mediaRes.Id = media.Id;
+                    _mediaRes.Title = media.Title;
+                    _mediaRes.Type = media.Type;
+                    _mediaRes.ReleaseDate = media.ReleaseDate;
+                }
+            }
+            return _mediaRes;
         }
 
         public static void RentMediaById(int id, Potato potato)
@@ -112,9 +142,27 @@ namespace ISeeN_DB
             //implement
         }
 
-        public static void DeleteMedia(Media media)
+        public static void DeleteMedia(int id)
         {
-            //implement
+            _context = new ISeeNDbContext();
+
+            using (var db = _context)
+            {
+                try
+                {
+                    var query = (from m in db.Medias
+                                 where m.Id == id
+                                 select m).First();
+
+                    db.Medias.Remove(query);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    throw new Exception("No media with the given ID exists!");
+                }
+                
+            }
         }
     }
 }

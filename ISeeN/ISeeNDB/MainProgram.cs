@@ -15,38 +15,9 @@ namespace ISeeN_DB
     {
         static void Main(string[] args)
         {
-            // testing
-            var media0 = new ISeeN_DB.Media()
-            {
-                Title = "1. Film",
-                Id = 1337,
-                Type = MediasEnum.Movie
-            };
-            var media1 = new ISeeN_DB.Media()
-            {
-                Title = "2. Film",
-                Id = 1337,
-                Type = MediasEnum.Movie
-            };
-            var media2 = new ISeeN_DB.Media()
-            {
-                Title = "3. Film",
-                Id = 1337,
-                Type = MediasEnum.Movie
-            };
+            // testing stuff
 
-            MediaDB.AddMedia(media0);
-            MediaDB.AddMedia(media1);
-            MediaDB.AddMedia(media2);
-
-            var searchResult = MediaDB.SearhForMedia("Film", MediasEnum.Movie);
-
-            foreach (var elem in searchResult)
-            {
-                Console.WriteLine(elem.Title);
-            }
-
-            Console.WriteLine("Press any key to exit...");
+            Console.WriteLine("Press any key to terminate...");
             Console.ReadKey();
             }
         }

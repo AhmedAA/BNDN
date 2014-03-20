@@ -25,5 +25,7 @@ namespace ISeeN_DB
         public string Bio { get; set; }
         [DataMember]
         public bool IsAdmin { get; set; }
+        [DataMember]
+        public string Gender { get; set; }
     }
 }
