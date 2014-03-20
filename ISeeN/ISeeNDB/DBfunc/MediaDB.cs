@@ -8,10 +8,20 @@ using System.Threading.Tasks;
 
 namespace ISeeN_DB
 {
-    class MediaDB
+    public class MediaDB
     {
         private static ISeeNDbContext _context;
-        private static List<Media> _result; 
+        private static List<Media> _result;
+
+        public static List<Media> SearhForMedia(MediasEnum type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static List<Media> SearhForMedia(string searchString)
+        {
+            throw new NotImplementedException();
+        }
 
         public static List<Media> SearhForMedia(string searchString, MediasEnum type)
         {

@@ -20,35 +20,8 @@ namespace ISeenService
 
         }
 
-        readonly List<Media> _mediaList = new List<Media>
-        #region TestRelatedMEDIA
-            {
-                new Media
-                {
-                    Description = "TestDesc",
-                    Id = 1,
-                    _ReleaseDate = new DateTime(1993, 11, 21),
-                    Title = "Media",
-                    Type = 1
-                },
-                new Media()
-                {
-                    Description = "Description blabla",
-                    Id = 2,
-                    _ReleaseDate = new DateTime(1992, 12, 21),
-                    Title = "Test",
-                    Type = 2
-                },
-                new Media()
-                {
-                    Description = "This is a test",
-                    Id = 3,
-                    _ReleaseDate = new DateTime(1991, 12, 21),
-                    Title = "GoodFellas",
-                    Type = 1
-                }
-            };
-        #endregion
+        //TODO: REMOVE THIS
+        List<Media> _mediaList = new List<Media>(); 
 
         public Report<IList<Media>> SearchMedia(string searchParam)
         {
@@ -62,20 +35,18 @@ namespace ISeenService
 
                 var toReturn = new Report<IList<Media>>();
 
-                //text search case
-                if (textOnly)
-                    return new Report<IList<Media>> { Data = MediaBySearchText(splitted[0], _mediaList).ToList() };
-                //type search case
+                //text search case (Calls database)
+                if (textOnly && splitted.Length>0)
+                    return new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0]) };
+                //type search case (Calls database)
                 if (int.TryParse(splitted[1], out type) && string.IsNullOrEmpty(splitted[0]))
                 {
-                    return new Report<IList<Media>> { Data = MediaBySearchType(type, _mediaList).ToList() };
+                    return new Report<IList<Media>> { Data = MediaDB.SearhForMedia((MediasEnum)type) };
                 }
-                //text and type search
+                //text and type search (Calls database)
                 if (int.TryParse(splitted[1], out type))
                 {
-                    var byText = MediaBySearchText(splitted[0], _mediaList);
-                    var byBoth = MediaBySearchType(type, byText);
-                    return new Report<IList<Media>> { Data = byBoth.ToList() };
+                    return new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0],(MediasEnum)type) };
                 }
 
                 throw new FileNotFoundException();
@@ -432,20 +403,6 @@ namespace ISeenService
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("ERROR#" + error + " " + message);
             Console.ForegroundColor = currentFor;
-        }
-
-        private IEnumerable<Media> MediaBySearchText(string s, IEnumerable<Media> medias)
-        {
-            return from media in medias
-                   where media.Title.Contains(s)
-                   select media;
-        }
-
-        private IEnumerable<Media> MediaBySearchType(int type, IEnumerable<Media> medias)
-        {
-            return from media in medias
-                   where media.Id == type
-                   select media;
         }
     }
 }
