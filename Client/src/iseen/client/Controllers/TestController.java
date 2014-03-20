@@ -2,6 +2,7 @@ package iseen.client.Controllers;
 
 import iseen.client.Entities.Media;
 import iseen.client.Exceptions.GeneralError;
+import iseen.client.Model.MediaTools;
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -25,7 +26,7 @@ public class TestController {
     public void GetAllMedia(ActionEvent actionEvent) {
         try {
             //First we print all medias to the console
-            ArrayList<Media> medias = iseen.client.Model.Media.GetMedia();
+            ArrayList<Media> medias = MediaTools.GetMedia();
             System.out.println("===========================================");
             System.out.println("Medias received");
             System.out.println("===========================================");

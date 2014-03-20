@@ -1,7 +1,5 @@
 package iseen.client;
 
-import iseen.client.Exceptions.GeneralError;
-import iseen.client.Model.Media;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-import java.text.ParseException;
 
 public class Main extends Application {
 

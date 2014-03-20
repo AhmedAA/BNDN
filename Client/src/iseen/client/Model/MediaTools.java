@@ -2,6 +2,7 @@ package iseen.client.Model;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import iseen.client.Entities.Media;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 
@@ -11,11 +12,58 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ahmed on 20/03/14.
  */
-public class Media {
+public class MediaTools {
+
+    public static List<Media> GetAllMedia () {
+
+    }
+
+    public static Media GetMediaById (int id) {
+
+    }
+
+    public static Media RentMedia (int id) {
+
+        //Should sen the potato in the message body
+        PotatoTools.Potato_To_Json();
+    }
+
+    public static Media CreateNewMedia (Media media, byte[] file) {
+
+    }
+
+    public static Media EditMedia (Media media) {
+
+    }
+
+    public static Media EditMedia (Media media, byte[] file) {
+
+    }
+
+    public static Media DeleteMedia (int id) {
+
+    }
+
+    public static Media JsonRapportOfMedia_To_Media (String Json) {
+
+    }
+
+    public static List<Media> JsonRapportOfListOfMedia_To_ListOfMedia (String Json) {
+
+    }
+
+    public static String Media_To_Json (Media media) {
+
+    }
+
+    public static String File_To_Json (byte[] file) {
+
+    }
 
     public static ArrayList<iseen.client.Entities.Media> GetMedia(String service) throws IOException, ParseException, GeneralError {
         //get request
