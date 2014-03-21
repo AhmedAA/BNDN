@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SebastianDybdal on 19-03-2014.
@@ -26,7 +27,7 @@ public class TestController {
     public void GetAllMedia(ActionEvent actionEvent) {
         try {
             //First we print all medias to the console
-            ArrayList<Media> medias = MediaTools.GetMedia("hej");
+            List<Media> medias = MediaTools.GetAllMedia();
             System.out.println("===========================================");
             System.out.println("Medias received");
             System.out.println("===========================================");
@@ -51,6 +52,8 @@ public class TestController {
             e.printStackTrace();
         } catch (GeneralError generalError) {
             generalError.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

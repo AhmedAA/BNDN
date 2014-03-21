@@ -28,11 +28,11 @@ namespace ISeenService
         public Stream Test1()
         {
             var list = new List<Media>();
-            var movie = new Movie {Title = "Die hard", Type = (MediasEnum) 2, Director = "Al Pacino"};
+            var movie = new Movie {Title = "Die hard", Type = MediasEnum.Movie, Director = "Al Pacino"};
             list.Add(movie);
-            var music = new Music {Title = "Ghetto gospel", Artist = "The piano man", Type = (MediasEnum) 1};
+            var music = new Music {Title = "Ghetto gospel", Artist = "The piano man", Type = MediasEnum.Music};
             list.Add(music);
-            var picture = new Picture {Title = "The Scream", Type = (MediasEnum) 3, Author = "Göbels"};
+            var picture = new Picture {Title = "The Scream", Type = MediasEnum.Picture, Author = "Göbels"};
             list.Add(picture);
 
             string json = JsonConvert.SerializeObject(new Report<IList<Media>> {Data = list});

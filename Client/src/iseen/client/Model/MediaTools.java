@@ -1,12 +1,15 @@
 package iseen.client.Model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import iseen.client.Entities.MediaFormats.Media;
+import iseen.client.Entities.MediaFormats.Movie;
+import iseen.client.Entities.MediaFormats.Music;
+import iseen.client.Entities.MediaFormats.Picture;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
+import iseen.client.Exceptions.MediaTypeNotMatchedException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
@@ -26,15 +29,28 @@ public class MediaTools {
 
     private static Gson gson = new Gson();
 
-    public static List<Media> GetAllMedia () throws Exception {
+    public static List<Media> GetAllMedia() throws Exception {
+        //TODO: IMPLEMENT GET ALL MEDIA (venter på ramus fixer migration)
+        //Kaldet giver:
+        //
+        //HTTP/1.1 200 OK
+        //Content-Length: 370
+        //Content-Type: application/octet-stream
+        //Server: Microsoft-HTTPAPI/2.0
+        //Date: Fri, 21 Mar 2014 12:04:49 GMT
+        //
+        //{"Data":[{"Director":"Al Pacino","Id":0,"Title":"Die hard","Type":1,"ReleaseDate":"01-01-0001 00:00:00","Description":null},{"Artist":"The piano man","Id":0,"Title":"Ghetto gospel","Type":2,"ReleaseDate":"01-01-0001 00:00:00","Description":null},{"Author":"Göbels","Id":0,"Title":"The Scream","Type":3,"ReleaseDate":"01-01-0001 00:00:00","Description":null}],"Error":0}
+        //
+        //Json object kan bruges som streng direkte til at test :-)
+        
         return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_TEST1));
     }
 
-    public static Media GetMediaById (int id) {
+    public static Media GetMediaById(int id) {
         throw new NotImplementedException();
     }
 
-    public static Media RentMedia (int id) {
+    public static Media RentMedia(int id) {
 
         //Should send the potato in the message body
         PotatoTools.Potato_To_Json();
@@ -42,7 +58,7 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    public static Media CreateNewMedia (Media media, byte[] file) {
+    public static Media CreateNewMedia(Media media, byte[] file) {
 
         //Should send the potato in the message body
         PotatoTools.Potato_To_Json();
@@ -50,15 +66,15 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    public static Media EditMedia (Media media) {
+    public static Media EditMedia(Media media) {
         return EditMedia(media, null, false);
     }
 
-    public static Media EditMedia (Media media, byte[] file) {
+    public static Media EditMedia(Media media, byte[] file) {
         return EditMedia(media, file, true);
     }
 
-    private static Media EditMedia (Media media, byte[] file, boolean FileWasEdited) {
+    private static Media EditMedia(Media media, byte[] file, boolean FileWasEdited) {
 
         //Should send the potato in the message body
         PotatoTools.Potato_To_Json();
@@ -66,7 +82,7 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    public static Media DeleteMedia (int id) {
+    public static Media DeleteMedia(int id) {
 
         //Should send the potato in the message body
         PotatoTools.Potato_To_Json();
@@ -74,90 +90,47 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    private static Media JsonReportOfMedia_To_Media (String Json) {
+    private static Media JsonReportOfMedia_To_Media(String Json) {
         //Forslag: udpak Report til en Rapport indeholdende Json
         //Derefter return Media.FromJson (STRENG);
 
         throw new NotImplementedException();
     }
 
-    private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia (String Json) {
+    private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia(String Json) {
         System.out.println(Json);
 
-        return null;
-    }
+        //Unpack report into data and error JSON strings
+        JsonElement top = new JsonParser().parse(Json);
+        JsonObject JsonReport = top.getAsJsonObject();
 
-    public static String File_To_Json (byte[] file) {
-        throw new NotImplementedException();
-    }
+        //Separated into Data and Error
+        JsonArray data = JsonReport.getAsJsonArray("Data");
+        int error = Integer.parseInt(JsonReport.get("Error").toString());
 
+        //To list of media
+        List<Media> medias = new ArrayList<Media>();
+        for (int i = 0; i<data.size(); i++) {
+            JsonObject elem = data.get(i).getAsJsonObject();
 
-    //TODO: BELOW SHALL NOT PASS (on in the next milestone)!!!
+            //try to parse into media
+            try {
+                medias.add(Media.FromJson(elem, gson));
+            } catch (MediaTypeNotMatchedException e) {
+                e.printStackTrace();
+            }
 
-    public static ArrayList<Media> GetMedia(String service) throws IOException, ParseException, GeneralError {
-        //get request
-        String requestResult = HttpCommunication.sendGet("media/byid/1");
-
-        //REFACTOR
-        Gson gson = new Gson();
-        Report fromJson = gson.fromJson(requestResult, Report.class);
-        com.google.gson.internal.LinkedTreeMap LTM = (com.google.gson.internal.LinkedTreeMap)fromJson.Data;
-
-        return SingleMedia(LTM);
-
-        //create object from json
-        //return JsonToListMedia(requestResult);
-    }
-
-    //TODO: Better implementation
-    private static ArrayList<Media> JsonToListMedia(String JSONString) throws ParseException, GeneralError {
-        //make object from response (JSON)
-        Gson gson = new Gson();
-        Report<ArrayList> fromJson = gson.fromJson(JSONString, Report.class);
-        //List to be used for medias
-        ArrayList<Media> medias = new ArrayList<Media>();
-
-        //check if there is an error
-        //TODO: GENERAL ERROR
-        if (fromJson.Error!=0)
-            throw new GeneralError(Integer.toString(fromJson.Error));
-
-        //Iterate through report now consisting of LinkedTreeMaps
-        for (int i = 0; i<fromJson.Data.size(); i++) {
-            com.google.gson.internal.LinkedTreeMap LTM = (com.google.gson.internal.LinkedTreeMap)fromJson.Data.get(i);
-
-            //parse to media
-            Media newMedia = JSONtoMedia(LTM);
-            medias.add(newMedia);
         }
 
+        System.out.println( ((Movie)medias.get(0)).Title + " " + ((Movie)medias.get(0)).Director );
+        System.out.println( ((Music)medias.get(1)).Title + " " + ((Music)medias.get(1)).Artist );
+        System.out.println( ((Picture)medias.get(2)).Title + " " + ((Picture)medias.get(2)).Author );
+
         return medias;
     }
 
-    private static ArrayList<Media> SingleMedia (com.google.gson.internal.LinkedTreeMap LTM) throws ParseException {
-        ArrayList<Media> medias = new ArrayList<Media>();
-        Media newMedia = JSONtoMedia(LTM);
-        medias.add(newMedia);
-        return medias;
-    }
-
-    private static Media JSONtoMedia (LinkedTreeMap LTM) throws ParseException {
-        Media newMedia = new Media();
-
-        //parse to media
-        if (LTM.containsKey("Title"))
-            newMedia.Title = (String)LTM.get("Title");
-        if (LTM.containsKey("Description"))
-            newMedia.Description = (String)LTM.get("Description");
-        if (LTM.containsKey("Id"))
-            newMedia.Id = ((Double)LTM.get("Id")).intValue();
-        if (LTM.containsKey("Type"))
-            newMedia.Type = ((Double)LTM.get("Type")).intValue();
-
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy kk:mm:ss");
-        if (LTM.containsKey("ReleaseDate"))
-            newMedia.ReleaseDate = df.parse((String)LTM.get("ReleaseDate"));
-
-        return newMedia;
+    public static String File_To_Json(byte[] file) {
+        throw new NotImplementedException();
     }
 }
+
