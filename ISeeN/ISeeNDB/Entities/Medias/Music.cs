@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 namespace ISeeN_DB
 {
     [DataContract]
-    class Music
+    public class Music : Media
     {
-        [DataMember]
-        public int Id { get; set; }
         [DataMember]
         public string Artist { get; set; }
     }

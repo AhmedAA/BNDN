@@ -6,6 +6,7 @@ using System.ServiceModel.Activation;
 using System.Text;
 using System.Text.RegularExpressions;
 using ISeeN_DB;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ISeenService
@@ -21,7 +22,24 @@ namespace ISeenService
         }
 
         //TODO: REMOVE THIS
-        List<Media> _mediaList = new List<Media>(); 
+        List<Media> _mediaList = new List<Media>();
+
+        public string Test1()
+        {
+            var list = new List<Media>();
+            var movie = new Movie {Title = "Die hard", Type = (MediasEnum) 2, Director = "Al Pacino"};
+            list.Add(movie);
+            var music = new Music {Title = "Ghetto gospel", Artist = "The piano man", Type = (MediasEnum) 1};
+            list.Add(music);
+            var picture = new Picture {Title = "The Scream", Type = (MediasEnum) 3, Author = "Göbels"};
+            list.Add(picture);
+
+            string json = JsonConvert.SerializeObject(new Report<IList<Media>> {Data = list});
+
+            var deser = JsonConvert.DeserializeObject<Report<IList<Media>>>(json);
+
+            return json;
+        }
 
         public Report<IList<Media>> SearchMedia(string searchParam)
         {

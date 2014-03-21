@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 namespace ISeeN_DB
 {
     [DataContract]
-    class Picture
+    public class Picture : Media
     {
-        [DataMember]
-        public int Id { get; set; }
         [DataMember]
         public string Author { get; set; }
     }

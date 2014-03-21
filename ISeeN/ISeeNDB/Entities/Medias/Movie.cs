@@ -7,10 +7,8 @@ using System.Web;
 namespace ISeeN_DB
 {
     [DataContract]
-    class Movie
+    public class Movie : Media
     {
-        [DataMember]
-        public int Id { get; set; }
         [DataMember]
         public string Director { get; set; }
 

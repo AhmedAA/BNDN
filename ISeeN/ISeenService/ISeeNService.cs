@@ -14,6 +14,14 @@ namespace ISeenService
     [ServiceContract()]
     public interface ISeeNService
     {
+        #region Tests
+
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/1")]
+        [OperationContract]
+        string Test1();
+
+        #endregion
+
         #region SearchOp
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Search/{searchParam}")]
