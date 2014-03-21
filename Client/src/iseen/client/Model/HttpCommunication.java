@@ -10,10 +10,12 @@ import java.net.URL;
 public class HttpCommunication {
 
     private static String USER_AGENT = "Mozilla/5.0";
+    private static String RENT_ITU_PATH = "http://localhost:8090/RentIt02/";
+
 
     // HTTP POST request
-    public static String sendPost() throws Exception {
-        String url = "http://rentit.itu.dk/rentit02/media";
+    public static String sendPost(String path) throws Exception {
+        String url = RENT_ITU_PATH + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
@@ -40,8 +42,8 @@ public class HttpCommunication {
     }
 
     // HTTP GET request
-    public static String sendGet(String service) throws IOException {
-        String url = "http://rentit.itu.dk/rentit02/" + service;
+    public static String sendGet(String path) throws IOException {
+        String url = RENT_ITU_PATH + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");

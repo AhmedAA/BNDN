@@ -1,13 +1,16 @@
 package iseen.client.Model;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,8 +22,12 @@ import java.util.List;
  */
 public class MediaTools {
 
-    public static List<Media> GetAllMedia () {
-        throw new NotImplementedException();
+    private static String PATH_TEST1 = "Test/1";
+
+    private static Gson gson = new Gson();
+
+    public static List<Media> GetAllMedia () throws Exception {
+        return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_TEST1));
     }
 
     public static Media GetMediaById (int id) {
@@ -75,7 +82,9 @@ public class MediaTools {
     }
 
     private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia (String Json) {
-        throw new NotImplementedException();
+        System.out.println(Json);
+
+        return null;
     }
 
     public static String File_To_Json (byte[] file) {

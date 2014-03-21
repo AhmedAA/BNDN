@@ -25,7 +25,7 @@ namespace ISeenService
         //TODO: REMOVE THIS
         List<Media> _mediaList = new List<Media>();
 
-        public string Test1()
+        public Stream Test1()
         {
             var list = new List<Media>();
             var movie = new Movie {Title = "Die hard", Type = (MediasEnum) 2, Director = "Al Pacino"};
@@ -39,7 +39,9 @@ namespace ISeenService
 
             var deser = JsonConvert.DeserializeObject<Report<IList<Media>>>(json);
 
-            return json;
+            Console.WriteLine(deser.Data.Count + " " + deser.Data[0].Title + " " + deser.Data[1].Title + " " + deser.Data[2].Title + " ");
+            
+            return new MemoryStream(Encoding.UTF8.GetBytes(json));
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="searchParam"></param>
         /// <returns>Report of IList of Media</returns>
-        public string SearchMedia(string searchParam)
+        public Stream SearchMedia(string searchParam)
         {
             try
             {
@@ -61,16 +63,16 @@ namespace ISeenService
 
                 //text search case (Calls database)
                 if (textOnly && splitted.Length>0)
-                    return JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0]) });
+                    return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0]) })));
                 //type search case (Calls database)
                 if (int.TryParse(splitted[1], out type) && string.IsNullOrEmpty(splitted[0]))
                 {
-                    return JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia((MediasEnum)type) });
+                    return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia((MediasEnum)type) })));
                 }
                 //text and type search (Calls database)
                 if (int.TryParse(splitted[1], out type))
                 {
-                    return JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0],(MediasEnum)type) });
+                    return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0],(MediasEnum)type) })));
                 }
 
                 throw new FileNotFoundException();
@@ -79,7 +81,7 @@ namespace ISeenService
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1,e.ToString());
-                return JsonConvert.SerializeObject(new Report<IList<Media>>{Error = 1});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>>{Error = 1})));
             }
         }
 
@@ -88,7 +90,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of Potato</returns>
-        public string CreateAccount(Stream streamdata)
+        public Stream CreateAccount(Stream streamdata)
         {
             try
             {
@@ -100,13 +102,13 @@ namespace ISeenService
                 UserDB.AddUser(recUser);
 
                 //TODO: ACTUALLY GET POTATO FROM SERVER
-                return JsonConvert.SerializeObject(new Report<Potato>() { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato>() { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} })));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Potato> { Error = 1 });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato> { Error = 1 })));
             }
         }
 
@@ -115,7 +117,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of User</returns>
-        public string EditAccount(Stream streamdata)
+        public Stream EditAccount(Stream streamdata)
         {
             try
             {
@@ -130,13 +132,13 @@ namespace ISeenService
                 //TODO: Potato check with database that potato is correct for user
 
                 //TODO: Maybe send user from database or just the one we're supposed to set?
-                return JsonConvert.SerializeObject(new Report<User>{Data = recUser});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<User>{Data = recUser})));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<User> {Error = 1});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<User> {Error = 1})));
             }
         }
 
@@ -145,7 +147,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of User</returns>
-        public string GetAccount(Stream streamdata)
+        public Stream GetAccount(Stream streamdata)
         {
             try
             {
@@ -154,13 +156,13 @@ namespace ISeenService
 
                 var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
 
-                return JsonConvert.SerializeObject(new Report<User> { Data = UserDB.GetUserByPotato(recPotato)});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<User> { Data = UserDB.GetUserByPotato(recPotato)})));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<User> {Error = 1});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<User> {Error = 1})));
             }
         }
 
@@ -170,7 +172,7 @@ namespace ISeenService
         /// <param name="email"></param>
         /// <param name="streamdata"></param>
         /// <returns>Report of Potato</returns>
-        public string AccountLogin(string email, Stream streamdata)
+        public Stream AccountLogin(string email, Stream streamdata)
         {
             try
             {
@@ -181,13 +183,13 @@ namespace ISeenService
 
                 //TODO: Actually check email & password with database
 
-                return JsonConvert.SerializeObject(new Report<Potato> {Data = new Potato {EncPassword = "ThisIsMuchEncrypted", Id = 1}});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato> {Data = new Potato {EncPassword = "ThisIsMuchEncrypted", Id = 1}})));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Potato> { Error = 1 });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato> { Error = 1 })));
             }
 
         }
@@ -197,28 +199,28 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of int</returns>
-        public string DeleteAccount(Stream streamdata)
+        public Stream DeleteAccount(Stream streamdata)
         {
             //TODO: Not done at all
             StringFromStreamDebug(streamdata);
-            return JsonConvert.SerializeObject(new Report<int>{Data = 1});
+            return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<int>{Data = 1})));
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns>Report of IList of Media</returns>
-        public string GetAllMedia()
+        public Stream GetAllMedia()
         {
             try
             {
-                return JsonConvert.SerializeObject(new Report<IList<Media>> {Data = MediaDB.GetAllMedia()});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>> {Data = MediaDB.GetAllMedia()})));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<IList<Media>> { Error = 1 });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>> { Error = 1 })));
             }
         }
 
@@ -227,17 +229,17 @@ namespace ISeenService
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Report of Media</returns>
-        public string GetMediaForId(string id)
+        public Stream GetMediaForId(string id)
         {
             try
             {
-                return JsonConvert.SerializeObject(new Report<Media> {Data = MediaDB.GetMediaForId(int.Parse(id))});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> {Data = MediaDB.GetMediaForId(int.Parse(id))})));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Media> { Error = 1 });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> { Error = 1 })));
             }
         }
 
@@ -246,7 +248,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Report of Statistic</returns>
-        public string GetStatsForId(string id)
+        public Stream GetStatsForId(string id)
         {
             //TODO: DUMMY
             try
@@ -270,7 +272,7 @@ namespace ISeenService
                         }
                     };
 
-                    return JsonConvert.SerializeObject(toReturn);
+                    return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(toReturn)));
                 }
                 throw new ArgumentException();
             }
@@ -278,7 +280,7 @@ namespace ISeenService
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Statistic> { Error = 1 });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Statistic> { Error = 1 })));
             }
         }
 
@@ -288,7 +290,7 @@ namespace ISeenService
         /// <param name="mediaId"></param>
         /// <param name="streamdata"></param>
         /// <returns>Report of Media</returns>
-        public string RentMediaById(string mediaId, Stream streamdata)
+        public Stream RentMediaById(string mediaId, Stream streamdata)
         {
             try
             {
@@ -307,7 +309,7 @@ namespace ISeenService
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError })));
             }
         }
 
@@ -316,7 +318,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of Media</returns>
-        public string CreateNewMedia(Stream streamdata)
+        public Stream CreateNewMedia(Stream streamdata)
         {
             try
             {
@@ -334,14 +336,14 @@ namespace ISeenService
 
                 //TODO: Return media with new ID AND SAVE FILE
 
-                return JsonConvert.SerializeObject(new Report<Media> {Data = recMedia});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> {Data = recMedia})));
 
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError })));
             }
         }
 
@@ -350,7 +352,7 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of Media</returns>
-        public string EditMedia(Stream streamdata)
+        public Stream EditMedia(Stream streamdata)
         {
             try
             {
@@ -379,7 +381,7 @@ namespace ISeenService
                     Console.WriteLine("// End of byte[]");
                 }
 
-                return JsonConvert.SerializeObject(new Report<Media> {Data = recMedia});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> {Data = recMedia})));
 
                 //TODO: Actually put this in the database
             }
@@ -387,7 +389,7 @@ namespace ISeenService
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError })));
             }
         }
 
@@ -397,7 +399,7 @@ namespace ISeenService
         /// <param name="id"></param>
         /// <param name="streamdata"></param>
         /// <returns>Report of Media</returns>
-        public string DeleteMedia(string id, Stream streamdata)
+        public Stream DeleteMedia(string id, Stream streamdata)
         {
             try
             {
@@ -412,13 +414,13 @@ namespace ISeenService
 
                 MediaDB.DeleteMedia(int.Parse(id));
 
-                return JsonConvert.SerializeObject(new Report<Media> {Data = _mediaList[0]});
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> {Data = _mediaList[0]})));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError });
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError })));
             }
         }
 
@@ -427,14 +429,14 @@ namespace ISeenService
         /// </summary>
         /// <param name="streamdata"></param>
         /// <returns>Report of IList of Reminder</returns>
-        public string CheckReminders(Stream streamdata)
+        public Stream CheckReminders(Stream streamdata)
         {
             var received = StringFromStreamDebug(streamdata);
 
             var toReturn = new Report<IList<Reminder>> { Data = new List<Reminder>() };
             toReturn.Data.Add(new Reminder{_DateReceived = DateTime.Now, _DateSent = DateTime.MinValue,Id = 1,MediaId = 1,Message = "This is a reminder about blabla...", Title = "Reminder Much Title", UserId = 1});
 
-            return JsonConvert.SerializeObject(toReturn);
+            return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(toReturn)));
         }
 
         private string StringFromStream(Stream stream)
