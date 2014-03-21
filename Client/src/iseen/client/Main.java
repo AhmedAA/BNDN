@@ -1,5 +1,6 @@
 package iseen.client;
 
+import iseen.client.Model.GeneralTools;
 import iseen.client.Model.MediaTools;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,12 @@ public class Main extends Application {
 
         primaryStage.show();
 
+        MediaTools.GetMediaById(777);
         MediaTools.GetAllMedia();
+
+        System.out.println(GeneralTools.File_To_Json(new byte[]{25,112,122,24,35}));
+        System.out.println(GeneralTools.File_To_Json(new byte[]{25,112}));
+        System.out.println(GeneralTools.File_To_Json(new byte[]{112}));
     }
 
     public static void main(String[] args) {

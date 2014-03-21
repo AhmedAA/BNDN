@@ -30,7 +30,7 @@ public class MediaTools {
     private static Gson gson = new Gson();
 
     public static List<Media> GetAllMedia() throws Exception {
-        //TODO: IMPLEMENT GET ALL MEDIA (venter på ramus fixer migration)
+        //TODO: IMPLEMENT GET ALL MEDIA (venter på rasmus fixer migration)
         //Kaldet giver:
         //
         //HTTP/1.1 200 OK
@@ -46,8 +46,9 @@ public class MediaTools {
         return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_TEST1));
     }
 
-    public static Media GetMediaById(int id) {
-        throw new NotImplementedException();
+    public static Media GetMediaById(int id) throws MediaTypeNotMatchedException, GeneralError {
+        //TODO Actually use http communication
+        return JsonReportOfMedia_To_Media("{\"Data\":{\"Id\":1,\"Title\":\"Once upon a time in America\",\"Type\":0,\"ReleaseDate\":\"01-01-1993 00:00:00\",\"Description\":\"Movie with Robert Di Niro\"},\"Error\":0}");
     }
 
     public static Media RentMedia(int id) {
@@ -74,14 +75,6 @@ public class MediaTools {
         return EditMedia(media, file, true);
     }
 
-    private static Media EditMedia(Media media, byte[] file, boolean FileWasEdited) {
-
-        //Should send the potato in the message body
-        PotatoTools.Potato_To_Json();
-
-        throw new NotImplementedException();
-    }
-
     public static Media DeleteMedia(int id) {
 
         //Should send the potato in the message body
@@ -90,23 +83,30 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    private static Media JsonReportOfMedia_To_Media(String Json) {
-        //Forslag: udpak Report til en Rapport indeholdende Json
-        //Derefter return Media.FromJson (STRENG);
+    private static Media EditMedia(Media media, byte[] file, boolean FileWasEdited) {
+
+        //Should send the potato in the message body
+        PotatoTools.Potato_To_Json();
 
         throw new NotImplementedException();
     }
 
-    private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia(String Json) {
+    private static Media JsonReportOfMedia_To_Media(String Json) throws GeneralError, MediaTypeNotMatchedException {
         System.out.println(Json);
+        //Get data from json report
+        JsonObject data = GeneralTools.JsonReport_To_DataJsonObject(Json);
 
-        //Unpack report into data and error JSON strings
-        JsonElement top = new JsonParser().parse(Json);
-        JsonObject JsonReport = top.getAsJsonObject();
+        Media media = Media.FromJson(data, gson);
 
-        //Separated into Data and Error
-        JsonArray data = JsonReport.getAsJsonArray("Data");
-        int error = Integer.parseInt(JsonReport.get("Error").toString());
+        System.out.println(media.Title);
+
+        return Media.FromJson(data,gson);
+    }
+
+    private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia(String Json) throws GeneralError {
+        System.out.println(Json);
+        //Get data from json report
+        JsonArray data = GeneralTools.JsonReport_To_DataJsonArray(Json);
 
         //To list of media
         List<Media> medias = new ArrayList<Media>();
@@ -127,10 +127,6 @@ public class MediaTools {
         System.out.println( ((Picture)medias.get(2)).Title + " " + ((Picture)medias.get(2)).Author );
 
         return medias;
-    }
-
-    public static String File_To_Json(byte[] file) {
-        throw new NotImplementedException();
     }
 }
 
