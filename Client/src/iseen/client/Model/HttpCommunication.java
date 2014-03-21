@@ -1,17 +1,8 @@
 package iseen.client.Model;
 
-import com.google.gson.Gson;
-import iseen.client.Entities.Media;
-import iseen.client.Entities.Report;
-import iseen.client.Exceptions.GeneralError;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 /**
  * Created by SebastianDybdal on 18-03-2014.

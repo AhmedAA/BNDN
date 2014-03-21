@@ -1,6 +1,6 @@
 package iseen.client.Controllers;
 
-import iseen.client.Entities.Media;
+import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Exceptions.GeneralError;
 import iseen.client.Model.MediaTools;
 import javafx.event.ActionEvent;

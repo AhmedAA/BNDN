@@ -2,13 +2,12 @@ package iseen.client.Model;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-import iseen.client.Entities.Media;
+import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,15 +67,14 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    public static Media JsonReportOfMedia_To_Media (String Json) {
+    private static Media JsonReportOfMedia_To_Media (String Json) {
+        //Forslag: udpak Report til en Rapport indeholdende Json
+        //Derefter return Media.FromJson (STRENG);
+
         throw new NotImplementedException();
     }
 
-    public static List<Media> JsonReportOfListOfMedia_To_ListOfMedia (String Json) {
-        throw new NotImplementedException();
-    }
-
-    public static String Media_To_Json (Media media) {
+    private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia (String Json) {
         throw new NotImplementedException();
     }
 
@@ -87,7 +85,7 @@ public class MediaTools {
 
     //TODO: BELOW SHALL NOT PASS (on in the next milestone)!!!
 
-    public static ArrayList<iseen.client.Entities.Media> GetMedia(String service) throws IOException, ParseException, GeneralError {
+    public static ArrayList<Media> GetMedia(String service) throws IOException, ParseException, GeneralError {
         //get request
         String requestResult = HttpCommunication.sendGet("media/byid/1");
 
@@ -103,12 +101,12 @@ public class MediaTools {
     }
 
     //TODO: Better implementation
-    private static ArrayList<iseen.client.Entities.Media> JsonToListMedia(String JSONString) throws ParseException, GeneralError {
+    private static ArrayList<Media> JsonToListMedia(String JSONString) throws ParseException, GeneralError {
         //make object from response (JSON)
         Gson gson = new Gson();
         Report<ArrayList> fromJson = gson.fromJson(JSONString, Report.class);
         //List to be used for medias
-        ArrayList<iseen.client.Entities.Media> medias = new ArrayList<iseen.client.Entities.Media>();
+        ArrayList<Media> medias = new ArrayList<Media>();
 
         //check if there is an error
         //TODO: GENERAL ERROR
@@ -120,22 +118,22 @@ public class MediaTools {
             com.google.gson.internal.LinkedTreeMap LTM = (com.google.gson.internal.LinkedTreeMap)fromJson.Data.get(i);
 
             //parse to media
-            iseen.client.Entities.Media newMedia = JSONtoMedia(LTM);
+            Media newMedia = JSONtoMedia(LTM);
             medias.add(newMedia);
         }
 
         return medias;
     }
 
-    private static ArrayList<iseen.client.Entities.Media> SingleMedia (com.google.gson.internal.LinkedTreeMap LTM) throws ParseException {
-        ArrayList<iseen.client.Entities.Media> medias = new ArrayList<iseen.client.Entities.Media>();
-        iseen.client.Entities.Media newMedia = JSONtoMedia(LTM);
+    private static ArrayList<Media> SingleMedia (com.google.gson.internal.LinkedTreeMap LTM) throws ParseException {
+        ArrayList<Media> medias = new ArrayList<Media>();
+        Media newMedia = JSONtoMedia(LTM);
         medias.add(newMedia);
         return medias;
     }
 
-    private static iseen.client.Entities.Media JSONtoMedia (LinkedTreeMap LTM) throws ParseException {
-        iseen.client.Entities.Media newMedia = new iseen.client.Entities.Media();
+    private static Media JSONtoMedia (LinkedTreeMap LTM) throws ParseException {
+        Media newMedia = new Media();
 
         //parse to media
         if (LTM.containsKey("Title"))

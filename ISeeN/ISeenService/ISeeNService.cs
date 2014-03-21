@@ -26,7 +26,7 @@ namespace ISeenService
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Search/{searchParam}")]
         [OperationContract]
-        Report<IList<Media>> SearchMedia(string searchParam);
+        string SearchMedia(string searchParam);
 
         #endregion
 
@@ -34,23 +34,23 @@ namespace ISeenService
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/New")]
         [OperationContract]
-        Report<Potato> CreateAccount(Stream streamdata);
+        string CreateAccount(Stream streamdata);
 
         [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/Edit")]
         [OperationContract]
-        Report<User> EditAccount(Stream streamdata);
+        string EditAccount(Stream streamdata);
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account")]
         [OperationContract]
-        Report<User> GetAccount(Stream streamdata);
+        string GetAccount(Stream streamdata);
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/Login/{email}")]
         [OperationContract]
-        Report<Potato> AccountLogin(string email, Stream streamdata);
+        string AccountLogin(string email, Stream streamdata);
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Account/Delete")]
         [OperationContract]
-        Report<int> DeleteAccount(Stream streamdata);
+        string DeleteAccount(Stream streamdata);
 
         #endregion
 
@@ -58,31 +58,31 @@ namespace ISeenService
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media")]
         [OperationContract]
-        Report<IList<Media>> GetAllMedia();
+        string GetAllMedia();
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/ById/{id}")]
         [OperationContract]
-        Report<Media> GetMediaForId(string id);
+        string GetMediaForId(string id);
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Stats/{id}")]
         [OperationContract]
-        Report<Statistic> GetStatsForId(string id);
+        string GetStatsForId(string id);
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Rent/{mediaId}")]
         [OperationContract]
-        Report<Media> RentMediaById(string mediaId, Stream streamdata);
+        string RentMediaById(string mediaId, Stream streamdata);
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/New")]
         [OperationContract]
-        Report<Media> CreateNewMedia(Stream streamdata);
+        string CreateNewMedia(Stream streamdata);
 
         [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Edit")]
         [OperationContract]
-        Report<Media> EditMedia(Stream streamdata);
+        string EditMedia(Stream streamdata);
 
         [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Delete/{id}")]
         [OperationContract]
-        Report<Media> DeleteMedia(string id, Stream streamdata);
+        string DeleteMedia(string id, Stream streamdata);
 
         #endregion
 
@@ -90,7 +90,7 @@ namespace ISeenService
 
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Reminder/Check")]
         [OperationContract]
-        Report<IList<Reminder>> CheckReminders(Stream streamdata);
+        string CheckReminders(Stream streamdata);
 
         #endregion
     }

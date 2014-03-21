@@ -8,6 +8,7 @@ namespace ISeeN_DB
 {
     public enum MediasEnum
     {
+        Media = 0,
         Movie = 1,
         Music = 2,
         Picture = 3
