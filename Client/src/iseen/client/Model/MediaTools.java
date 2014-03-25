@@ -41,12 +41,11 @@ public class MediaTools {
         return JsonReportOfMedia_To_Media(HttpCommunication.sendGet(PATH_MEDIA_BY_ID + id));
     }
 
-    public static Media RentMedia(int id) {
+    public static Media RentMedia(int id) throws Exception {
 
-        //Should send the potato in the message body
-        PotatoTools.Potato_To_Json();
+        String reponse = HttpCommunication.sendPostPut(PATH_MEDIA_RENT+id,PotatoTools.Potato_To_Json(),true);
 
-        throw new NotImplementedException();
+        return JsonReportOfMedia_To_Media(reponse);
     }
 
     public static Media CreateNewMedia(Media media, byte[] file) throws Exception {

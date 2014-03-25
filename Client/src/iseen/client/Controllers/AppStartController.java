@@ -2,6 +2,8 @@ package iseen.client.Controllers;
 
 import iseen.client.Entities.User;
 import iseen.client.Main;
+import iseen.client.Model.PotatoTools;
+import iseen.client.Model.UserTools;
 import iseen.client.Storage.Memory;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
@@ -18,17 +20,13 @@ public class AppStartController {
 
     public void LoginAction(ActionEvent actionEvent) {
         try {
-            //TODO: GET THIS FROM SERVER
-            Memory.CurrentUser = new User();
-            Memory.CurrentUser.Name = "Sebastian Dybdal Ehlers";
-            Memory.CurrentUser.Gender = "M";
-            Memory.CurrentUser.IsAdmin = true;
-            Memory.CurrentUser.Email = "sdeh@itu.dk";
-            Memory.CurrentUser.Country = "Denmark";
-            Memory.CurrentUser.City = "Copenhagen";
-            Memory.CurrentUser.Bio = "I am an awesome guy :-) \n Lol \n \n Sups?";
+            Memory.CurrentPotato = UserTools.LoginAccount(Email.getText(),Password.getText());
+            Memory.CurrentUser = UserTools.GetAccount();
+
             Main.This().GoToPersonalPage();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

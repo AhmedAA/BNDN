@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -54,27 +56,14 @@ namespace ISeeN_DB
         {
             _context = new ISeeNDbContext();
             var _userid = potato.Id;
-            var _user = new User();
             using (var db = _context)
             {
                 var query = from b in db.Users
                     where b.Id == _userid
                     select b;
 
-                foreach (var m in query)
-                {
-                    _user.Id = m.Id;
-                    _user.Bio = m.Bio;
-                    _user.City = m.City;
-                    _user.Country = m.Country;
-                    _user.Email = m.Email;
-                    _user.IsAdmin = m.IsAdmin;
-                    _user.Name = m.Name;
-                    _user.Password = m.Password;
-                    _user.Gender = m.Gender;
-                }
+                return query.First();
             }
-            return _user;
         }
 
         public static void EditAccount(Potato potato, User user)
@@ -82,9 +71,27 @@ namespace ISeeN_DB
             //implement
         }
 
-        public static void LoginUser(User user)
+        public static Potato LoginUser(string email, string password)
         {
-            //implement
+            _context = new ISeeNDbContext();
+
+            using (_context)
+            {
+                var query = from u in _context.Users
+                    where email == u.Email
+                    select u;
+
+                if (!query.Any())
+                    throw new ObjectNotFoundException("Email not found in database");
+
+                var tryuser = query.First();
+
+                if (tryuser.Password == password)
+                    //return correct potato
+                    throw new NotImplementedException();
+                else 
+                    throw new InvalidDataException("Password did not match");
+            }
         }
 
         public static void DeleteUser(User user, Potato potato)

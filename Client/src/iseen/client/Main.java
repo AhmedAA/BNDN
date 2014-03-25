@@ -1,15 +1,18 @@
 package iseen.client;
 
 import iseen.client.Entities.Potato;
+import iseen.client.Entities.User;
 import iseen.client.Model.GeneralTools;
 import iseen.client.Model.HttpCommunication;
 import iseen.client.Model.MediaTools;
+import iseen.client.Model.UserTools;
 import iseen.client.Storage.Memory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -22,7 +25,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Views/AppStartView.fxml"));
         primaryStage.setTitle("Test");
         primaryStage.setScene(new Scene(root, 750, 500));
-
+        primaryStage.initStyle(StageStyle.UNIFIED);
         _primaryStage = primaryStage;
 
         _this = this;
@@ -30,20 +33,20 @@ public class Main extends Application {
         primaryStage.show();
 
 
-        //test related
-        Memory.CurrentPotato = new Potato();
-        Memory.CurrentPotato.EncPassword = "lolPopnese";
-        Memory.CurrentPotato.Id = 2;
+        /*//test related
+        User user = new User();
+        user.Name = "Sebastian";
+        user.Bio = "This is bio";
+        user.City = "Compton";
+        user.Country = "lolpop";
+        user.Email = "test@test.com";
+        user.Gender = "M";
+        user.Id = 1;
+        user.IsAdmin = true;
+        user.Password = "testtest";
+        UserTools.CreateNewAccount(user);*/
 
 
-        MediaTools.GetMediaById(10);
-        MediaTools.GetAllMedia();
-        MediaTools.DeleteMedia(7);
-        MediaTools.CreateNewMedia(MediaTools.GetMediaById(10),new byte[]{2,6});
-
-        System.out.println(GeneralTools.File_To_Json(new byte[]{25,112,122,24,35}));
-        System.out.println(GeneralTools.File_To_Json(new byte[]{25,112}));
-        System.out.println(GeneralTools.File_To_Json(new byte[]{112}));
     }
 
     public static void main(String[] args) {
