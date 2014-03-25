@@ -14,7 +14,7 @@ public class Movie extends Media {
         return gson.fromJson(Json,Movie.class);
     }
 
-    public String ToJason () {
+    public String ToJson () {
         return null;
     }
 }

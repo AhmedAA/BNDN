@@ -1,5 +1,6 @@
 package iseen.client.Model;
 
+import com.google.gson.Gson;
 import iseen.client.Entities.Potato;
 import iseen.client.Storage.Memory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -9,14 +10,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class PotatoTools {
 
+    private static Gson gson = new Gson();
+
     public static Potato ReportOfPotato_To_Potato () {
         throw new NotImplementedException();
     }
 
     public static String Potato_To_Json () {
-
-        Potato toJsonize = Memory.CurrentPotato;
-
-        throw new NotImplementedException();
+        return gson.toJson(Memory.CurrentPotato);
     }
 }

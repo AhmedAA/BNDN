@@ -10,26 +10,32 @@ import java.net.URL;
 public class HttpCommunication {
 
     private static String USER_AGENT = "Mozilla/5.0";
-    private static String RENT_ITU_PATH = "http://localhost:8090/RentIt02/";
+    private static String RENT_ITU_PATH = "http://localhost/RentIt02/";
 
 
     // HTTP POST request
-    public static String sendPost(String path) throws Exception {
+    public static String sendPostPut(String path, String Json, boolean Post) throws Exception {
+        String method;
+
+        if (Post)
+            method = "POST";
+        else
+            method = "PUT";
+
         String url = RENT_ITU_PATH + path;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("POST");
+        con.setRequestMethod(method);
         con.setRequestProperty("User-Agent", USER_AGENT);
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        String urlParameters = "media";
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(urlParameters);
+        wr.writeBytes(Json);
         wr.flush();
         wr.close();
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("\nSending '" + method + "' request to URL : " + url);
+        System.out.println(method + " parameters : " + Json);
         System.out.println("Response Code : " + responseCode);
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;

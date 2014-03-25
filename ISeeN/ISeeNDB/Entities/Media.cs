@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data.Entity.Core;
 using System.Runtime.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace ISeeN_DB
 {
@@ -38,6 +40,23 @@ namespace ISeeN_DB
         public void Do()
         {
             throw new NotImplementedException();
+        }
+
+        public static Media GetMediaUseType(JToken jToken)
+        {
+            var tochck = (int)jToken["Type"];
+            var type = (MediasEnum)tochck;
+
+            if (type == MediasEnum.Media)
+                return jToken.ToObject<Media>();
+            if (type == MediasEnum.Movie)
+                return jToken.ToObject<Movie>();
+            if (type == MediasEnum.Music)
+                return jToken.ToObject<Music>();
+            if (type == MediasEnum.Picture)
+                return jToken.ToObject<Picture>();
+
+            throw new ObjectNotFoundException("Type was not valid for media");
         }
     }
 }

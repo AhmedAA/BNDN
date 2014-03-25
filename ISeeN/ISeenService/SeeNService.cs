@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.IO;
 using System.ServiceModel.Activation;
 using System.Text;
@@ -323,7 +324,9 @@ namespace ISeenService
 
                 var jArray = JArray.Parse(jsonString);
                 var recPotato = jArray[0].ToObject<Potato>();
-                var recMedia = jArray[1].ToObject<Media>();
+
+                var recMedia = Media.GetMediaUseType(jArray[1]);
+                
                 var recByteAr = jArray[2].ToObject<byte[]>();
 
                 LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
@@ -409,9 +412,11 @@ namespace ISeenService
 
                 LogAction("Delete", "Potato ID#" + recPotato.Id);
 
+                var deleted = MediaDB.GetMediaForId(int.Parse(id));
+
                 MediaDB.DeleteMedia(int.Parse(id));
 
-                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> {Data = _mediaList[0]})));
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Media> {Data = deleted})));
             }
             catch (Exception e)
             {

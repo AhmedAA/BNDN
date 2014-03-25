@@ -35,7 +35,11 @@ public class Media {
         return gson.fromJson(Json,Media.class);
     }
 
-    public String ToJason () {
-        return null;
+    public String ToJson (Gson gson) {
+        return gson.toJson(this);
+    }
+
+    private String _toJson (Gson gson) {
+        return gson.toJson(this);
     }
 }

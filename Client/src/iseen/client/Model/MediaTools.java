@@ -3,10 +3,7 @@ package iseen.client.Model;
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
-import iseen.client.Entities.MediaFormats.Media;
-import iseen.client.Entities.MediaFormats.Movie;
-import iseen.client.Entities.MediaFormats.Music;
-import iseen.client.Entities.MediaFormats.Picture;
+import iseen.client.Entities.MediaFormats.*;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
@@ -25,30 +22,23 @@ import java.util.List;
  */
 public class MediaTools {
 
-    private static String PATH_TEST1 = "Test/1";
+    private static String PATH_TEST1 = "test/1";
+    private static String PATH_ALL_MEDIA = "media";
+    private static String PATH_MEDIA_BY_ID = "media/byid/";
+    private static String PATH_MEDIA_STATS = "media/stats/";
+    private static String PATH_MEDIA_RENT = "media/rent/";
+    private static String PATH_NEW_MEDIA = "media/new";
+    private static String PATH_EDIT_MEDIA = "media/edit";
+    private static String PATH_DELETE_MEDIA = "media/delete/";
 
     private static Gson gson = new Gson();
 
     public static List<Media> GetAllMedia() throws Exception {
-        //TODO: IMPLEMENT GET ALL MEDIA (venter på rasmus fixer migration)
-        //Kaldet giver:
-        //
-        //HTTP/1.1 200 OK
-        //Content-Length: 370
-        //Content-Type: application/octet-stream
-        //Server: Microsoft-HTTPAPI/2.0
-        //Date: Fri, 21 Mar 2014 12:04:49 GMT
-        //
-        //{"Data":[{"Director":"Al Pacino","Id":0,"Title":"Die hard","Type":1,"ReleaseDate":"01-01-0001 00:00:00","Description":null},{"Artist":"The piano man","Id":0,"Title":"Ghetto gospel","Type":2,"ReleaseDate":"01-01-0001 00:00:00","Description":null},{"Author":"Göbels","Id":0,"Title":"The Scream","Type":3,"ReleaseDate":"01-01-0001 00:00:00","Description":null}],"Error":0}
-        //
-        //Json object kan bruges som streng direkte til at test :-)
-        
-        return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_TEST1));
+        return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_ALL_MEDIA));
     }
 
-    public static Media GetMediaById(int id) throws MediaTypeNotMatchedException, GeneralError {
-        //TODO Actually use http communication
-        return JsonReportOfMedia_To_Media("{\"Data\":{\"Id\":1,\"Title\":\"Once upon a time in America\",\"Type\":0,\"ReleaseDate\":\"01-01-1993 00:00:00\",\"Description\":\"Movie with Robert Di Niro\"},\"Error\":0}");
+    public static Media GetMediaById(int id) throws MediaTypeNotMatchedException, GeneralError, IOException {
+        return JsonReportOfMedia_To_Media(HttpCommunication.sendGet(PATH_MEDIA_BY_ID + id));
     }
 
     public static Media RentMedia(int id) {
@@ -59,36 +49,54 @@ public class MediaTools {
         throw new NotImplementedException();
     }
 
-    public static Media CreateNewMedia(Media media, byte[] file) {
+    public static Media CreateNewMedia(Media media, byte[] file) throws Exception {
+        //build the json string
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(PotatoTools.Potato_To_Json());
+        sb.append(',');
+        sb.append(media.ToJson(gson));
+        sb.append(',');
+        sb.append(GeneralTools.File_To_Json(file));
+        sb.append(']');
 
-        //Should send the potato in the message body
-        PotatoTools.Potato_To_Json();
+        String response = HttpCommunication.sendPostPut(PATH_NEW_MEDIA, sb.toString(), true);
 
-        throw new NotImplementedException();
+        return JsonReportOfMedia_To_Media(response);
     }
 
-    public static Media EditMedia(Media media) {
+    public static Media EditMedia(Media media) throws Exception {
         return EditMedia(media, null, false);
     }
 
-    public static Media EditMedia(Media media, byte[] file) {
+    public static Media EditMedia(Media media, byte[] file) throws Exception {
         return EditMedia(media, file, true);
     }
 
-    public static Media DeleteMedia(int id) {
+    public static Media DeleteMedia(int id) throws Exception {
+        String response = HttpCommunication.sendPostPut(PATH_DELETE_MEDIA + id, PotatoTools.Potato_To_Json(), true);
 
-        //Should send the potato in the message body
-        PotatoTools.Potato_To_Json();
-
-        throw new NotImplementedException();
+        return JsonReportOfMedia_To_Media(response);
     }
 
-    private static Media EditMedia(Media media, byte[] file, boolean FileWasEdited) {
+    private static Media EditMedia(Media media, byte[] file, boolean FileWasEdited) throws Exception {
+        //build the json string
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(PotatoTools.Potato_To_Json());
+        sb.append(',');
+        sb.append(media.ToJson(gson));
 
-        //Should send the potato in the message body
-        PotatoTools.Potato_To_Json();
+        if (FileWasEdited == true) {
+            sb.append(',');
+            sb.append(GeneralTools.File_To_Json(file));
+        }
 
-        throw new NotImplementedException();
+        sb.append(']');
+
+        String response = HttpCommunication.sendPostPut(PATH_EDIT_MEDIA,sb.toString(),false);
+
+        return JsonReportOfMedia_To_Media(response);
     }
 
     private static Media JsonReportOfMedia_To_Media(String Json) throws GeneralError, MediaTypeNotMatchedException {
@@ -121,10 +129,6 @@ public class MediaTools {
             }
 
         }
-
-        System.out.println( ((Movie)medias.get(0)).Title + " " + ((Movie)medias.get(0)).Director );
-        System.out.println( ((Music)medias.get(1)).Title + " " + ((Music)medias.get(1)).Artist );
-        System.out.println( ((Picture)medias.get(2)).Title + " " + ((Picture)medias.get(2)).Author );
 
         return medias;
     }

@@ -1,7 +1,10 @@
 package iseen.client;
 
+import iseen.client.Entities.Potato;
 import iseen.client.Model.GeneralTools;
+import iseen.client.Model.HttpCommunication;
 import iseen.client.Model.MediaTools;
+import iseen.client.Storage.Memory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +29,17 @@ public class Main extends Application {
 
         primaryStage.show();
 
-        MediaTools.GetMediaById(777);
+
+        //test related
+        Memory.CurrentPotato = new Potato();
+        Memory.CurrentPotato.EncPassword = "lolPopnese";
+        Memory.CurrentPotato.Id = 2;
+
+
+        MediaTools.GetMediaById(10);
         MediaTools.GetAllMedia();
+        MediaTools.DeleteMedia(7);
+        MediaTools.CreateNewMedia(MediaTools.GetMediaById(10),new byte[]{2,6});
 
         System.out.println(GeneralTools.File_To_Json(new byte[]{25,112,122,24,35}));
         System.out.println(GeneralTools.File_To_Json(new byte[]{25,112}));

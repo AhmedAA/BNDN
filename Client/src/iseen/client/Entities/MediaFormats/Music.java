@@ -13,7 +13,7 @@ public class Music extends Media {
         return gson.fromJson(Json,Music.class);
     }
 
-    public String ToJason () {
+    public String ToJson () {
         return null;
     }
 }

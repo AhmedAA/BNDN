@@ -80,7 +80,7 @@ namespace ISeenService
         [OperationContract]
         Stream EditMedia(Stream streamdata);
 
-        [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Delete/{id}")]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Media/Delete/{id}")]
         [OperationContract]
         Stream DeleteMedia(string id, Stream streamdata);
 
