@@ -97,9 +97,11 @@ namespace ISeenService
                 var recUser = JObject.Parse(jsonString).ToObject<User>();
 
                 UserDB.AddUser(recUser);
+                //todo: this is not that smart
+                var potato = UserDB.LoginUser(recUser.Email, recUser.Password);
 
                 //TODO: ACTUALLY GET POTATO FROM SERVER
-                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato> { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} })));
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato> { Data = potato })));
             }
             catch (Exception e)
             {

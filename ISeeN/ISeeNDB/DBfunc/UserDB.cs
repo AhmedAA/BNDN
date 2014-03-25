@@ -87,8 +87,10 @@ namespace ISeeN_DB
                 var tryuser = query.First();
 
                 if (tryuser.Password == password)
-                    //return correct potato
-                    throw new NotImplementedException();
+                {
+                    //TODO: return correct potato
+                    return new Potato {EncPassword = "ENCRYPTED(" + tryuser.Password + ")", Id = tryuser.Id};
+                }
                 else 
                     throw new InvalidDataException("Password did not match");
             }
