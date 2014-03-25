@@ -9,6 +9,7 @@ namespace ISeeN_DB
         //Id of media
         [DataMember]
         public int Id { get; set; }
+
         //Title of media
         [DataMember]
         public string Title { get; set; }
@@ -25,6 +26,7 @@ namespace ISeeN_DB
         }
 
         public DateTime _ReleaseDate = DateTime.MinValue;
+        private int _id;
 
         //Description of media
         [DataMember]

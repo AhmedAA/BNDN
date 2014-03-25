@@ -9,7 +9,8 @@ namespace ISeeN_DB.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            ContextKey = "ISeeN_DB.ISeeNDbContext";
         }
 
         protected override void Seed(ISeeN_DB.ISeeNDbContext context)

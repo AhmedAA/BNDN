@@ -14,8 +14,15 @@ namespace ISeeN_DB
         public DbSet<ISeeN_DB.Reminder> Reminders { get; set;}
         public DbSet<ISeeN_DB.Media> Medias { get; set; }
         public DbSet<ISeeN_DB.Statistic> Statistics { get; set; }
-        public DbSet<ISeeN_DB.Movie> Movies { get; set; }
-        public DbSet<ISeeN_DB.Music> Music { get; set; }
-        public DbSet<ISeeN_DB.Picture> Pictures { get; set; }
+        //public DbSet<ISeeN_DB.Movie> Movies { get; set; }
+        //public DbSet<ISeeN_DB.Music> Music { get; set; }
+        //public DbSet<ISeeN_DB.Picture> Pictures { get; set; }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Movie>().HasOptional(e => e.movie).WithMany();
+        //    modelBuilder.Entity<Music>().HasOptional(e => e.music).WithMany();
+        //    modelBuilder.Entity<Picture>().HasOptional(e => e.picture).WithMany();
+        //}  
     }
 }
