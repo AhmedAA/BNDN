@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.ServiceModel.Activation;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -59,8 +57,6 @@ namespace ISeenService
                 bool textOnly = splitted.Length < 2;
                 int type;
 
-                var toReturn = new Report<IList<Media>>();
-
                 //text search case (Calls database)
                 if (textOnly && splitted.Length>0)
                     return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0]) })));
@@ -102,7 +98,7 @@ namespace ISeenService
                 UserDB.AddUser(recUser);
 
                 //TODO: ACTUALLY GET POTATO FROM SERVER
-                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato>() { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} })));
+                return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new Report<Potato> { Data = new Potato { EncPassword = "TODO/ENCRYPT("+recUser.Password+")", Id = recUser.Id} })));
             }
             catch (Exception e)
             {
@@ -376,6 +372,7 @@ namespace ISeenService
                     Console.WriteLine("Start of byte[] //");
                     foreach (var byt in recByteAr)
                     {
+                        // ReSharper disable once SpecifyACultureInStringConversionExplicitly
                         Console.WriteLine(byt.ToString());
                     }
                     Console.WriteLine("// End of byte[]");
@@ -454,7 +451,7 @@ namespace ISeenService
                 {
                     var s = StringFromStream(stream);
                     var currentFor = Console.ForegroundColor;
-                    var currentBac = Console.BackgroundColor;
+                    //var currentBac = Console.BackgroundColor;
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Stream = |" + s + "|");
                     Console.ForegroundColor = currentFor;
@@ -464,7 +461,7 @@ namespace ISeenService
         private void LogAction(string whatRequest, string forWho)
         {
             var currentFor = Console.ForegroundColor;
-            var currentBac = Console.BackgroundColor;
+            //var currentBac = Console.BackgroundColor;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(whatRequest + " requested for: " + forWho);
             Console.ForegroundColor = currentFor;
@@ -473,7 +470,7 @@ namespace ISeenService
         private void LogError(int error, string message)
         {
             var currentFor = Console.ForegroundColor;
-            var currentBac = Console.BackgroundColor;
+            //var currentBac = Console.BackgroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("ERROR#" + error + " " + message);
             Console.ForegroundColor = currentFor;
