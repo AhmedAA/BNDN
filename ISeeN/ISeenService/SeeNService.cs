@@ -453,6 +453,7 @@ namespace ISeenService
 
         private Stream Options(string method)
         {
+            // ReSharper disable once PossibleNullReferenceException
             WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", method.ToUpper());
             WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
             WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Max-Age", "1728000");
