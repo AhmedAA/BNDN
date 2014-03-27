@@ -25,6 +25,29 @@ namespace ISeenService
         //TODO: REMOVE THIS
         List<Media> _mediaList = new List<Media>();
 
+        public Stream Options()
+        {
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET");
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Max-Age", "1728000");
+
+            return Message("Ok");
+        }
+
+        private Stream Message(string Json)
+        {
+            //stuff that should be done before returning
+
+            //CORS Headers added
+
+            // ReSharper disable once PossibleNullReferenceException
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
+
+            var toReturn = new MemoryStream(Encoding.UTF8.GetBytes(Json));
+
+            return toReturn;
+        }
+
         public Stream Test1()
         {
             var list = new List<Media>();
@@ -41,9 +64,7 @@ namespace ISeenService
 
             Console.WriteLine(deser.Data.Count + " " + deser.Data[0].Title + " " + deser.Data[1].Title + " " + deser.Data[2].Title + " ");
 
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
-
-            return new MemoryStream(Encoding.UTF8.GetBytes(json));
+            return Message(json);
         }
 
         /// <summary>

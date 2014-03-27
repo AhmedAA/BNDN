@@ -16,6 +16,10 @@ namespace ISeenService
     {
         #region Tests
 
+        [WebInvoke(Method = "OPTIONS", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/1")]
+        [OperationContract]
+        Stream Options();
+
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/1")]
         [OperationContract]
         Stream Test1();
