@@ -7,10 +7,10 @@ using System.Web;
 
 namespace ISeeN_DB
 {
-    [DataContract]
+    [NotMapped]
     public class Movie : Media
     {
-        [DataMember]
+        
         public string Director { get; set; }
 
         //public virtual Movie movie { get; set; }

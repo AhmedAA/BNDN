@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ISeeN_DB
 {
-    [DataContract]
+    [NotMapped]
     public class Picture : Media
     {
         private Media _media;
 
-        [DataMember]
+        
         public string Author { get; set; }
 
         //public virtual Picture picture { get; set; }

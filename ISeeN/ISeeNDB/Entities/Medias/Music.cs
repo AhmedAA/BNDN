@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ISeeN_DB
 {
-    [DataContract]
+    [NotMapped]
     public class Music : Media
     {
-        [DataMember]
+        
         public string Artist { get; set; }
 
         //public virtual Music music { get; set; }
