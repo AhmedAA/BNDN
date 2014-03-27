@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.IO;
 using System.ServiceModel.Activation;
+using System.ServiceModel.Web;
 using System.Text;
 using System.Text.RegularExpressions;
 using ISeeN_DB;
@@ -39,7 +40,9 @@ namespace ISeenService
             var deser = JsonConvert.DeserializeObject<Report<IList<Media>>>(json);
 
             Console.WriteLine(deser.Data.Count + " " + deser.Data[0].Title + " " + deser.Data[1].Title + " " + deser.Data[2].Title + " ");
-            
+
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
+
             return new MemoryStream(Encoding.UTF8.GetBytes(json));
         }
 
