@@ -100,11 +100,8 @@ namespace ISeeNIIS
 
                 var recUser = JObject.Parse(jsonString).ToObject<User>();
 
-                UserDB.AddUser(recUser);
-                //todo: this is not that smart
-                var potato = UserDB.LoginUser(recUser.Email, recUser.Password);
+                var potato = UserDB.AddUser(recUser);
 
-                //TODO: ACTUALLY GET POTATO FROM SERVER
                 return Message(JsonConvert.SerializeObject(new Report<Potato> { Data = potato }));
             }
             catch (Exception e)
@@ -131,11 +128,7 @@ namespace ISeeNIIS
                 var recPotato = jArray[0].ToObject<Potato>();
                 var recUser = jArray[1].ToObject<User>();
 
-
-                //TODO: Potato check with database that potato is correct for user
-
-                //TODO: Maybe send user from database or just the one we're supposed to set?
-                return Message(JsonConvert.SerializeObject(new Report<User> { Data = recUser }));
+                return Message(JsonConvert.SerializeObject(new Report<User> { Data = UserDB.EditAccount(recPotato,recUser) }));
             }
             catch (Exception e)
             {
@@ -184,11 +177,7 @@ namespace ISeeNIIS
                 var password = input[1];
                 LogAction("Login", email + " " + password);
 
-                //TODO: PASSWORD SHOULD BE ENCRYPTED MAYBE
-
-                //TODO: Actually check email & password with database
-
-                return Message(JsonConvert.SerializeObject(new Report<Potato> { Data = new Potato { EncPassword = "ThisIsMuchEncrypted", Id = 1 } }));
+                return Message(JsonConvert.SerializeObject(new Report<Potato> { Data = UserDB.LoginUser(email,password) }));
             }
             catch (Exception e)
             {
@@ -206,9 +195,14 @@ namespace ISeeNIIS
         /// <returns>Report of int</returns>
         public Stream DeleteAccount(Stream streamdata)
         {
-            //TODO: Not done at all
-            StringFromStreamDebug(streamdata);
-            return Message(JsonConvert.SerializeObject(new Report<int> { Data = 1 }));
+            var jsonString = StringFromStreamDebug(streamdata);
+            //Get potato and user from JSON string
+
+            var jArray = JArray.Parse(jsonString);
+            var recPotato = jArray[0].ToObject<Potato>();
+            var recUser = jArray[1].ToObject<User>();
+
+            return Message(JsonConvert.SerializeObject(new Report<int> { Data = UserDB.DeleteUser(recUser,recPotato) }));
         }
 
         /// <summary>
@@ -513,7 +507,15 @@ namespace ISeeNIIS
 
         private void LogError(int error, string message)
         {
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR", message);
+            try
+            {
+                WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR", message);
+            }
+            catch (Exception e)
+            {
+                WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR", "Broke out of error logging");
+            }
+
 
             var currentFor = Console.ForegroundColor;
             //var currentBac = Console.BackgroundColor;
