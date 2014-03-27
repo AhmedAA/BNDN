@@ -26,10 +26,10 @@ public class MediaTools {
     private static String PATH_ALL_MEDIA = "media";
     private static String PATH_MEDIA_BY_ID = "media/byid/";
     private static String PATH_MEDIA_STATS = "media/stats/";
-    private static String PATH_MEDIA_RENT = "media/rent/";
+    private static String PATH_MEDIA_RENT = "media/rent";
     private static String PATH_NEW_MEDIA = "media/new";
     private static String PATH_EDIT_MEDIA = "media/edit";
-    private static String PATH_DELETE_MEDIA = "media/delete/";
+    private static String PATH_DELETE_MEDIA = "media/delete";
 
     private static Gson gson = new Gson();
 
@@ -43,9 +43,9 @@ public class MediaTools {
 
     public static Media RentMedia(int id) throws Exception {
 
-        String reponse = HttpCommunication.sendPostPut(PATH_MEDIA_RENT+id,PotatoTools.Potato_To_Json(),true);
+        String response = HttpCommunication.sendPostPut(PATH_MEDIA_RENT,"[\"" + id + "\",\"" + PotatoTools.Potato_To_Json()+ "\"]",true);
 
-        return JsonReportOfMedia_To_Media(reponse);
+        return JsonReportOfMedia_To_Media(response);
     }
 
     public static Media CreateNewMedia(Media media, byte[] file) throws Exception {
@@ -73,7 +73,7 @@ public class MediaTools {
     }
 
     public static Media DeleteMedia(int id) throws Exception {
-        String response = HttpCommunication.sendPostPut(PATH_DELETE_MEDIA + id, PotatoTools.Potato_To_Json(), true);
+        String response = HttpCommunication.sendPostPut(PATH_DELETE_MEDIA,"[\"" + id + "\",\"" + PotatoTools.Potato_To_Json()+ "\"]",true);
 
         return JsonReportOfMedia_To_Media(response);
     }

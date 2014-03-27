@@ -14,7 +14,7 @@ public class UserTools {
     private static String PATH_NEW_ACCOUNT = "account/new";
     private static String PATH_EDIT_ACCOUNT = "account/edit";
     private static String PATH_GET_ACCOUNT = "account";
-    private static String PATH_LOGIN = "account/login/";
+    private static String PATH_LOGIN = "account/login";
     private static String PATH_DELETE_ACCOUNT = "account/delete";
     private static Gson gson = new Gson();
 
@@ -25,7 +25,7 @@ public class UserTools {
     }
 
     public static Potato LoginAccount (String email, String password) throws Exception {
-        String response = HttpCommunication.sendPostPut(PATH_LOGIN+email, password, true);
+        String response = HttpCommunication.sendPostPut(PATH_LOGIN, "[\"" + email + "\",\"" + password + "\"]", true);
 
         return PotatoTools.ReportOfPotato_To_Potato(response);
     }
