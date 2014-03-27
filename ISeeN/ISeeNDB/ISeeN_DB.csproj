@@ -80,7 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Entities\EntityDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
