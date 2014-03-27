@@ -14,11 +14,11 @@ namespace ISeenService
     [ServiceContract()]
     public interface ISeeNService
     {
-        #region Tests
-
-        [WebInvoke(Method = "OPTIONS", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/1")]
+        [WebInvoke(Method = "OPTIONS", ResponseFormat = WebMessageFormat.Json, UriTemplate = "{*end}")]
         [OperationContract]
-        Stream Options();
+        Stream CORSOptions(string end);
+
+        #region Tests
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/1")]
         [OperationContract]

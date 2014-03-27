@@ -24,28 +24,11 @@ namespace ISeenService
 
         //TODO: REMOVE THIS
         List<Media> _mediaList = new List<Media>();
+        //TODO: END REMOVE THIS
 
-        public Stream Options()
+        public Stream CORSOptions(string end)
         {
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET");
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Max-Age", "1728000");
-
-            return Message("Ok");
-        }
-
-        private Stream Message(string Json)
-        {
-            //stuff that should be done before returning
-
-            //CORS Headers added
-
-            // ReSharper disable once PossibleNullReferenceException
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
-
-            var toReturn = new MemoryStream(Encoding.UTF8.GetBytes(Json));
-
-            return toReturn;
+            return Options("get, put, post");
         }
 
         public Stream Test1()
@@ -466,6 +449,31 @@ namespace ISeenService
 
             return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(toReturn)));
         }
+
+
+        private Stream Options(string method)
+        {
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", method.ToUpper());
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Accept");
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Max-Age", "1728000");
+
+            return Message("Preflight-check: Ok");
+        }
+
+        private Stream Message(string Json)
+        {
+            //stuff that should be done before returning
+
+            //CORS Headers added
+
+            // ReSharper disable once PossibleNullReferenceException
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
+
+            var toReturn = new MemoryStream(Encoding.UTF8.GetBytes(Json));
+
+            return toReturn;
+        }
+
 
         private string StringFromStream(Stream stream)
         {
