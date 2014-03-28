@@ -10,7 +10,7 @@ User
 =========================
 Potato
 
-{"Id":1,"EncPassword":"PasswordEncrypted"}
+{"Id":1,"EncPassword":"-231202094"}
 
 =========================
 Array of [Potato, Media, Byte[] ]
@@ -20,11 +20,16 @@ Array of [Potato, Media, Byte[] ]
 =========================
 Media
 
-{"Id":1,"Title":"Once upon a time in America","Type":1,"ReleaseDate":"01-01-1993","Description":"Movie with Robert Di Niro"}
+[{"Id":1,"EncPassword":"PasswordEncrypted"},{"Id":1,"Title":"Once upon a time in America","Type":0,"ReleaseDate":"01-01-1993","Image":"bla","Description":"Movie with Robert Di Niro"},[1,2,3,4,5,6,7,8,9,10]]
 
 =========================
 Byte[]
 
 [1,2,3,4,5,6,7,8,9,10]
+
+=========================
+Array of [Id, Potato]
+
+[1,{"Id":1,"EncPassword":"-231202094"}]
 
 

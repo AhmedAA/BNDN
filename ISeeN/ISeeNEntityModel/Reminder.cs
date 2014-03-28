@@ -12,9 +12,8 @@ namespace ISeeNEntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Potato
+    public partial class Reminder
     {
         public int Id { get; set; }
-        public string EncPassword { get; set; }
     }
 }

@@ -77,6 +77,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\FileManager.cs" />
     <Compile Include="Entities\Report.cs" />
     <Compile Include="Seenservice.svc.cs">
       <DependentUpon>Seenservice.svc</DependentUpon>

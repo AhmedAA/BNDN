@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.IO;
 using System.Linq;
 using System.ServiceModel.Web;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using ISeeNEntityModel;
 using ISeeNEntityModel.Funcs;
+using ISeeNEntityModel.POCO;
 using ISeeNIIS.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -28,7 +30,7 @@ namespace ISeeNIIS
 
         public Stream CORSOptions(string end)
         {
-            return Options("get, put, post");
+            return Options("GET, PUT, POST, DELETE, OPTIONS");
         }
 
         public Stream Test1()
@@ -240,7 +242,7 @@ namespace ISeeNIIS
         {
             try
             {
-                return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
+                return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.GetAll() }));
             }
             catch (Exception e)
             {
@@ -259,9 +261,7 @@ namespace ISeeNIIS
         {
             try
             {
-                //TODO:
-                return null;
-                //return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.GetMediaForId(int.Parse(id)) }));
+                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.GetMediaForId(int.Parse(id)) }));
             }
             catch (Exception e)
             {
@@ -296,14 +296,12 @@ namespace ISeeNIIS
                 //Get potato from JSON string
                 var input = JArray.Parse(jsonString);
 
-                var id = input[0].ToString();
+                var id = int.Parse(input[0].ToString());
                 var recPotato = JObject.Parse(input[1].ToString()).ToObject<Potato>();
 
                 LogAction("Rent", "Potato ID#" + recPotato.Id);
 
-                //TODO: Actually rent the movie
-
-                return GetMediaForId(id);
+                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.RentMedia(id, recPotato) }));
 
             }
             catch (Exception e)
@@ -329,18 +327,17 @@ namespace ISeeNIIS
                 var jArray = JArray.Parse(jsonString);
                 var recPotato = jArray[0].ToObject<Potato>();
 
-                //var recMedia = Media.GetMediaUseType(jArray[1]);
+                var recMedia = GetMediaUseType(jArray[1]);
 
                 var recByteAr = jArray[2].ToObject<byte[]>();
 
-                //LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
+                //TODO: FILE MANAGER
 
-                //MediaDB.AddMedia(recMedia);
+                LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
-                //TODO: Return media with new ID AND SAVE FILE
+                var newMedia = MediaDB.AddMedia(recMedia);
 
-                //return Message(JsonConvert.SerializeObject(new Report<Media> { Data = recMedia }));
-                return null;
+                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = newMedia }));
 
             }
             catch (Exception e)
@@ -368,27 +365,18 @@ namespace ISeeNIIS
                 var recPotato = jArray[0].ToObject<Potato>();
                 var recMedia = jArray[1].ToObject<Media>();
 
-                //TODO: Check if user has priviledges
-
                 LogAction("Edit media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
                 //Is a slow edit (byte array to overwrite)
                 if (jArray.Count == 3)
                 {
                     var recByteAr = jArray[2].ToObject<byte[]>();
-                    //TODO: Actually put this in database
-                    Console.WriteLine("Start of byte[] //");
-                    foreach (var byt in recByteAr)
-                    {
-                        // ReSharper disable once SpecifyACultureInStringConversionExplicitly
-                        Console.WriteLine(byt.ToString());
-                    }
-                    Console.WriteLine("// End of byte[]");
+                    //TODO: FILE MANAGER
+
                 }
 
-                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = recMedia }));
+                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.EditMedia(recPotato, recMedia) }));
 
-                //TODO: Actually put this in the database
             }
             catch (Exception e)
             {
@@ -415,22 +403,17 @@ namespace ISeeNIIS
                 var id = input[0].ToString();
                 var recPotato = JObject.Parse(input[1].ToString()).ToObject<Potato>();
 
-                //TODO: Check if allowed to delete
-
                 LogAction("Delete", "Potato ID#" + recPotato.Id);
 
-                //var deleted = MediaDB.GetMediaForId(int.Parse(id));
+                //TODO: FILE MANAGER
 
-                //MediaDB.DeleteMedia(int.Parse(id));
-
-                //return Message(JsonConvert.SerializeObject(new Report<Media> { Data = deleted }));
-                return null;
+                return Message(JsonConvert.SerializeObject(new Report<int> { Data = MediaDB.DeleteMedia(int.Parse(id),recPotato) }));
             }
             catch (Exception e)
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return Message(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError }));
+                return Message(JsonConvert.SerializeObject(new Report<int> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
@@ -449,6 +432,23 @@ namespace ISeeNIIS
             //return Message(JsonConvert.SerializeObject(toReturn));
         }
 
+
+        private Media GetMediaUseType(JToken jToken)
+        {
+            var tochck = (int)jToken["Type"];
+            var type = (MediasEnum)tochck;
+
+            if (type == MediasEnum.Media)
+                return jToken.ToObject<Media>();
+            if (type == MediasEnum.Movie)
+                return jToken.ToObject<Movie>();
+            if (type == MediasEnum.Music)
+                return jToken.ToObject<Music>();
+            if (type == MediasEnum.Picture)
+                return jToken.ToObject<Picture>();
+
+            throw new ObjectNotFoundException("Type was not valid for media");
+        }
 
         private Stream Options(string method)
         {

@@ -7,11 +7,21 @@
     <Schema Namespace="RentIt02Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="RentIt02ModelStoreContainer">
     <EntitySet Name="UserSet" EntityType="RentIt02Model.Store.UserSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PotatoSet" EntityType="RentIt02Model.Store.PotatoSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet" EntityType="RentIt02Model.Store.MediaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RentalSet" EntityType="RentIt02Model.Store.RentalSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="StatisticSet" EntityType="RentIt02Model.Store.StatisticSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReminderSet" EntityType="RentIt02Model.Store.ReminderSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet_Movie" EntityType="RentIt02Model.Store.MediaSet_Movie" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet_Music" EntityType="RentIt02Model.Store.MediaSet_Music" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet_Picture" EntityType="RentIt02Model.Store.MediaSet_Picture" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RentalUser" Association="RentIt02Model.Store.RentalUser">
+      <End Role="Rental" EntitySet="RentalSet" />
+      <End Role="User" EntitySet="UserSet" />
+    </AssociationSet>
+    <AssociationSet Name="MediaRental" Association="RentIt02Model.Store.MediaRental">
+      <End Role="Media" EntitySet="MediaSet" />
+      <End Role="Rental" EntitySet="RentalSet" />
+    </AssociationSet>
     <AssociationSet Name="FK_Movie_inherits_Media" Association="RentIt02Model.Store.FK_Movie_inherits_Media">
       <End Role="Media" EntitySet="MediaSet" />
       <End Role="Movie" EntitySet="MediaSet_Movie" />
@@ -39,13 +49,6 @@
     <Property Name="Bio" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsAdmin" Type="bit" Nullable="false" />
   </EntityType>
-  <EntityType Name="PotatoSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EncPassword" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
   <EntityType Name="MediaSet">
     <Key>
       <PropertyRef Name="Id" />
@@ -56,6 +59,26 @@
     <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Image" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RentalSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="MediaId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StatisticSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReminderSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="MediaSet_Movie">
     <Key>
@@ -78,6 +101,34 @@
     <Property Name="Painter" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="RentalUser">
+    <End Role="Rental" Type="RentIt02Model.Store.RentalSet" Multiplicity="*" />
+    <End Role="User" Type="RentIt02Model.Store.UserSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rental">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MediaRental">
+    <End Role="Media" Type="RentIt02Model.Store.MediaSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Rental" Type="RentIt02Model.Store.RentalSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Media">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rental">
+        <PropertyRef Name="MediaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Movie_inherits_Media">
     <End Role="Media" Type="RentIt02Model.Store.MediaSet" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -126,8 +177,18 @@
       <Schema Namespace="RentIt02Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RentIt02Entities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="UserSet" EntityType="RentIt02Model.User" />
-          <EntitySet Name="PotatoSet" EntityType="RentIt02Model.Potato" />
           <EntitySet Name="MediaSet" EntityType="RentIt02Model.Media" />
+          <EntitySet Name="RentalSet" EntityType="RentIt02Model.Rental" />
+          <AssociationSet Name="RentalUser" Association="RentIt02Model.RentalUser">
+            <End Role="Rental" EntitySet="RentalSet" />
+            <End Role="User" EntitySet="UserSet" />
+          </AssociationSet>
+          <AssociationSet Name="MediaRental" Association="RentIt02Model.MediaRental">
+            <End Role="Media" EntitySet="MediaSet" />
+            <End Role="Rental" EntitySet="RentalSet" />
+          </AssociationSet>
+          <EntitySet Name="StatisticSet" EntityType="RentIt02Model.Statistic" />
+          <EntitySet Name="ReminderSet" EntityType="RentIt02Model.Reminder" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -142,13 +203,7 @@
           <Property Name="Country" Type="String" Nullable="false" />
           <Property Name="Bio" Type="String" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Potato">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EncPassword" Type="String" Nullable="false" />
+          <NavigationProperty Name="Rental" Relationship="RentIt02Model.RentalUser" FromRole="User" ToRole="Rental" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" />
         </EntityType>
         <EntityType Name="Media">
           <Key>
@@ -160,6 +215,7 @@
           <Property Name="ReleaseDate" Type="DateTime" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" />
           <Property Name="Image" Type="String" Nullable="false" />
+          <NavigationProperty Name="Rental" Relationship="RentIt02Model.MediaRental" FromRole="Media" ToRole="Rental" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" />
         </EntityType>
         <EntityType Name="Movie" BaseType="RentIt02Model.Media">
           <Property Name="Director" Type="String" Nullable="false" />
@@ -169,6 +225,57 @@
         </EntityType>
         <EntityType Name="Picture" BaseType="RentIt02Model.Media">
           <Property Name="Painter" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="RentIt02Model.RentalUser" FromRole="Rental" ToRole="User" />
+          <Property Name="MediaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Media" Relationship="RentIt02Model.MediaRental" FromRole="Rental" ToRole="Media" />
+        </EntityType>
+        <Association Name="RentalUser">
+          <End Type="RentIt02Model.Rental" Role="Rental" Multiplicity="*" />
+          <End Type="RentIt02Model.User" Role="User" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MediaRental">
+          <End Type="RentIt02Model.Media" Role="Media" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RentIt02Model.Rental" Role="Rental" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="MediaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Statistic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Reminder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -188,14 +295,6 @@
           <ScalarProperty Name="Country" ColumnName="Country" />
           <ScalarProperty Name="Bio" ColumnName="Bio" />
           <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PotatoSet">
-      <EntityTypeMapping TypeName="IsTypeOf(RentIt02Model.Potato)">
-        <MappingFragment StoreEntitySet="PotatoSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="EncPassword" ColumnName="EncPassword" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -226,6 +325,29 @@
         <MappingFragment StoreEntitySet="MediaSet_Picture">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Painter" ColumnName="Painter" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RentalSet">
+      <EntityTypeMapping TypeName="IsTypeOf(RentIt02Model.Rental)">
+        <MappingFragment StoreEntitySet="RentalSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="MediaId" ColumnName="MediaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatisticSet">
+      <EntityTypeMapping TypeName="IsTypeOf(RentIt02Model.Statistic)">
+        <MappingFragment StoreEntitySet="StatisticSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReminderSet">
+      <EntityTypeMapping TypeName="IsTypeOf(RentIt02Model.Reminder)">
+        <MappingFragment StoreEntitySet="ReminderSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

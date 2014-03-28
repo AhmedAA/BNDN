@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
+using ISeeNEntityModel.POCO;
 
 namespace ISeeNEntityModel.Funcs
 {
@@ -25,12 +26,6 @@ namespace ISeeNEntityModel.Funcs
                 //add user
                 conc.UserSet.Add(user);
                 conc.SaveChanges();
-                //add potato
-                var newUser = chk.First();
-                var potato = new Potato { EncPassword = user.Password.GetHashCode().ToString(), Id = newUser.Id };
-                conc.PotatoSet.Add(potato);
-
-                conc.SaveChanges();
 
                 //return potato
                 return LoginUser(user.Email, user.Password);
@@ -46,7 +41,7 @@ namespace ISeeNEntityModel.Funcs
                     where u.Email == email
                     select u;
                 if (emailqur.First().Password == password)
-                    return conc.PotatoSet.Find(emailqur.First().Id);
+                    return PotatoHandle(emailqur.First().Id);
                 throw new InvalidCredentialException("Password was not correct");
             }
         }
@@ -57,9 +52,7 @@ namespace ISeeNEntityModel.Funcs
             using (conc)
             {
                 //first check potato is matched
-                var dbPotato = conc.PotatoSet.Find(recPotato.Id);
-
-                if (dbPotato.EncPassword != recPotato.EncPassword)
+                if (PotatoHandle(recPotato.Id).EncPassword != recPotato.EncPassword)
                     throw new InvalidCredentialException("Potato was not correct");
 
                 //check if email already exists
@@ -76,7 +69,7 @@ namespace ISeeNEntityModel.Funcs
                 conc.Entry(olduser).CurrentValues.SetValues(recUser);
                 conc.SaveChanges();
 
-                return GetUserByPotato(recPotato);
+                return olduser;
             }
         }
 
@@ -89,14 +82,11 @@ namespace ISeeNEntityModel.Funcs
                     where u.Id == recPotato.Id
                     select u;
 
-                var quk = from p in conc.PotatoSet
-                    where p.Id == recPotato.Id && p.EncPassword == recPotato.EncPassword
-                    select p;
-
-                if (qur.First().Id == quk.First().Id)
-                    return qur.First();
-                else
+                //check potato match
+                if (PotatoHandle(recPotato.Id).EncPassword != recPotato.EncPassword)
                     throw new InvalidCredentialException("Potato was not correct");
+               
+                return qur.First();
             }
         }
 
@@ -112,6 +102,24 @@ namespace ISeeNEntityModel.Funcs
             }
 
             return 1;
+        }
+
+        private static Potato PotatoHandle(int Id)
+        {
+            var conc = new RentIt02Entities();
+            using (conc)
+            {
+                var user = conc.UserSet.Find(Id);
+
+                //new potato based on (not so) wild security
+                var potato = new Potato
+                {
+                    Id = Id,
+                    EncPassword = (user.Password.GetHashCode() + 1337).ToString().Replace('1', 'a').Replace('5', 'p')
+                };
+
+                return potato;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import java.net.URL;
 public class HttpCommunication {
 
     private static String USER_AGENT = "Mozilla/5.0";
-    private static String RENT_ITU_PATH = "http://rentit.itu.dk/RentIt02/Seenservice.svc/";
+    private static String RENT_ITU_PATH = "http://rentit.itu.dk/rentit02/Seenservice.svc/";
 
 
     // HTTP POST request
@@ -28,6 +28,7 @@ public class HttpCommunication {
         con.setRequestMethod(method);
         con.setRequestProperty("User-Agent", USER_AGENT);
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setRequestProperty("Content-Type", "text/plain");
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
         wr.writeBytes(Json);

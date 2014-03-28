@@ -26,7 +26,9 @@ namespace ISeeNEntityModel
         }
     
         public virtual DbSet<User> UserSet { get; set; }
-        public virtual DbSet<Potato> PotatoSet { get; set; }
         public virtual DbSet<Media> MediaSet { get; set; }
+        public virtual DbSet<Rental> RentalSet { get; set; }
+        public virtual DbSet<Statistic> StatisticSet { get; set; }
+        public virtual DbSet<Reminder> ReminderSet { get; set; }
     }
 }

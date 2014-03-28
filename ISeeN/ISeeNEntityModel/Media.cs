@@ -14,11 +14,18 @@ namespace ISeeNEntityModel
     
     public partial class Media
     {
+        public Media()
+        {
+            this.Rental = new HashSet<Rental>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
         public System.DateTime ReleaseDate { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
+    
+        internal virtual ICollection<Rental> Rental { get; set; }
     }
 }
