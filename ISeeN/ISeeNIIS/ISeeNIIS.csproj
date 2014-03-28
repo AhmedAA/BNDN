@@ -77,6 +77,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Report.cs" />
     <Compile Include="Seenservice.svc.cs">
       <DependentUpon>Seenservice.svc</DependentUpon>
     </Compile>
@@ -97,9 +98,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ISeeNDB\ISeeN_DB.csproj">
-      <Project>{D3614053-CC14-40EB-810B-0F193C2C0738}</Project>
-      <Name>ISeeN_DB</Name>
+    <ProjectReference Include="..\ISeeNEntityModel\ISeeNEntityModel.csproj">
+      <Project>{6b295e7a-df4b-4c67-b2d4-02ba233d4fa6}</Project>
+      <Name>ISeeNEntityModel</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

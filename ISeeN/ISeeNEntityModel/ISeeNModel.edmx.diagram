@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="64a77161aa0b4575a878ce976b8b6099" Name="Diagram1" >
+        <EntityTypeShape EntityType="RentIt02Model.User" Width="1.5" PointX="11" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentIt02Model.Potato" Width="1.5" PointX="12.625" PointY="5.375" />
+        <EntityTypeShape EntityType="RentIt02Model.Media" Width="1.5" PointX="12.75" PointY="0.5" />
+        <EntityTypeShape EntityType="RentIt02Model.Movie" Width="1.5" PointX="14.375" PointY="3" />
+        <InheritanceConnector EntityType="RentIt02Model.Movie" />
+        <EntityTypeShape EntityType="RentIt02Model.Music" Width="1.5" PointX="11" PointY="3" />
+        <InheritanceConnector EntityType="RentIt02Model.Music" />
+        <EntityTypeShape EntityType="RentIt02Model.Picture" Width="1.5" PointX="12.75" PointY="3" />
+        <InheritanceConnector EntityType="RentIt02Model.Picture" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

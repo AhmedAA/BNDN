@@ -10,7 +10,7 @@ import java.net.URL;
 public class HttpCommunication {
 
     private static String USER_AGENT = "Mozilla/5.0";
-    private static String RENT_ITU_PATH = "http://localhost:4835/Seenservice.svc/";
+    private static String RENT_ITU_PATH = "http://rentit.itu.dk/RentIt02/Seenservice.svc/";
 
 
     // HTTP POST request

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Text.RegularExpressions;
-using ISeeN_DB;
+using ISeeNEntityModel;
+using ISeeNEntityModel.Funcs;
+using ISeeNIIS.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -31,11 +34,11 @@ namespace ISeeNIIS
         public Stream Test1()
         {
             var list = new List<Media>();
-            var movie = new Movie { Title = "Die hard", Type = MediasEnum.Movie, Director = "Al Pacino" };
+            var movie = new Movie { Title = "Die hard", Type = "movie", Director = "Al Pacino" };
             list.Add(movie);
-            var music = new Music { Title = "Ghetto gospel", Artist = "The piano man", Type = MediasEnum.Music };
+            var music = new Music { Title = "Ghetto gospel", Artist = "The piano man", Type = "music" };
             list.Add(music);
-            var picture = new Picture { Title = "The Scream", Type = MediasEnum.Picture, Author = "Göbels" };
+            var picture = new Picture { Title = "The Scream", Type = "picture", Painter = "Göbels" };
             list.Add(picture);
 
             string json = JsonConvert.SerializeObject(new Report<IList<Media>> { Data = list });
@@ -44,7 +47,33 @@ namespace ISeeNIIS
 
             Console.WriteLine(deser.Data.Count + " " + deser.Data[0].Title + " " + deser.Data[1].Title + " " + deser.Data[2].Title + " ");
 
-            return Message(json);
+            //return Message(json);
+            var test = new ISeeNEntityModel.RentIt02Entities();
+            test.UserSet.Add(new ISeeNEntityModel.User {Bio = "lol", City = "test", Country = "bla", Email = "blabla", Gender = "bla", IsAdmin = false, Name = "cool", Password = "nope"});
+
+            try
+            {
+                test.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
+
+            return Message(test.UserSet.First().Bio + " " + test.UserSet.Count());
         }
 
         /// <summary>
@@ -64,16 +93,16 @@ namespace ISeeNIIS
 
                 //text search case (Calls database)
                 if (textOnly && splitted.Length > 0)
-                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0]) }));
+                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
                 //type search case (Calls database)
                 if (int.TryParse(splitted[1], out type) && string.IsNullOrEmpty(splitted[0]))
                 {
-                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia((MediasEnum)type) }));
+                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
                 }
                 //text and type search (Calls database)
                 if (int.TryParse(splitted[1], out type))
                 {
-                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearhForMedia(splitted[0], (MediasEnum)type) }));
+                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
                 }
 
                 throw new FileNotFoundException();
@@ -198,11 +227,9 @@ namespace ISeeNIIS
             var jsonString = StringFromStreamDebug(streamdata);
             //Get potato and user from JSON string
 
-            var jArray = JArray.Parse(jsonString);
-            var recPotato = jArray[0].ToObject<Potato>();
-            var recUser = jArray[1].ToObject<User>();
+            var recPotato = JsonConvert.DeserializeObject<Potato>(jsonString);
 
-            return Message(JsonConvert.SerializeObject(new Report<int> { Data = UserDB.DeleteUser(recUser,recPotato) }));
+            return Message(JsonConvert.SerializeObject(new Report<int> { Data = UserDB.DeleteUser(recPotato) }));
         }
 
         /// <summary>
@@ -213,7 +240,7 @@ namespace ISeeNIIS
         {
             try
             {
-                return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.GetAllMedia() }));
+                return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
             }
             catch (Exception e)
             {
@@ -232,7 +259,9 @@ namespace ISeeNIIS
         {
             try
             {
-                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.GetMediaForId(int.Parse(id)) }));
+                //TODO:
+                return null;
+                //return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.GetMediaForId(int.Parse(id)) }));
             }
             catch (Exception e)
             {
@@ -249,38 +278,8 @@ namespace ISeeNIIS
         /// <returns>Report of Statistic</returns>
         public Stream GetStatsForId(string id)
         {
-            //TODO: DUMMY
-            try
-            {
-                if (int.Parse(id) == 1)
-                {
-                    var toReturn = new Report<Statistic>
-                    {
-                        Data = new Statistic
-                        {
-                            _DatesRented = new List<DateTime>
-                            {
-                                DateTime.Now,
-                                DateTime.Now,
-                                DateTime.Now,
-                                DateTime.Now,
-                                DateTime.Now,
-                                DateTime.Now
-                            },
-                            MediaId = 1
-                        }
-                    };
-
-                    return Message(JsonConvert.SerializeObject(toReturn));
-                }
-                throw new ArgumentException();
-            }
-            catch (Exception e)
-            {
-                //TODO: IMPLEMENT REAL ERROR CODE
-                LogError(1, e.ToString());
-                return Message(JsonConvert.SerializeObject(new Report<Statistic> { Error = 1 }));
-            }
+            //todo:
+            return null;
         }
 
         /// <summary>
@@ -330,17 +329,18 @@ namespace ISeeNIIS
                 var jArray = JArray.Parse(jsonString);
                 var recPotato = jArray[0].ToObject<Potato>();
 
-                var recMedia = Media.GetMediaUseType(jArray[1]);
+                //var recMedia = Media.GetMediaUseType(jArray[1]);
 
                 var recByteAr = jArray[2].ToObject<byte[]>();
 
-                LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
+                //LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
-                MediaDB.AddMedia(recMedia);
+                //MediaDB.AddMedia(recMedia);
 
                 //TODO: Return media with new ID AND SAVE FILE
 
-                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = recMedia }));
+                //return Message(JsonConvert.SerializeObject(new Report<Media> { Data = recMedia }));
+                return null;
 
             }
             catch (Exception e)
@@ -419,11 +419,12 @@ namespace ISeeNIIS
 
                 LogAction("Delete", "Potato ID#" + recPotato.Id);
 
-                var deleted = MediaDB.GetMediaForId(int.Parse(id));
+                //var deleted = MediaDB.GetMediaForId(int.Parse(id));
 
-                MediaDB.DeleteMedia(int.Parse(id));
+                //MediaDB.DeleteMedia(int.Parse(id));
 
-                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = deleted }));
+                //return Message(JsonConvert.SerializeObject(new Report<Media> { Data = deleted }));
+                return null;
             }
             catch (Exception e)
             {
@@ -442,10 +443,10 @@ namespace ISeeNIIS
         {
             var received = StringFromStreamDebug(streamdata);
 
-            var toReturn = new Report<IList<Reminder>> { Data = new List<Reminder>() };
-            toReturn.Data.Add(new Reminder { _DateReceived = DateTime.Now, _DateSent = DateTime.MinValue, Id = 1, MediaId = 1, Message = "This is a reminder about blabla...", Title = "Reminder Much Title", UserId = 1 });
-
-            return Message(JsonConvert.SerializeObject(toReturn));
+            //var toReturn = new Report<IList<Reminder>> { Data = new List<Reminder>() };
+            //toReturn.Data.Add(new Reminder { _DateReceived = DateTime.Now, _DateSent = DateTime.MinValue, Id = 1, MediaId = 1, Message = "This is a reminder about blabla...", Title = "Reminder Much Title", UserId = 1 });
+            return null;
+            //return Message(JsonConvert.SerializeObject(toReturn));
         }
 
 

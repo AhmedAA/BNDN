@@ -5,7 +5,7 @@ Array of [Potato, User]
 =========================
 User
 
-{"Id":1,"Name":"Slim Shady","Email":"This@is.mail","Password":"Password","City":"MyCity","Country":"My Country","Bio":"Bio is here","IsAdmin":true}
+{"Id":1,"Name":"Slim Shady","Email":"This@is.mail","Password":"Password","Gender":"M","City":"MyCity","Country":"My Country","Bio":"Bio is here","IsAdmin":true}
 
 =========================
 Potato
