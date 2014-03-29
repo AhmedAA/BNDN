@@ -1,0 +1,10 @@
+POST http://rentit.itu.dk/rentit02/Seenservice.svc/account/new HTTP/1.1
+User-Agent: Mozilla/5.0
+Accept-Language: en-US,en;q=0.5
+Content-Type: text/plain
+Host: rentit.itu.dk
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+Content-Length: 217
+
+{"Id":1,"Name":"Please note that","Email":"email.must@be.unique","Password":"foreach","City":"user","Country":"otherwise the","Bio":"database will not allow the user to be registered :-)","Gender":"M","IsAdmin":false}

@@ -1,0 +1,8 @@
+POST http://rentit.itu.dk/rentit02/Seenservice.svc/media/new HTTP/1.1
+Content-Length: 253
+Content-Type: text/plain; charset=UTF-8
+Host: rentit.itu.dk
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.3.1 (java 1.5)
+
+[{"Id":1,"EncPassword":"PasswordEncrypted"},{"Id":1,"Title":"Once upon a time in Singapore","Type":1,"ReleaseDate":"01-01-1993","Image":"http://some.picture.com/bla","Director":"Max Tan","Description":"Movie with Robert Di Niro"},[1,2,3,4,5,6,7,8,9,10]]

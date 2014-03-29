@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Length: 170
+Content-Type: application/octet-stream
+Server: Microsoft-IIS/8.0
+Access-Control-Allow-Origin: *
+X-Powered-By: ASP.NET
+Date: Fri, 28 Mar 2014 22:08:40 GMT
+
+{"Data":[{"Id":1,"Title":"Once upon a time in America","Type":"0","ReleaseDate":"1993-01-01T00:00:00","Description":"Movie with Robert Di Niro","Image":"bla"}],"Error":0}

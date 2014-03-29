@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Length: 54
+Content-Type: application/octet-stream
+Server: Microsoft-IIS/8.0
+DEBUG: ["Email","Password"]
+ACTION: Login requested for: Email Password
+Access-Control-Allow-Origin: *
+X-Powered-By: ASP.NET
+Date: Fri, 28 Mar 2014 22:29:07 GMT
+
+{"Data":{"Id":4,"EncPassword":"-73a8723a2"},"Error":0}

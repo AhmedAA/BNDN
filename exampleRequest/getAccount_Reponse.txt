@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Length: 237
+Content-Type: application/octet-stream
+Server: Microsoft-IIS/8.0
+DEBUG: {"Id":15,"EncPassword":"-a9p3700339"}
+Access-Control-Allow-Origin: *
+X-Powered-By: ASP.NET
+Date: Fri, 28 Mar 2014 22:31:56 GMT
+
+{"Data":{"Id":15,"Name":"Please note that","Email":"email.must@be.unique","Password":"foreach","Gender":"M","City":"user","Country":"otherwise the","Bio":"database will not allow the user to be registered :-)","IsAdmin":false},"Error":0}

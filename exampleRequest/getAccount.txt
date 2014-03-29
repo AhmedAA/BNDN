@@ -1,0 +1,10 @@
+POST http://rentit.itu.dk/rentit02/Seenservice.svc/account HTTP/1.1
+User-Agent: Mozilla/5.0
+Accept-Language: en-US,en;q=0.5
+Content-Type: text/plain
+Host: rentit.itu.dk
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+Content-Length: 37
+
+{"Id":15,"EncPassword":"-a9p3700339"}

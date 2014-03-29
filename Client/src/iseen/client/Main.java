@@ -33,6 +33,12 @@ public class Main extends Application {
         primaryStage.show();
 
 
+        /*/
+        Fiddler setup
+         */
+        System.setProperty("http.proxyHost", "localhost");
+        System.setProperty("http.proxyPort", "8888");
+
         /*//test related
         User user = new User();
         user.Name = "Sebastian";

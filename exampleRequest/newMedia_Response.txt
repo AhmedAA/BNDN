@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Length: 215
+Content-Type: application/octet-stream
+Server: Microsoft-IIS/8.0
+DEBUG: [{"Id":1,"EncPassword":"PasswordEncrypted"},{"Id":1,"Title":"Once upon a time in Singapore","Type":1,"ReleaseDate":"01-01-1993","Image":"http://some.picture.com/bla","Director":"Max Tan","Description":"Movie with Robert Di Niro"},[1,2,3,4,5,6,7,8,9,10]]
+ACTION: New media [Once upon a time in Singapore] requested for: Potato ID#1
+Access-Control-Allow-Origin: *
+X-Powered-By: ASP.NET
+Date: Sat, 29 Mar 2014 13:11:03 GMT
+
+{"Data":{"Director":"Max Tan","Id":2,"Title":"Once upon a time in Singapore","Type":"1","ReleaseDate":"1993-01-01T00:00:00","Description":"Movie with Robert Di Niro","Image":"http://some.picture.com/bla"},"Error":0}
