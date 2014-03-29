@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iseen.client.Controllers.PersonalPageController">
+<GridPane stylesheets="@Styling/normalstyle.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iseen.client.Controllers.PersonalPageController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -46,10 +46,13 @@
 <children><Label fx:id="InfoField" text="Email - City - Country - (IsAdmin)" /><Button mnemonicParsing="false" onAction="#EditAccountInfo" text="Edit" />
 </children></HBox>
 </children>
-</GridPane><Label text="Name of person here" fx:id="TitlePersonName">
+</GridPane><Label fx:id="TitlePersonName" text="Name of person here">
 <font>
 <Font size="30.0" />
 </font>
+<GridPane.margin>
+<Insets left="20.0" />
+</GridPane.margin>
 </Label>
 </children>
 <padding>

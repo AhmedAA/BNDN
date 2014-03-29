@@ -24,11 +24,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Views/AppStartView.fxml"));
         primaryStage.setTitle("Test");
-        primaryStage.setScene(new Scene(root, 750, 500));
+        Scene login = new Scene(root, 750, 500);
+        primaryStage.setScene(login);
         primaryStage.initStyle(StageStyle.UNIFIED);
         _primaryStage = primaryStage;
 
         _this = this;
+
+        this.setUserAgentStylesheet(STYLESHEET_MODENA);
 
         primaryStage.show();
 
@@ -75,8 +78,13 @@ public class Main extends Application {
         GoToPage("Views/SearchFieldForm.fxml");
     }
 
+    public void GoToMediaView(int id) throws IOException {
+        GoToPage("Views/MediaView.fxml");
+    }
+
     private void GoToPage(String url) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url));
         _primaryStage.setScene(new Scene(root, 750, 500));
     }
+
 }

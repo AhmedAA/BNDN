@@ -72,6 +72,7 @@ public class MediaTools {
         return EditMedia(media, file, true);
     }
 
+    //TODO: Not sure this method will work.
     public static Media DeleteMedia(int id) throws Exception {
         String response = HttpCommunication.sendPostPut(PATH_DELETE_MEDIA,"[\"" + id + "\",\"" + PotatoTools.Potato_To_Json()+ "\"]",true);
 

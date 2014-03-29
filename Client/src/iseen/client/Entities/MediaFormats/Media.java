@@ -1,8 +1,10 @@
 package iseen.client.Entities.MediaFormats;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import java.util.Date;
  * Created by SebastianDybdal on 18-03-2014.
  */
 public class Media {
+    public SimpleStringProperty test;
     public int Id = 0;
     public String Title = "";
     public int Type = 0;
@@ -17,7 +20,13 @@ public class Media {
     public String Description = "";
 
     public static Media FromJson (JsonObject Json, Gson gson) throws MediaTypeNotMatchedException {
-        int type = Integer.parseInt(Json.get("Type").toString());
+        int type = Json.get("Type").getAsInt();
+
+        //Handle date to java parsable.
+        String rel = Json.get("ReleaseDate").getAsString();
+        rel = rel.replace('T',' ');
+        Json.remove("ReleaseDate");
+        Json.addProperty("ReleaseDate",rel);
 
         if (type == MediaTypes.Movie)
             return Movie.FromJson(Json,gson);

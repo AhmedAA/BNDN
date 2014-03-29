@@ -30,12 +30,7 @@
 </padding></HBox><HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
 <children><TextField fx:id="SearchField" text="Search parameter" HBox.hgrow="ALWAYS" /><ComboBox fx:id="MediaType" prefWidth="150.0" promptText="Media type" /><Button mnemonicParsing="false" onAction="#SearchAction" text="Search" />
 </children></HBox><HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
-<children><TableView prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-  <columns>
-    <TableColumn prefWidth="75.0" text="C1" />
-    <TableColumn prefWidth="75.0" text="C2" />
-  </columns>
-</TableView>
+<children><VBox fx:id="SearchResults" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
 </children></HBox>
 </children>
 <padding>
