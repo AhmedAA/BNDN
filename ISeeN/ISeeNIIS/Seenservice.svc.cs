@@ -95,16 +95,16 @@ namespace ISeeNIIS
 
                 //text search case (Calls database)
                 if (textOnly && splitted.Length > 0)
-                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
+                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearchText(splitted[0]) }));
                 //type search case (Calls database)
                 if (int.TryParse(splitted[1], out type) && string.IsNullOrEmpty(splitted[0]))
                 {
-                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
+                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearchType(type) }));
                 }
                 //text and type search (Calls database)
                 if (int.TryParse(splitted[1], out type))
                 {
-                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = null }));
+                    return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Data = MediaDB.SearchBoth(splitted[0],type) }));
                 }
 
                 throw new FileNotFoundException();

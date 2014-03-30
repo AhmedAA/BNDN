@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using ISeeNEntityModel.POCO;
@@ -33,6 +34,48 @@ namespace ISeeNEntityModel.Funcs
                 return media;
             }
         }
+
+        public static IList<Media> SearchText(string textParam)
+        {
+            var conc = new RentIt02Entities();
+            using (conc)
+            {
+                var query = from m in conc.MediaSet
+                    where m.Title.ToLower().Contains(textParam.ToLower())
+                    orderby m.Title.Length
+                    select m;
+
+                return query.Take(50).ToList();
+            }
+        }
+
+        public static IList<Media> SearchType(int type)
+        {
+            var conc = new RentIt02Entities();
+            using (conc)
+            {
+                var query = from m in conc.MediaSet
+                    where m.Type == type.ToString()
+                    orderby m.Title
+                    select m;
+
+                return query.Take(50).ToList();
+            }
+        }
+
+        public static IList<Media> SearchBoth(string textParam, int type)
+        {
+            var conc = new RentIt02Entities();
+            using (conc)
+            {
+                var query = from m in conc.MediaSet
+                    where m.Title.ToLower().Contains(textParam.ToLower()) && m.Type == type.ToString()
+                    orderby m.Title.Length
+                    select m;
+
+                return query.Take(50).ToList();
+            }
+        } 
 
         public static IList<Media> GetAll()
         {
