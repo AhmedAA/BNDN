@@ -335,7 +335,13 @@ namespace ISeeNIIS
 
                 var newMedia = MediaDB.AddMedia(recMedia);
 
-                FileManager.AddMedia(newMedia.Id, recByteAr);
+                //try adding the file to the file system. If it fails delete the media in the database
+                if (!FileManager.AddEditMedia(newMedia.Id, recByteAr))
+                {
+                    MediaDB.DeleteMedia(newMedia.Id,recPotato);
+                    throw new FileLoadException("Filemanager failed to manage file correctly");
+                }
+                    
 
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Data = newMedia }));
 
@@ -373,7 +379,8 @@ namespace ISeeNIIS
                 if (jArray.Count == 3)
                 {
                     var recByteAr = jArray[2].ToObject<byte[]>();
-                    FileManager.EditMedia(media.Id, recByteAr);
+                    if(!FileManager.AddEditMedia(media.Id, recByteAr))
+                        throw new FileLoadException("Filemanager failed to manage file correctly");
 
                 }
 
@@ -410,8 +417,12 @@ namespace ISeeNIIS
                 var media = MediaDB.DeleteMedia(int.Parse(id), recPotato);
 
                 //checks that media deletion in database was actually a succes
-                if (media == 1 )
-                    FileManager.RemoveMedia(int.Parse(id));
+                if (media == 1)
+                {
+                    if (!FileManager.RemoveMedia(int.Parse(id)))
+                        LogError(1,"Exception when trying to remove media");
+                }
+                    
 
                 return Message(JsonConvert.SerializeObject(new Report<int> { Data = media }));
             }

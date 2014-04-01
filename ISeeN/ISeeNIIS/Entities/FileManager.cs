@@ -2,38 +2,55 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.ServiceModel.Web;
 using System.Web;
 
 namespace ISeeNIIS.Entities
 {
     public class FileManager
     {
-        public static readonly string path;
+        public static string Path;
 
         private static void PreCheck()
         {
             //Get current location
-            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)+"/Medias";
+            Path = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "/Medias";
 
-            //Check media folder exists/create
-            var chck = Directory.Exists(path);
-            if (!chck) Directory.CreateDirectory(path);
+            //Check media folder exists/create 
+            var chck = Directory.Exists(Path);
+            if (!chck) Directory.CreateDirectory(Path);
         }
 
-        public static void AddMedia(int id, byte[] recByteAr)
+        public static bool AddEditMedia(int id, byte[] recByteAr)
         {
-            PreCheck();
-
+            try
+            {
+                PreCheck();
+                File.WriteAllBytes(Path + "/" + id + ".iseen", recByteAr);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+                
         }
 
-        public static void EditMedia(int id, byte[] recByteAr)
+        public static bool RemoveMedia(int id)
         {
-            PreCheck();
-        }
-
-        public static void RemoveMedia(int parse)
-        {
-            PreCheck();
+            try
+            {
+                PreCheck();
+                if (File.Exists(Path + "/" + id + ".iseen"))
+                    File.Delete(Path + "/" + id + ".iseen");
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
         }
     }
 }
