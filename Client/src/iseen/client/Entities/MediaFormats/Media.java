@@ -1,6 +1,7 @@
 package iseen.client.Entities.MediaFormats;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
@@ -24,19 +25,16 @@ public class Media {
     public String Image = "";
 
     public static Media FromJson (JsonObject Json, Gson gson) throws MediaTypeNotMatchedException {
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         int type = Json.get("Type").getAsInt();
 
         //Handle date to java parsable.
         String rel = Json.get("ReleaseDate").getAsString();
-        System.out.println(rel);
         String newRel = rel.replace('T',' ');
-        System.out.println(newRel);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = formatter.parse(newRel);
             String formattedDate = formatter.format(date);
-            System.out.println(date);
-            System.out.println(formattedDate);
             Json.remove("ReleaseDate");
             Json.addProperty("ReleaseDate", formattedDate);
         } catch (ParseException e) {
