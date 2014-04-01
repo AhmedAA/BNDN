@@ -6,6 +6,9 @@ import com.google.gson.JsonObject;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -26,6 +29,14 @@ public class Media {
         //Handle date to java parsable.
         String rel = Json.get("ReleaseDate").getAsString();
         rel = rel.replace('T',' ');
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = formatter.parse(rel);
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         Json.remove("ReleaseDate");
         Json.addProperty("ReleaseDate",rel);
 
