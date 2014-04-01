@@ -74,6 +74,10 @@ public class Main extends Application {
         GoToPage("Views/CreateUserForm.fxml");
     }
 
+    public void GoToEditUser() throws IOException {
+        GoToPage("Views/EditUserForm.fxml");
+    }
+
     public void GoToSearchFieldForm() throws IOException {
         GoToPage("Views/SearchFieldForm.fxml");
     }
@@ -86,5 +90,4 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource(url));
         _primaryStage.setScene(new Scene(root, 750, 500));
     }
-
 }

@@ -31,6 +31,11 @@ public class PersonalPageController implements Initializable {
     }
 
     public void EditAccountInfo(ActionEvent actionEvent) {
+        try {
+            Main.This().GoToEditUser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
     
