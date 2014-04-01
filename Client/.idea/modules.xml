@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ISeeNClient.iml" filepath="$PROJECT_DIR$/ISeeNClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../PopulateDB/PopulateDB/PopulateDB.iml" filepath="$PROJECT_DIR$/../PopulateDB/PopulateDB/PopulateDB.iml" />
     </modules>
   </component>
 </project>

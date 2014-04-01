@@ -18,6 +18,7 @@ public class Media {
     public int Type = 0;
     public Date ReleaseDate = new Date(0L);
     public String Description = "";
+    public String Image = "";
 
     public static Media FromJson (JsonObject Json, Gson gson) throws MediaTypeNotMatchedException {
         int type = Json.get("Type").getAsInt();
