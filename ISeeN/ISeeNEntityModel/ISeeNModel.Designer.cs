@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\SebastianDybdal\Documents\GitHub\BNDN\ISeeN\ISeeNEntityModel\ISeeNModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\seb_000\Documents\GitHub\BNDN\ISeeN\ISeeNEntityModel\ISeeNModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -331,11 +331,11 @@ namespace ISeeNIIS
 
                 var recByteAr = jArray[2].ToObject<byte[]>();
 
-                //TODO: FILE MANAGER
-
                 LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
                 var newMedia = MediaDB.AddMedia(recMedia);
+
+                FileManager.AddMedia(newMedia.Id, recByteAr);
 
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Data = newMedia }));
 
@@ -367,15 +367,17 @@ namespace ISeeNIIS
 
                 LogAction("Edit media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
 
+                var media = MediaDB.EditMedia(recPotato, recMedia);
+
                 //Is a slow edit (byte array to overwrite)
                 if (jArray.Count == 3)
                 {
                     var recByteAr = jArray[2].ToObject<byte[]>();
-                    //TODO: FILE MANAGER
+                    FileManager.EditMedia(media.Id, recByteAr);
 
                 }
 
-                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.EditMedia(recPotato, recMedia) }));
+                return Message(JsonConvert.SerializeObject(new Report<Media> { Data = media }));
 
             }
             catch (Exception e)
@@ -405,9 +407,13 @@ namespace ISeeNIIS
 
                 LogAction("Delete", "Potato ID#" + recPotato.Id);
 
-                //TODO: FILE MANAGER
+                var media = MediaDB.DeleteMedia(int.Parse(id), recPotato);
 
-                return Message(JsonConvert.SerializeObject(new Report<int> { Data = MediaDB.DeleteMedia(int.Parse(id),recPotato) }));
+                //checks that media deletion in database was actually a succes
+                if (media == 1 )
+                    FileManager.RemoveMedia(int.Parse(id));
+
+                return Message(JsonConvert.SerializeObject(new Report<int> { Data = media }));
             }
             catch (Exception e)
             {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
 using System.Security.Authentication;
-using System.Text;
-using System.Threading.Tasks;
 using ISeeNEntityModel.POCO;
 
 namespace ISeeNEntityModel.Funcs
@@ -57,7 +53,7 @@ namespace ISeeNEntityModel.Funcs
 
                 //check if email already exists
                 var chk = from u in conc.UserSet
-                          where u.Email == recUser.Email
+                          where u.Email == recUser.Email && u.Id!=recUser.Id
                           select u;
                 if (chk.Any())
                     throw new DuplicateNameException("Email already in database");
