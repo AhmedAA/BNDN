@@ -29,16 +29,18 @@ public class Media {
         //Handle date to java parsable.
         String rel = Json.get("ReleaseDate").getAsString();
         rel = rel.replace('T',' ');
+        System.out.println(rel);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = formatter.parse(rel);
+            String formattedDate = formatter.format(date);
             System.out.println(date);
+            System.out.println(formattedDate);
+            Json.remove("ReleaseDate");
+            Json.addProperty("ReleaseDate", formattedDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        Json.remove("ReleaseDate");
-        Json.addProperty("ReleaseDate",rel);
 
         if (type == MediaTypes.Movie)
             return Movie.FromJson(Json,gson);
