@@ -19,7 +19,7 @@ public class Media {
     public int Id = 0;
     public String Title = "";
     public int Type = 0;
-    public Date ReleaseDate = new Date(0L);
+    public Date ReleaseDate = new Date();
     public String Description = "";
     public String Image = "";
 
@@ -28,11 +28,12 @@ public class Media {
 
         //Handle date to java parsable.
         String rel = Json.get("ReleaseDate").getAsString();
-        rel = rel.replace('T',' ');
         System.out.println(rel);
+        String newRel = rel.replace('T',' ');
+        System.out.println(newRel);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date = formatter.parse(rel);
+            Date date = formatter.parse(newRel);
             String formattedDate = formatter.format(date);
             System.out.println(date);
             System.out.println(formattedDate);
