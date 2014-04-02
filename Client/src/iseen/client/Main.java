@@ -86,6 +86,10 @@ public class Main extends Application {
         GoToPage("Views/MediaView.fxml");
     }
 
+    public void GoToAddNewMediaForm() throws IOException {
+        GoToPage("Views/AddNewMediaForm.fxml");
+    }
+
     private void GoToPage(String url) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url));
         _primaryStage.setScene(new Scene(root, 750, 500));

@@ -27,7 +27,11 @@ public class PersonalPageController implements Initializable {
     }
 
     public void AddNewMediaAction(ActionEvent actionEvent) {
-
+        try {
+            Main.This().GoToAddNewMediaForm();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void EditAccountInfo(ActionEvent actionEvent) {
