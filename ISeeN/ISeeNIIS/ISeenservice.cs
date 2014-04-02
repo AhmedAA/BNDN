@@ -13,14 +13,6 @@ namespace ISeeNIIS
         [OperationContract]
         Stream CORSOptions(string end);
 
-        #region Tests
-
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Test/1")]
-        [OperationContract]
-        Stream Test1();
-
-        #endregion
-
         #region SearchOp
 
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Search/{searchParam}")]
@@ -85,11 +77,19 @@ namespace ISeeNIIS
 
         #endregion
 
-        #region ReminderOp
+        #region RentalOp
 
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Reminder/Check")]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Rent/File/Get")]
         [OperationContract]
-        Stream CheckReminders(Stream streamdata);
+        Stream GetFileForRental(Stream streamdata);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Rent/User/All")]
+        [OperationContract]
+        Stream GetRentalsForUser(Stream streamdata);
+
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Rent/User/HasRented")]
+        [OperationContract]
+        Stream CheckUserRented(Stream streamdata);
 
         #endregion
     }

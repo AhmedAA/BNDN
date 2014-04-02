@@ -24,58 +24,9 @@ namespace ISeeNIIS
 
         }
 
-        //TODO: REMOVE THIS
-        List<Media> _mediaList = new List<Media>();
-        //TODO: END REMOVE THIS
-
         public Stream CORSOptions(string end)
         {
             return Options("GET, PUT, POST, DELETE, OPTIONS");
-        }
-
-        public Stream Test1()
-        {
-            var list = new List<Media>();
-            var movie = new Movie { Title = "Die hard", Type = "movie", Director = "Al Pacino" };
-            list.Add(movie);
-            var music = new Music { Title = "Ghetto gospel", Artist = "The piano man", Type = "music" };
-            list.Add(music);
-            var picture = new Picture { Title = "The Scream", Type = "picture", Painter = "Göbels" };
-            list.Add(picture);
-
-            string json = JsonConvert.SerializeObject(new Report<IList<Media>> { Data = list });
-
-            var deser = JsonConvert.DeserializeObject<Report<IList<Media>>>(json);
-
-            Console.WriteLine(deser.Data.Count + " " + deser.Data[0].Title + " " + deser.Data[1].Title + " " + deser.Data[2].Title + " ");
-
-            //return Message(json);
-            var test = new ISeeNEntityModel.RentIt02Entities();
-            test.UserSet.Add(new ISeeNEntityModel.User {Bio = "lol", City = "test", Country = "bla", Email = "blabla", Gender = "bla", IsAdmin = false, Name = "cool", Password = "nope"});
-
-            try
-            {
-                test.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-            {
-                Exception raise = dbEx;
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        string message = string.Format("{0}:{1}",
-                            validationErrors.Entry.Entity.ToString(),
-                            validationError.ErrorMessage);
-                        // raise a new exception nesting
-                        // the current instance as InnerException
-                        raise = new InvalidOperationException(message, raise);
-                    }
-                }
-                throw raise;
-            }
-
-            return Message(test.UserSet.First().Bio + " " + test.UserSet.Count());
         }
 
         /// <summary>
@@ -434,20 +385,23 @@ namespace ISeeNIIS
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="streamdata"></param>
-        /// <returns>Report of IList of Reminder</returns>
-        public Stream CheckReminders(Stream streamdata)
+        public Stream GetFileForRental(Stream streamdata)
         {
-            var received = StringFromStreamDebug(streamdata);
-
-            //var toReturn = new Report<IList<Reminder>> { Data = new List<Reminder>() };
-            //toReturn.Data.Add(new Reminder { _DateReceived = DateTime.Now, _DateSent = DateTime.MinValue, Id = 1, MediaId = 1, Message = "This is a reminder about blabla...", Title = "Reminder Much Title", UserId = 1 });
-            return null;
-            //return Message(JsonConvert.SerializeObject(toReturn));
+            throw new NotImplementedException();
         }
+
+        public Stream GetRentalsForUser(Stream streamdata)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Stream CheckUserRented(Stream streamdata)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
 
 
         private Media GetMediaUseType(JToken jToken)
