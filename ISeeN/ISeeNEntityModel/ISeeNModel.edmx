@@ -232,9 +232,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="RentIt02Model.RentalUser" FromRole="Rental" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="RentIt02Model.RentalUser" FromRole="Rental" ToRole="User" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" />
           <Property Name="MediaId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Media" Relationship="RentIt02Model.MediaRental" FromRole="Rental" ToRole="Media" />
+          <NavigationProperty Name="Media" Relationship="RentIt02Model.MediaRental" FromRole="Rental" ToRole="Media" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" />
         </EntityType>
         <Association Name="RentalUser">
           <End Type="RentIt02Model.Rental" Role="Rental" Multiplicity="*" />

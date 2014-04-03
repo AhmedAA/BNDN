@@ -52,5 +52,10 @@ namespace ISeeNIIS.Entities
             }
             
         }
+
+        public static byte[] GetFile(string id)
+        {
+            return File.ReadAllBytes(Path + "/" + id + ".iseen");
+        }
     }
 }

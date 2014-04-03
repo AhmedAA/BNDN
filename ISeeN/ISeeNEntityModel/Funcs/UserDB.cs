@@ -100,7 +100,7 @@ namespace ISeeNEntityModel.Funcs
             return 1;
         }
 
-        private static Potato PotatoHandle(int Id)
+        public static Potato PotatoHandle(int Id)
         {
             var conc = new RentIt02Entities();
             using (conc)

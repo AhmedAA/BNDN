@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Funcs\MediaDB.cs" />
     <Compile Include="Funcs\MediasEnum.cs" />
+    <Compile Include="Funcs\RentalDB.cs" />
     <Compile Include="Funcs\UserDB.cs" />
     <Compile Include="ISeeNModel.Context.cs">
       <AutoGen>True</AutoGen>

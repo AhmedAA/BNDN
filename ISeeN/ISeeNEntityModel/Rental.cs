@@ -18,7 +18,7 @@ namespace ISeeNEntityModel
         public int UserId { get; set; }
         public int MediaId { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual Media Media { get; set; }
+        internal virtual User User { get; set; }
+        internal virtual Media Media { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.ServiceModel.Web;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -387,17 +388,72 @@ namespace ISeeNIIS
 
         public Stream GetFileForRental(Stream streamdata)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato from JSON string
+                var input = JArray.Parse(jsonString);
+
+                var id = input[0].ToString();
+                var recPotato = JObject.Parse(input[1].ToString()).ToObject<Potato>();
+
+                //check that it is actually rented
+                var rented = RentalDB.CheckUserRented(int.Parse(id), recPotato);
+
+                if (rented)
+                    return Message(JsonConvert.SerializeObject(new Report<byte[]> { Data = FileManager.GetFile(id) }));
+
+                //file was not rented
+                throw new KeyNotFoundException("File was not rented for user");
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
+                return Message(JsonConvert.SerializeObject(new Report<byte[]> { Error = (int)ErrorCodes.GeneralError }));
+            }
         }
 
         public Stream GetRentalsForUser(Stream streamdata)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato from JSON string
+
+                var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
+
+                var rents = RentalDB.RentalsForUser(recPotato);
+
+                return Message(JsonConvert.SerializeObject(new Report<IList<Rental>> {Data = rents}));
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
+                return Message(JsonConvert.SerializeObject(new Report<IList<Rental>> { Error = (int)ErrorCodes.GeneralError }));
+            }
         }
 
         public Stream CheckUserRented(Stream streamdata)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var jsonString = StringFromStreamDebug(streamdata);
+                //Get potato from JSON string
+                var input = JArray.Parse(jsonString);
+
+                var id = input[0].ToString();
+                var recPotato = JObject.Parse(input[1].ToString()).ToObject<Potato>();
+
+                return Message(JsonConvert.SerializeObject(new Report<bool> {Data = RentalDB.CheckUserRented(int.Parse(id), recPotato)}));
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
+                return Message(JsonConvert.SerializeObject(new Report<bool> { Error = (int)ErrorCodes.GeneralError }));
+            }
         }
 
 

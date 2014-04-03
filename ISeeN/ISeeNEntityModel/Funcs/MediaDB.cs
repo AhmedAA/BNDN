@@ -133,7 +133,7 @@ namespace ISeeNEntityModel.Funcs
             {
                 //identical media
                 var query = from m in conc.MediaSet
-                            where m.Title.ToLower() == media.Title.ToLower() && m.Type == media.Type
+                            where m.Title.ToLower() == media.Title.ToLower() && m.Type == media.Type && m.Id != media.Id
                             select m;
 
                 if (query.Any())
