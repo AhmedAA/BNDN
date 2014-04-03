@@ -30,9 +30,10 @@
 <Insets left="20.0" />
 </padding></HBox><HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
 <children><TextField fx:id="SearchField" text="Search parameter" HBox.hgrow="ALWAYS" /><ComboBox fx:id="MediaType" prefWidth="150.0" promptText="Media type" /><Button mnemonicParsing="false" onAction="#SearchAction" text="Search" />
-</children></HBox><HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-<children><VBox fx:id="SearchResults" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="361.0" prefWidth="730.0" HBox.hgrow="ALWAYS" />
-</children></HBox>
+</children></HBox><ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+<content><VBox fx:id="SearchResults" />
+</content>
+</ScrollPane>
 </children>
 <padding>
 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -25,7 +25,7 @@
 <children><TextField fx:id="Name" text="Name" /><TextField fx:id="Email" text="Email" /><HBox alignment="CENTER" spacing="20.0">
 <children><TextField fx:id="Password1" text="Password" HBox.hgrow="ALWAYS" /><TextField fx:id="Password2" text="Password" HBox.hgrow="ALWAYS" />
 </children></HBox><TextField fx:id="City" text="City" /><TextField fx:id="Country" text="Country" /><HBox alignment="CENTER_LEFT" spacing="20.0">
-<children><Label text="Gender" /><ComboBox fx:id="Gender" prefWidth="150.0" promptText="Male" />
+<children><Label text="Gender" /><ComboBox fx:id="Gender" prefWidth="150.0" />
 </children></HBox><TextField fx:id="Bio" alignment="TOP_LEFT" prefHeight="94.0" prefWidth="450.0" text="Bio \n hallo" /><Button mnemonicParsing="false" onAction="#SubmitAction" text="Submit">
 <VBox.margin>
 <Insets />

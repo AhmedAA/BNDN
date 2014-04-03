@@ -54,6 +54,7 @@ public class CreateUserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Gender.getItems().addAll("M","F");
+        Gender.getItems().addAll(User.Genders());
+        Gender.setValue(User.Genders()[0]);
     }
 }

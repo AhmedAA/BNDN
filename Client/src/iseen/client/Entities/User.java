@@ -13,4 +13,8 @@ public class User {
     public String Bio = "";
     public String Gender = "";
     public boolean IsAdmin = false;
+
+    public static String[] Genders () {
+        return new String[] {"M", "F"};
+    }
 }

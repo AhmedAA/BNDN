@@ -40,6 +40,7 @@ public class EditUserController implements Initializable {
         Password2.setText(currentUser.Password);
         City.setText(currentUser.City);
         Country.setText(currentUser.Country);
+        Gender.getItems().addAll(User.Genders());
         Gender.setValue(currentUser.Gender);
         Bio.setText(currentUser.Bio);
     }
