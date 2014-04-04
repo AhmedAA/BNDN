@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static iseen.client.Entities.MediaFormats.MediaTypes.Types.MOVIE;
+
 /**
  * Created by Ahmed on 02/04/2014.
  */
@@ -22,6 +24,7 @@ public class AddNewMediaController implements Initializable {
 
     public TextField Title;
     public ComboBox Type;
+    public MediaTypes.Types Types;
     public TextField ReleaseDate;
     public TextField ImageURL;
     public VBox MediaSpecifics;
@@ -32,12 +35,14 @@ public class AddNewMediaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Title.setText(currentMedia.Title);
+        MediaTypes.Types[] mediaTypes = MediaTypes.Types.values();
+        Type.getItems().addAll(mediaTypes);
         Type.setValue(String.valueOf(currentMedia.Type));
         ReleaseDate.setText(String.valueOf(currentMedia.ReleaseDate));
         ImageURL.setText(currentMedia.Image);
         Description.setText(currentMedia.Description);
 
-        if (currentMedia.Type == MediaTypes.Movie){
+        if (currentMedia.Type == MediaTypes.Types.MapEnum(Types.MOVIE)){
             Specifics = new TextField[1];
             Specifics[1] = new TextField("Director");
             Movie movie = (Movie)currentMedia;

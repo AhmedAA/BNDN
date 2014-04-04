@@ -19,7 +19,8 @@ public class Media {
     public SimpleStringProperty test;
     public int Id = 0;
     public String Title = "";
-    public int Type = 0;
+    //public int Type = 0;
+    public static MediaTypes.Types Type;
     public Date ReleaseDate = new Date();
     public String Description = "";
     public String Image = "";
@@ -41,14 +42,23 @@ public class Media {
             e.printStackTrace();
         }
 
-        if (type == MediaTypes.Movie)
-            return Movie.FromJson(Json,gson);
-        if (type == MediaTypes.Music)
-            return Music.FromJson(Json,gson);
-        if (type == MediaTypes.Picture)
-            return Picture.FromJson(Json,gson);
-        if (type == MediaTypes.Media)
-            return Media._fromJson(Json,gson);
+        if (type == MediaTypes.Types.MapEnum(Type.MOVIE))
+            return Movie.FromJson(Json, gson);
+        if (type == MediaTypes.Types.MapEnum(Type.MUSIC))
+            return Music.FromJson(Json, gson);
+        if (type == MediaTypes.Types.MapEnum(Type.PICTURE))
+            return Picture.FromJson(Json, gson);
+        if (type == MediaTypes.Types.MapEnum(Type.MEDIA))
+            return Media._fromJson(Json, gson);
+
+//        if (type == MediaTypes.Movie)
+//            return Movie.FromJson(Json,gson);
+//        if (type == MediaTypes.Music)
+//            return Music.FromJson(Json,gson);
+//        if (type == MediaTypes.Picture)
+//            return Picture.FromJson(Json,gson);
+//        if (type == MediaTypes.Media)
+//            return Media._fromJson(Json,gson);
 
         throw new MediaTypeNotMatchedException("Couldn't find match in MediaTypes");
     }
