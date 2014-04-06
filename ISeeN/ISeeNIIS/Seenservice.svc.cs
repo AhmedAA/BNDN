@@ -39,6 +39,7 @@ namespace ISeeNIIS
         {
             try
             {
+                SearchedFor(searchParam);
                 //first lets take out textParam and typeParam
                 var splitted = Regex.Split(searchParam, "==");
                 //determine if text only or both text and type
@@ -67,6 +68,42 @@ namespace ISeeNIIS
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Error = 1 }));
             }
+        }
+
+        public Stream RecentSearchParams()
+        {
+            //initialize queue
+            var path = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "recent.isearched";
+            var stringQueue = File.ReadAllText(path);
+            return Message(stringQueue);
+        }
+
+        private void SearchedFor(string s)
+        {
+            //initialize queue
+            var path = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath+"recent.isearched";
+            var searches = new Queue<string>();
+            if (File.Exists(path))
+            {
+                var stringQueue = File.ReadAllText(path);
+                var temp = JObject.Parse(stringQueue).ToObject<string[]>();
+                foreach (var st in temp)
+                {
+                    searches.Enqueue(st);
+                }
+            }
+
+            //check size of queue
+            if (searches.Count > 9)
+            {
+                searches.Dequeue();
+                searches.Enqueue(s);
+                return;
+            }
+            searches.Enqueue(s);
+
+            //save queue
+            File.WriteAllText(path,JsonConvert.SerializeObject(searches));
         }
 
         /// <summary>
@@ -230,8 +267,16 @@ namespace ISeeNIIS
         /// <returns>Report of Statistic</returns>
         public Stream GetStatsForId(string id)
         {
-            //todo:
-            return null;
+            try
+            {
+                return Message(JsonConvert.SerializeObject(new Report<Statistic> { Data = MediaDB.GetStatsForId(int.Parse(id)) }));
+            }
+            catch (Exception e)
+            {
+                //TODO: IMPLEMENT REAL ERROR CODE
+                LogError(1, e.ToString());
+                return Message(JsonConvert.SerializeObject(new Report<Statistic> { Error = 1 }));
+            }
         }
 
         /// <summary>

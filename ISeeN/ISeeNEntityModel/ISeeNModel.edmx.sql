@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/03/2014 11:56:11
--- Generated from EDMX file: C:\Users\seb_000\Documents\GitHub\BNDN\ISeeN\ISeeNEntityModel\ISeeNModel.edmx
+-- Date Created: 04/06/2014 11:09:34
+-- Generated from EDMX file: C:\Users\SebastianDybdal\Documents\GitHub\BNDN\ISeeN\ISeeNEntityModel\ISeeNModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -45,12 +45,6 @@ IF OBJECT_ID(N'[dbo].[MediaSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[RentalSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RentalSet];
-GO
-IF OBJECT_ID(N'[dbo].[StatisticSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[StatisticSet];
-GO
-IF OBJECT_ID(N'[dbo].[ReminderSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ReminderSet];
 GO
 IF OBJECT_ID(N'[dbo].[MediaSet_Movie]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MediaSet_Movie];
@@ -99,18 +93,6 @@ CREATE TABLE [dbo].[RentalSet] (
 );
 GO
 
--- Creating table 'StatisticSet'
-CREATE TABLE [dbo].[StatisticSet] (
-    [Id] int IDENTITY(1,1) NOT NULL
-);
-GO
-
--- Creating table 'ReminderSet'
-CREATE TABLE [dbo].[ReminderSet] (
-    [Id] int IDENTITY(1,1) NOT NULL
-);
-GO
-
 -- Creating table 'MediaSet_Movie'
 CREATE TABLE [dbo].[MediaSet_Movie] (
     [Director] nvarchar(max)  NOT NULL,
@@ -151,18 +133,6 @@ GO
 -- Creating primary key on [Id] in table 'RentalSet'
 ALTER TABLE [dbo].[RentalSet]
 ADD CONSTRAINT [PK_RentalSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'StatisticSet'
-ALTER TABLE [dbo].[StatisticSet]
-ADD CONSTRAINT [PK_StatisticSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'ReminderSet'
-ALTER TABLE [dbo].[ReminderSet]
-ADD CONSTRAINT [PK_ReminderSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

@@ -174,5 +174,42 @@ namespace ISeeNEntityModel.Funcs
                 return media;
             }
         }
+
+        public static Statistic GetStatsForId(int id)
+        {
+            var conc = new RentIt02Entities();
+            using (conc)
+            {
+                //get media
+                var media = conc.MediaSet.Find(id);
+
+                //check if there is a media by that id
+                if (media == null)
+                    throw new KeyNotFoundException("No media by that id");
+
+                //get rentals for this media id
+                var query = from r in conc.RentalSet
+                    where r.MediaId == media.Id
+                    select r.User.Country;
+
+                //get amount of all rentals
+                var totalRents = conc.RentalSet.Count();
+
+                var thisCountries = query.ToList();
+
+                var thisRents = thisCountries.Count();
+
+                //put into statistic
+                var stats = new Statistic
+                {
+                    MediaId = media.Id,
+                    ThisAmountOfRents = thisRents,
+                    TotalAmountOfRents = totalRents,
+                    CountriesRent = thisCountries
+                };
+
+                return stats;
+            }
+        }
     }
 }

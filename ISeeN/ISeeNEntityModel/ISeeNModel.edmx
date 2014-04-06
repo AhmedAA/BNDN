@@ -9,8 +9,6 @@
     <EntitySet Name="UserSet" EntityType="RentIt02Model.Store.UserSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet" EntityType="RentIt02Model.Store.MediaSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RentalSet" EntityType="RentIt02Model.Store.RentalSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="StatisticSet" EntityType="RentIt02Model.Store.StatisticSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ReminderSet" EntityType="RentIt02Model.Store.ReminderSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet_Movie" EntityType="RentIt02Model.Store.MediaSet_Movie" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet_Music" EntityType="RentIt02Model.Store.MediaSet_Music" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MediaSet_Picture" EntityType="RentIt02Model.Store.MediaSet_Picture" store:Type="Tables" Schema="dbo" />
@@ -67,18 +65,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="MediaId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="StatisticSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ReminderSet">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="MediaSet_Movie">
     <Key>
@@ -187,8 +173,6 @@
             <End Role="Media" EntitySet="MediaSet" />
             <End Role="Rental" EntitySet="RentalSet" />
           </AssociationSet>
-          <EntitySet Name="StatisticSet" EntityType="RentIt02Model.Statistic" />
-          <EntitySet Name="ReminderSet" EntityType="RentIt02Model.Reminder" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -265,18 +249,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Statistic">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="Reminder">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -334,20 +306,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="MediaId" ColumnName="MediaId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="StatisticSet">
-      <EntityTypeMapping TypeName="IsTypeOf(RentIt02Model.Statistic)">
-        <MappingFragment StoreEntitySet="StatisticSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ReminderSet">
-      <EntityTypeMapping TypeName="IsTypeOf(RentIt02Model.Reminder)">
-        <MappingFragment StoreEntitySet="ReminderSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

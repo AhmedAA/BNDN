@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="64a77161aa0b4575a878ce976b8b6099" Name="Diagram1" ZoomLevel="74" >
+      <Diagram DiagramId="64a77161aa0b4575a878ce976b8b6099" Name="Diagram1" ZoomLevel="85" >
         <EntityTypeShape EntityType="RentIt02Model.User" Width="1.5" PointX="11" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="RentIt02Model.Media" Width="1.5" PointX="12.75" PointY="0.5" />
         <EntityTypeShape EntityType="RentIt02Model.Movie" Width="1.5" PointX="14.375" PointY="3.625" />
@@ -16,8 +16,6 @@
         <EntityTypeShape EntityType="RentIt02Model.Rental" Width="1.5" PointX="17.125" PointY="6.625" />
         <AssociationConnector Association="RentIt02Model.RentalUser" />
         <AssociationConnector Association="RentIt02Model.MediaRental" />
-        <EntityTypeShape EntityType="RentIt02Model.Statistic" Width="1.5" PointX="6.75" PointY="0.875" />
-        <EntityTypeShape EntityType="RentIt02Model.Reminder" Width="1.5" PointX="6.75" PointY="2.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

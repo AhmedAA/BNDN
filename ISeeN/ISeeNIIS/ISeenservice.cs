@@ -19,6 +19,9 @@ namespace ISeeNIIS
         [OperationContract]
         Stream SearchMedia(string searchParam);
 
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "Recent")]
+        [OperationContract]
+        Stream RecentSearchParams();
         #endregion
 
         #region AccountOp
