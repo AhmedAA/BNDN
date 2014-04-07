@@ -86,7 +86,7 @@ namespace ISeeNIIS
             if (File.Exists(path))
             {
                 var stringQueue = File.ReadAllText(path);
-                var temp = JObject.Parse(stringQueue).ToObject<string[]>();
+                var temp = JArray.Parse(stringQueue).ToObject<string[]>();
                 foreach (var st in temp)
                 {
                     searches.Enqueue(st);
@@ -98,9 +98,11 @@ namespace ISeeNIIS
             {
                 searches.Dequeue();
                 searches.Enqueue(s);
-                return;
             }
-            searches.Enqueue(s);
+            else
+            {
+                searches.Enqueue(s);
+            }
 
             //save queue
             File.WriteAllText(path,JsonConvert.SerializeObject(searches));
