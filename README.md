@@ -1,7 +1,1 @@
-BNDN
-====
-
-ISeeN
-
-
-RASMUS TESTER!!!
+NOTE 8/4 - FULL TRYK PÅ FILE MANAGEMENT!!!!
