@@ -24,7 +24,7 @@ public class AddNewMediaController implements Initializable {
 
     public TextField Title;
     public ComboBox Type;
-    public MediaTypes.Types Types;
+    public static MediaTypes Types;
     public TextField ReleaseDate;
     public TextField ImageURL;
     public VBox MediaSpecifics;
@@ -42,7 +42,7 @@ public class AddNewMediaController implements Initializable {
         ImageURL.setText(currentMedia.Image);
         Description.setText(currentMedia.Description);
 
-        if (currentMedia.Type == MediaTypes.Types.MapEnum(Types.MOVIE)){
+        if (MediaTypes.Types.MapEnum(currentMedia.Type) == MediaTypes.Types.MapEnum(MediaTypes.Types.MOVIE)){
             Specifics = new TextField[1];
             Specifics[1] = new TextField("Director");
             Movie movie = (Movie)currentMedia;
