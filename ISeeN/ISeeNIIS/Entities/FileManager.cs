@@ -22,12 +22,12 @@ namespace ISeeNIIS.Entities
             if (!chck) Directory.CreateDirectory(Path);
         }
 
-        public static bool AddEditMedia(int id, byte[] recByteAr)
+        public static bool AddEditMedia(int id, string base64)
         {
             try
             {
                 PreCheck();
-                File.WriteAllBytes(Path + "/" + id + ".iseen", recByteAr);
+                File.WriteAllText(Path + "/" + id + ".iseen", base64);
                 return true;
             }
             catch (Exception e)
@@ -53,9 +53,9 @@ namespace ISeeNIIS.Entities
             
         }
 
-        public static byte[] GetFile(string id)
+        public static string GetFile(string id)
         {
-            return File.ReadAllBytes(Path + "/" + id + ".iseen");
+            return File.ReadAllText(Path + "/" + id + ".iseen");
         }
     }
 }

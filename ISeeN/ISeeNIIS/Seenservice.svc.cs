@@ -328,14 +328,14 @@ namespace ISeeNIIS
 
                 var recMedia = GetMediaUseType(jArray[1]);
 
-                var recByteAr = jArray[2].ToObject<byte[]>();
+                var base64string = jArray[2].Value<string>();
 
-                LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
+                LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id + "With base64string: " + base64string);
 
                 var newMedia = MediaDB.AddMedia(recMedia);
 
                 //try adding the file to the file system. If it fails delete the media in the database
-                if (!FileManager.AddEditMedia(newMedia.Id, recByteAr))
+                if (!FileManager.AddEditMedia(newMedia.Id, base64string))
                 {
                     MediaDB.DeleteMedia(newMedia.Id,recPotato);
                     throw new FileLoadException("Filemanager failed to manage file correctly");
@@ -377,8 +377,8 @@ namespace ISeeNIIS
                 //Is a slow edit (byte array to overwrite)
                 if (jArray.Count == 3)
                 {
-                    var recByteAr = jArray[2].ToObject<byte[]>();
-                    if(!FileManager.AddEditMedia(media.Id, recByteAr))
+                    var base64string = jArray[2].Value<string>();
+                    if(!FileManager.AddEditMedia(media.Id, base64string))
                         throw new FileLoadException("Filemanager failed to manage file correctly");
 
                 }
@@ -448,7 +448,7 @@ namespace ISeeNIIS
                 var rented = RentalDB.CheckUserRented(int.Parse(id), recPotato);
 
                 if (rented)
-                    return Message(JsonConvert.SerializeObject(new Report<byte[]> { Data = FileManager.GetFile(id) }));
+                    return Message(JsonConvert.SerializeObject(new Report<string> { Data = FileManager.GetFile(id) }));
 
                 //file was not rented
                 throw new KeyNotFoundException("File was not rented for user");
@@ -457,7 +457,7 @@ namespace ISeeNIIS
             {
                 //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
-                return Message(JsonConvert.SerializeObject(new Report<byte[]> { Error = (int)ErrorCodes.GeneralError }));
+                return Message(JsonConvert.SerializeObject(new Report<string> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
