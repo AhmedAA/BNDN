@@ -1,9 +1,8 @@
 package iseen.client.Controllers;
 
-import iseen.client.Entities.MediaFormats.Media;
-import iseen.client.Entities.MediaFormats.MediaTypes;
-import iseen.client.Entities.MediaFormats.Movie;
-import iseen.client.Entities.MediaFormats.Music;
+import iseen.client.Entities.MediaFormats.*;
+import iseen.client.Main;
+import iseen.client.Model.MediaTools;
 import iseen.client.Storage.Memory;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -12,6 +11,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,7 @@ import static iseen.client.Entities.MediaFormats.MediaTypes.Types.MUSIC;
  * Created by Ahmed on 02/04/2014.
  */
 public class AddNewMediaController implements Initializable {
-    Media currentMedia = Memory.CurrentMedia;
+    //Media currentMedia = Memory.CurrentMedia;
 
     public TextField Title;
     public ComboBox Type;
@@ -37,59 +38,93 @@ public class AddNewMediaController implements Initializable {
     public Button Submit;
     public TextField[] Specifics;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Title.setText(currentMedia.Title);
-        MediaTypes.Types[] mediaTypes = MediaTypes.Types.values();
-        Type.getItems().addAll(mediaTypes);
-        Type.setValue(String.valueOf(currentMedia.Type));
-        ReleaseDate.setText(String.valueOf(currentMedia.ReleaseDate));
-        ImageURL.setText(currentMedia.Image);
-        Description.setText(currentMedia.Description);
+    public void SelectedType() {
+        MediaSpecifics.getChildren().clear();
 
-        if (MediaTypes.Types.MapEnum(currentMedia.Type) == MediaTypes.Types.MapEnum(MediaTypes.Types.MOVIE)){
+        String selectedType = String.valueOf(Type.getSelectionModel().getSelectedItem());
+
+        if (selectedType.equals("MOVIE")) {
+            Memory.CurrentMedia = new Movie();
             Specifics = new TextField[1];
-            Specifics[1] = new TextField("Director");
-            Movie movie = (Movie)currentMedia;
-            Specifics[1].setText(movie.Director);
-            MediaSpecifics.getChildren().addAll(Specifics[1]);
+            Specifics[0] = new TextField("Director");
+            //Movie movie = new Movie();
+            Specifics[0].setText("Director");
+            MediaSpecifics.getChildren().addAll(Specifics[0]);
         }
 
-        if (MediaTypes.Types.MapEnum(currentMedia.Type) == MediaTypes.Types.MapEnum(MediaTypes.Types.MUSIC)){
+        if (selectedType.equals("MUSIC")) {
+            Memory.CurrentMedia = new Music();
             Specifics = new TextField[1];
-            Specifics[1] = new TextField("Artist");
-            Music music = (Music)currentMedia;
-            Specifics[1].setText(music.Artist);
-            MediaSpecifics.getChildren().addAll(Specifics[1]);
+            Specifics[0] = new TextField("Artist");
+            //Music music = (Music)currentMedia;
+            Specifics[0].setText("Artist");
+            MediaSpecifics.getChildren().addAll(Specifics[0]);
+        }
+
+        if (selectedType.equals("PICTURE")) {
+            Memory.CurrentMedia = new Picture();
+            Specifics = new TextField[1];
+            Specifics[0] = new TextField("Painter");
+            Specifics[0].setText("Painter");
+            MediaSpecifics.getChildren().addAll(Specifics[0]);
+        }
+
+        if (selectedType.equals("MEDIA")) {
+            Memory.CurrentMedia = new Media();
         }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Type.getSelectionModel().clearSelection();
+        Type.getItems().clear();
+        MediaTypes.Types[] mediaTypes = MediaTypes.Types.values();
+        Type.getItems().addAll(mediaTypes);
+
+        Title.setText("Title");
+        Type.setValue(String.valueOf("Type"));
+        ReleaseDate.setText(String.valueOf("Release date"));
+        ImageURL.setText("Image URL");
+        Description.setText("Description");
+    }
+
     public void SubmitAction(ActionEvent actionEvent) {
-        currentMedia.Title = Title.getText();
-        currentMedia.Type = (MediaTypes.Types)Type.getSelectionModel().getSelectedItem();
+        if (Type.getValue() == MediaTypes.Types.MOVIE){
+            Memory.CurrentMedia = new Movie();
+            ((Movie)Memory.CurrentMedia).Director = Specifics[0].getText();
+        }
+
+        if (Type.getValue() == MediaTypes.Types.MUSIC){
+            Memory.CurrentMedia = new Music();
+            ((Music)Memory.CurrentMedia).Artist = Specifics[0].getText();
+        }
+
+        if (Type.getValue() == MediaTypes.Types.PICTURE) {
+            Memory.CurrentMedia = new Picture();
+            ((Picture)Memory.CurrentMedia).Painter = Specifics[0].getText();
+        }
+
+        Memory.CurrentMedia.Title = Title.getText();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date releaseDate = formatter.parse(ReleaseDate.getText());
-            currentMedia.ReleaseDate = releaseDate;
+            Memory.CurrentMedia.ReleaseDate = formatter.parse(ReleaseDate.getText());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        currentMedia.Description = Description.getText();
-        currentMedia.Image = ImageURL.getText();
+        Memory.CurrentMedia.Description = Description.getText();
+        Memory.CurrentMedia.Image = ImageURL.getText();
 
-        if (MediaTypes.Types.MapEnum(currentMedia.Type) == MediaTypes.Types.MapEnum(MOVIE)){
-            Specifics = new TextField[1];
-            Specifics[1] = new TextField("Director");
-            Movie movie = (Movie)currentMedia;
-            movie.Director = Specifics[1].getText();
+        try {
+            MediaTools.EditMedia(Memory.CurrentMedia);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        if (MediaTypes.Types.MapEnum(currentMedia.Type) == MediaTypes.Types.MapEnum(MUSIC)){
-            Specifics = new TextField[1];
-            Specifics[1] = new TextField("Artist");
-            Music music = (Music)currentMedia;
-            music.Artist = Specifics[1].getText();
+        try {
+            Main.This().GoToPersonalPage();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

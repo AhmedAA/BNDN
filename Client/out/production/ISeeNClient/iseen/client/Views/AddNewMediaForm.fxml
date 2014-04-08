@@ -22,7 +22,7 @@
 <GridPane.margin>
 <Insets left="20.0" />
 </GridPane.margin></Label><VBox alignment="CENTER" prefHeight="400.0" prefWidth="115.0" spacing="10.0" GridPane.rowIndex="1">
-<children><TextField fx:id="Title" prefHeight="25.0" prefWidth="280.0" text="Title" /><ComboBox fx:id="Type" prefHeight="25.0" prefWidth="469.0" promptText="TYPE" /><TextField fx:id="ReleaseDate" text="Release date" HBox.hgrow="ALWAYS" /><TextField fx:id="ImageURL" text="Image URL" /><Separator prefWidth="200.0" /><Label text="Media specific information" /><VBox fx:id="MediaSpecifics" /><Separator prefWidth="200.0" /><TextField fx:id="Description" alignment="TOP_LEFT" prefHeight="94.0" prefWidth="450.0" text="Media description" /><Button fx:id="Submit" mnemonicParsing="false" onAction="#SubmitAction" text="Submit">
+<children><TextField fx:id="Title" prefHeight="25.0" prefWidth="280.0" text="Title" /><ComboBox fx:id="Type" onAction="#SelectedType" prefHeight="25.0" prefWidth="469.0" promptText="TYPE" /><TextField fx:id="ReleaseDate" text="Release date" HBox.hgrow="ALWAYS" /><TextField fx:id="ImageURL" text="Image URL" /><Separator prefWidth="200.0" /><Label text="Media specific information" /><VBox fx:id="MediaSpecifics" /><Separator prefWidth="200.0" /><TextField fx:id="Description" alignment="TOP_LEFT" prefHeight="94.0" prefWidth="450.0" text="Media description" /><Button fx:id="Submit" mnemonicParsing="false" onAction="#SubmitAction" text="Submit">
 <VBox.margin>
 <Insets />
 </VBox.margin>
