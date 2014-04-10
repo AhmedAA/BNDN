@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 
 import static iseen.client.Entities.MediaFormats.MediaTypes.Types.MOVIE;
 import static iseen.client.Entities.MediaFormats.MediaTypes.Types.MUSIC;
+import static iseen.client.Entities.MediaFormats.MediaTypes.Types.PICTURE;
 
 /**
  * Created by Ahmed on 02/04/2014.
@@ -30,7 +31,7 @@ public class AddNewMediaController implements Initializable {
 
     public TextField Title;
     public ComboBox Type;
-    public static MediaTypes Types;
+    public static MediaTypes TypesOfMedia;
     public TextField ReleaseDate;
     public TextField ImageURL;
     public VBox MediaSpecifics;
@@ -91,17 +92,21 @@ public class AddNewMediaController implements Initializable {
     public void SubmitAction(ActionEvent actionEvent) {
         if (Type.getValue() == MediaTypes.Types.MOVIE){
             Memory.CurrentMedia = new Movie();
-            ((Movie)Memory.CurrentMedia).Director = Specifics[0].getText();
+            Memory.CurrentMedia.Type = MediaTypes.Types.MOVIE;
+            System.out.println(Memory.CurrentMedia.Type + "------");
+            ((Movie) Memory.CurrentMedia).Director = Specifics[0].getText();
         }
 
         if (Type.getValue() == MediaTypes.Types.MUSIC){
             Memory.CurrentMedia = new Music();
+            Memory.CurrentMedia.Type = MUSIC;
             ((Music)Memory.CurrentMedia).Artist = Specifics[0].getText();
         }
 
         if (Type.getValue() == MediaTypes.Types.PICTURE) {
             Memory.CurrentMedia = new Picture();
-            ((Picture)Memory.CurrentMedia).Painter = Specifics[0].getText();
+            Memory.CurrentMedia.Type = PICTURE;
+            ((Picture) Memory.CurrentMedia).Painter = Specifics[0].getText();
         }
 
         Memory.CurrentMedia.Title = Title.getText();
