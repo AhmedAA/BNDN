@@ -7,6 +7,7 @@ import iseen.client.Entities.MediaFormats.*;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
+import iseen.client.Storage.Memory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class MediaTools {
     private static String PATH_NEW_MEDIA = "media/new";
     private static String PATH_EDIT_MEDIA = "media/edit";
     private static String PATH_DELETE_MEDIA = "media/delete";
+    private static String PATH_CHECK_RENT = "rent/user/hasRented";
+    private static String PATH_GET_FILE = "Rent/File/Get";
 
     private static Gson gson = new Gson();
 
@@ -43,7 +46,7 @@ public class MediaTools {
 
     public static Media RentMedia(int id) throws Exception {
 
-        String response = HttpCommunication.sendPostPut(PATH_MEDIA_RENT,"[\"" + id + "\",\"" + PotatoTools.Potato_To_Json()+ "\"]",true);
+        String response = HttpCommunication.sendPostPut(PATH_MEDIA_RENT,"[\"" + id + "\"," + PotatoTools.Potato_To_Json()+ "]",true);
 
         return JsonReportOfMedia_To_Media(response);
     }
@@ -91,6 +94,60 @@ public class MediaTools {
         return JsonReportOfMedia_To_Media(response);
     }
 
+    public static boolean CheckRented() throws Exception {
+        //build the json string
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(Memory.CurrentMedia.Id);
+        sb.append(',');
+        sb.append(PotatoTools.Potato_To_Json());
+        sb.append(']');
+
+        String response = HttpCommunication.sendPostPut(PATH_CHECK_RENT, sb.toString(), true);
+
+        //Unpack report into data and error JSON strings
+        JsonObject JsonReport = GeneralTools.JsonReport_To_JsonObject(response);
+
+        //Separated into Data and Error
+        JsonPrimitive data = JsonReport.getAsJsonPrimitive("Data");
+
+        return data.getAsBoolean();
+    }
+
+    public static void UseRent() throws Exception {
+        //build the json string
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        sb.append(Memory.CurrentMedia.Id);
+        sb.append(',');
+        sb.append(PotatoTools.Potato_To_Json());
+        sb.append(']');
+
+        String response = HttpCommunication.sendPostPut(PATH_GET_FILE, sb.toString(), true);
+
+        //Unpack report into data and error JSON strings
+        JsonObject JsonReport = GeneralTools.JsonReport_To_JsonObject(response);
+
+        //Separated into Data and Error
+        JsonPrimitive data = JsonReport.getAsJsonPrimitive("Data");
+
+        //Construct filename
+        sb = new StringBuilder();
+        sb.append(Memory.CurrentMedia.Id);
+
+        int type = Memory.CurrentMedia.Type;
+
+        if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.MOVIE))
+            sb.append(".avi");
+        else if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.MUSIC))
+            sb.append(".mp3");
+        else if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.PICTURE))
+            sb.append(".jpg");
+
+        //File handling
+        GeneralTools.SaveFile(data.getAsString(),sb.toString());
+    }
+
     private static Media JsonReportOfMedia_To_Media(String Json) throws GeneralError, MediaTypeNotMatchedException {
         System.out.println(Json);
         //Get data from json report
@@ -124,5 +181,6 @@ public class MediaTools {
 
         return medias;
     }
+
 }
 

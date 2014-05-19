@@ -93,7 +93,7 @@ public class GeneralTools {
         Desktop.getDesktop().open(newfile);
     }
 
-    private static JsonObject JsonReport_To_JsonObject (String Json) {
+    public static JsonObject JsonReport_To_JsonObject (String Json) {
         //Unpack report into data and error JSON strings
         JsonElement top = new JsonParser().parse(Json);
         JsonObject JsonReport = top.getAsJsonObject();

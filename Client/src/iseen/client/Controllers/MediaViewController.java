@@ -4,8 +4,11 @@ import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.MediaFormats.MediaTypes;
 import iseen.client.Entities.MediaFormats.*;
 import iseen.client.Main;
+import iseen.client.Model.MediaTools;
 import iseen.client.Storage.Memory;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -29,6 +32,7 @@ public class MediaViewController implements Initializable {
     public ImageView Image;
     public VBox Properties;
     public TextArea MediaInfo;
+    public Button InvokeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,6 +54,15 @@ public class MediaViewController implements Initializable {
 
         MediaInfo.appendText("Date Released: " + Memory.CurrentMedia.ReleaseDate.toString() + "\n\n");
         MediaInfo.appendText("Description: " + Memory.CurrentMedia.Description + "\n");
+
+        try {
+            if (MediaTools.CheckRented())
+                InvokeButton.setText("Click to enjoy this media");
+            else
+                InvokeButton.setText("Click here to rent this media");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void BreadCrumbHome(MouseEvent actionEvent) {
@@ -65,6 +78,16 @@ public class MediaViewController implements Initializable {
             Main.This().GoToSearchFieldForm();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void InvokeInvoked(ActionEvent actionEvent) throws Exception {
+        if (MediaTools.CheckRented())
+        MediaTools.UseRent();
+        else {
+            MediaTools.RentMedia(Memory.CurrentMedia.Id);
+            MediaTools.UseRent();
+            InvokeButton.setText("Click to enjoy this media");
         }
     }
 }
