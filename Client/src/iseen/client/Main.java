@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    private Stage _primaryStage;
+    public Stage _primaryStage;
     private static Main _this;
 
     public void start(Stage primaryStage) throws Exception{

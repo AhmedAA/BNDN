@@ -121,7 +121,7 @@ public class AddNewMediaController implements Initializable {
         Memory.CurrentMedia.Image = ImageURL.getText();
 
         try {
-            MediaTools.CreateNewMedia(Memory.CurrentMedia,new byte[]{5,10,20,Byte.MAX_VALUE});
+            MediaTools.CreateNewMedia(Memory.CurrentMedia);
         } catch (Exception e) {
             e.printStackTrace();
         }

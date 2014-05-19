@@ -4,9 +4,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
+import iseen.client.Main;
+import javafx.stage.FileChooser;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by SebastianDybdal on 21-03-2014.
@@ -34,15 +42,49 @@ public class GeneralTools {
         return data;
     }
 
-    public static String File_To_Json(byte[] file) {
-        if (file.length < 1)
-            throw new IllegalArgumentException("Byte array was empty");
+    public static String File_To_Base64() {
+        try {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(Main.This()._primaryStage);
 
         StringBuilder sb = new StringBuilder();
-        //TODO: 
-        sb.append("\"Derp\"");
+        sb.append('\"');
 
+        sb.append(Base64FromFile(file));
+
+        sb.append('\"');
         return sb.toString();
+
+        } catch (IOException e) {
+            return File_To_Base64();
+        }
+    }
+
+    private static String Base64FromFile(File file) throws IOException {
+        InputStream is = new FileInputStream(file);
+        long length = file.length();
+
+        if (length > Integer.MAX_VALUE) {
+            throw new IOException("File was too big");
+        }
+
+        byte[] bytes = new byte[(int)length];
+
+        int offset = 0;
+        int numRead = 0;
+        while (offset < bytes.length
+                && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+            offset += numRead;
+        }
+
+        if (offset < bytes.length) {
+            throw new IOException("Could not completely read file "+file.getName());
+        }
+
+        is.close();
+
+        return Base64.encode(bytes);
     }
 
     private static JsonObject JsonReport_To_JsonObject (String Json) {

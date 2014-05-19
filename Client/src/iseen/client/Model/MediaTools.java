@@ -48,7 +48,7 @@ public class MediaTools {
         return JsonReportOfMedia_To_Media(response);
     }
 
-    public static Media CreateNewMedia(Media media, byte[] file) throws Exception {
+    public static Media CreateNewMedia(Media media) throws Exception {
         //build the json string
         StringBuilder sb = new StringBuilder();
         sb.append('[');
@@ -56,20 +56,12 @@ public class MediaTools {
         sb.append(',');
         sb.append(media.ToJson(gson));
         sb.append(',');
-        sb.append(GeneralTools.File_To_Json(file));
+        sb.append(GeneralTools.File_To_Base64());
         sb.append(']');
 
         String response = HttpCommunication.sendPostPut(PATH_NEW_MEDIA, sb.toString(), true);
 
         return JsonReportOfMedia_To_Media(response);
-    }
-
-    public static Media EditMedia(Media media) throws Exception {
-        return EditMedia(media, null, false);
-    }
-
-    public static Media EditMedia(Media media, byte[] file) throws Exception {
-        return EditMedia(media, file, true);
     }
 
     //TODO: Not sure this method will work.
@@ -79,7 +71,7 @@ public class MediaTools {
         return JsonReportOfMedia_To_Media(response);
     }
 
-    private static Media EditMedia(Media media, byte[] file, boolean FileWasEdited) throws Exception {
+    private static Media EditMedia(Media media, boolean FileWasEdited) throws Exception {
         //build the json string
         StringBuilder sb = new StringBuilder();
         sb.append('[');
@@ -89,7 +81,7 @@ public class MediaTools {
 
         if (FileWasEdited == true) {
             sb.append(',');
-            sb.append(GeneralTools.File_To_Json(file));
+            sb.append(GeneralTools.File_To_Base64());
         }
 
         sb.append(']');
