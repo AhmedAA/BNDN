@@ -9,9 +9,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -119,6 +119,7 @@ public class AddNewMediaController implements Initializable {
 
         Memory.CurrentMedia.Description = Description.getText();
         Memory.CurrentMedia.Image = ImageURL.getText();
+        Memory.CurrentMedia.Type = MOVIE;
 
         try {
             MediaTools.EditMedia(Memory.CurrentMedia);
@@ -126,6 +127,14 @@ public class AddNewMediaController implements Initializable {
             e.printStackTrace();
         }
 
+        try {
+            Main.This().GoToPersonalPage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void BreadCrumbHome(MouseEvent actionEvent) {
         try {
             Main.This().GoToPersonalPage();
         } catch (IOException e) {
