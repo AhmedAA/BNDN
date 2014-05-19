@@ -8,8 +8,16 @@ using ISeeNEntityModel.POCO;
 
 namespace ISeeNEntityModel.Funcs
 {
+    /// <summary>
+    /// This class handles the rental related database calls
+    /// </summary>
     public class RentalDB
     {
+        /// <summary>
+        /// Gets all rentals for a user
+        /// </summary>
+        /// <param name="potato">Potato of user to get rentals for</param>
+        /// <returns>IList of Rentals for the user</returns>
         public static IList<Rental> RentalsForUser(Potato potato)
         {
             //check potato is valid
@@ -30,6 +38,13 @@ namespace ISeeNEntityModel.Funcs
             throw new InvalidCredentialException("Potato did not match");
         }
 
+        /// <summary>
+        /// Checks if a user rented a specific media
+        /// </summary>
+        /// <param name="mediaid">Media id</param>
+        /// <param name="potato">Potato for user
+        /// </param>
+        /// <returns>Boolean whether the use has rented the media or not</returns>
         public static bool CheckUserRented(int mediaid, Potato potato)
         {
             //check potato is valid

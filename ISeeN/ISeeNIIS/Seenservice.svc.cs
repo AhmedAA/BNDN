@@ -18,6 +18,9 @@ namespace ISeeNIIS
 {
     public class Seenservice : ISeenservice
     {
+        /// <summary>
+        /// This enum will hold all the error codes
+        /// </summary>
         public enum ErrorCodes
         {
             NoError = 0,
@@ -25,15 +28,26 @@ namespace ISeeNIIS
 
         }
 
+        /// <summary>
+        /// This method returns the correct headers for CORS (Preflight check)
+        /// </summary>
+        /// <param name="end"></param>
+        /// <returns>Message response with headers</returns>
         public Stream CORSOptions(string end)
         {
             return Options("GET, PUT, POST, DELETE, OPTIONS");
         }
 
         /// <summary>
-        /// 
+        /// Returns all medias matching tha search param
         /// </summary>
-        /// <param name="searchParam"></param>
+        /// <param name="searchParam">Search parameters NOTE: Format searchParam like:
+        ///TextParam:string==TypeParam:int
+        ///Example:
+        ///GoodFellas==1
+        ///GoodFellas
+        ///==1
+        ///</param>
         /// <returns>Report of IList of Media</returns>
         public Stream SearchMedia(string searchParam)
         {
@@ -64,12 +78,15 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Error = 1 }));
             }
         }
 
+        /// <summary>
+        /// Returns a list of recent searches. Does not use the report structure for speed
+        /// </summary>
+        /// <returns>recent searches</returns>
         public Stream RecentSearchParams()
         {
             //initialize queue
@@ -109,15 +126,15 @@ namespace ISeeNIIS
         }
 
         /// <summary>
-        /// 
+        /// Creates an accout from the input
         /// </summary>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">A User to be created</param>
         /// <returns>Report of Potato</returns>
         public Stream CreateAccount(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get user from JSON string
 
                 var recUser = JObject.Parse(jsonString).ToObject<User>();
@@ -128,22 +145,21 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Potato> { Error = 1 }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Edits the account
         /// </summary>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">A User to be edited and a valid potato</param>
         /// <returns>Report of User</returns>
         public Stream EditAccount(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato and user from JSON string
 
                 var jArray = JArray.Parse(jsonString);
@@ -154,22 +170,21 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<User> { Error = 1 }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Get account corresponding to potato send
         /// </summary>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Potato to get account for</param>
         /// <returns>Report of User</returns>
         public Stream GetAccount(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato from JSON string
 
                 var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
@@ -178,32 +193,28 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<User> { Error = 1 }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Returns a valid potato for user
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Email and password</param>
         /// <returns>Report of Potato</returns>
         public Stream AccountLogin(Stream streamdata)
         {
             try
             {
-                var input = JsonConvert.DeserializeObject<string[]>(StringFromStreamDebug(streamdata));
+                var input = JsonConvert.DeserializeObject<string[]>(StringFromStream(streamdata));
                 var email = input[0];
                 var password = input[1];
-                LogAction("Login", email + " " + password);
 
                 return Message(JsonConvert.SerializeObject(new Report<Potato> { Data = UserDB.LoginUser(email,password) }));
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Potato> { Error = 1 }));
             }
@@ -211,13 +222,13 @@ namespace ISeeNIIS
         }
 
         /// <summary>
-        /// 
+        /// Deletes account corresponding to potato
         /// </summary>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Potato to delete account for</param>
         /// <returns>Report of int</returns>
         public Stream DeleteAccount(Stream streamdata)
         {
-            var jsonString = StringFromStreamDebug(streamdata);
+            var jsonString = StringFromStream(streamdata);
             //Get potato and user from JSON string
 
             var recPotato = JsonConvert.DeserializeObject<Potato>(jsonString);
@@ -226,7 +237,7 @@ namespace ISeeNIIS
         }
 
         /// <summary>
-        /// 
+        /// Get all media in the database
         /// </summary>
         /// <returns>Report of IList of Media</returns>
         public Stream GetAllMedia()
@@ -237,16 +248,15 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<IList<Media>> { Error = 1 }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Get a specific media by id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id of media</param>
         /// <returns>Report of Media</returns>
         public Stream GetMediaForId(string id)
         {
@@ -256,16 +266,15 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Error = 1 }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Get statistics for a media
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id of media</param>
         /// <returns>Report of Statistic</returns>
         public Stream GetStatsForId(string id)
         {
@@ -275,52 +284,47 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Statistic> { Error = 1 }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Rents media for a user
         /// </summary>
-        /// <param name="mediaId"></param>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Media id and potato of user</param>
         /// <returns>Report of Media</returns>
         public Stream RentMediaById(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato from JSON string
                 var input = JArray.Parse(jsonString);
 
                 var id = int.Parse(input[0].ToString());
                 var recPotato = JObject.Parse(input[1].ToString()).ToObject<Potato>();
 
-                LogAction("Rent", "Potato ID#" + recPotato.Id);
-
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Data = MediaDB.RentMedia(id, recPotato) }));
 
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Creates the new media
         /// </summary>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Potato, media and base64string to create</param>
         /// <returns>Report of Media</returns>
         public Stream CreateNewMedia(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato, media and byte[] from JSON string
 
                 var jArray = JArray.Parse(jsonString);
@@ -328,14 +332,12 @@ namespace ISeeNIIS
 
                 var recMedia = GetMediaUseType(jArray[1]);
 
-                var base64string = jArray[2].Value<string>();
-
-                LogAction("New media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id + "With base64string: " + base64string);
+                var base64String = jArray[2].Value<string>();
 
                 var newMedia = MediaDB.AddMedia(recMedia);
 
                 //try adding the file to the file system. If it fails delete the media in the database
-                if (!FileManager.AddEditMedia(newMedia.Id, base64string))
+                if (!FileManager.AddEditMedia(newMedia.Id, base64String))
                 {
                     MediaDB.DeleteMedia(newMedia.Id,recPotato);
                     throw new FileLoadException("Filemanager failed to manage file correctly");
@@ -347,22 +349,21 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Edits the media
         /// </summary>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Either a Potato and a Media or a Potato, a media and a base64string</param>
         /// <returns>Report of Media</returns>
         public Stream EditMedia(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato, media and byte[] from JSON string
 
                 var jArray = JArray.Parse(jsonString);
@@ -370,15 +371,13 @@ namespace ISeeNIIS
                 var recPotato = jArray[0].ToObject<Potato>();
                 var recMedia = jArray[1].ToObject<Media>();
 
-                LogAction("Edit media [" + recMedia.Title + "]", "Potato ID#" + recPotato.Id);
-
                 var media = MediaDB.EditMedia(recPotato, recMedia);
 
                 //Is a slow edit (byte array to overwrite)
                 if (jArray.Count == 3)
                 {
-                    var base64string = jArray[2].Value<string>();
-                    if(!FileManager.AddEditMedia(media.Id, base64string))
+                    var base64String = jArray[2].Value<string>();
+                    if(!FileManager.AddEditMedia(media.Id, base64String))
                         throw new FileLoadException("Filemanager failed to manage file correctly");
 
                 }
@@ -388,30 +387,26 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<Media> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
         /// <summary>
-        /// 
+        /// Deletes media for the id
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="streamdata"></param>
+        /// <param name="streamdata">Id of media and potato</param>
         /// <returns>Report of Media</returns>
         public Stream DeleteMedia(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato from JSON string
                 var input = JArray.Parse(jsonString);
 
                 var id = input[0].ToString();
                 var recPotato = JObject.Parse(input[1].ToString()).ToObject<Potato>();
-
-                LogAction("Delete", "Potato ID#" + recPotato.Id);
 
                 var media = MediaDB.DeleteMedia(int.Parse(id), recPotato);
 
@@ -427,17 +422,21 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<int> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
+        /// <summary>
+        /// Gets the file for a rental
+        /// </summary>
+        /// <param name="streamdata">Id of media and potato</param>
+        /// <returns>Report of base64string</returns>
         public Stream GetFileForRental(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato from JSON string
                 var input = JArray.Parse(jsonString);
 
@@ -455,17 +454,21 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<string> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
+        /// <summary>
+        /// Gets all rentals for a user
+        /// </summary>
+        /// <param name="streamdata">Potato of user</param>
+        /// <returns>Report of IList of Rentals</returns>
         public Stream GetRentalsForUser(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato from JSON string
 
                 var recPotato = JObject.Parse(jsonString).ToObject<Potato>();
@@ -476,17 +479,21 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<IList<Rental>> { Error = (int)ErrorCodes.GeneralError }));
             }
         }
 
+        /// <summary>
+        /// Checks wether or not a user rented a media
+        /// </summary>
+        /// <param name="streamdata">id of media and potato</param>
+        /// <returns>Report of bool</returns>
         public Stream CheckUserRented(Stream streamdata)
         {
             try
             {
-                var jsonString = StringFromStreamDebug(streamdata);
+                var jsonString = StringFromStream(streamdata);
                 //Get potato from JSON string
                 var input = JArray.Parse(jsonString);
 
@@ -497,7 +504,6 @@ namespace ISeeNIIS
             }
             catch (Exception e)
             {
-                //TODO: IMPLEMENT REAL ERROR CODE
                 LogError(1, e.ToString());
                 return Message(JsonConvert.SerializeObject(new Report<bool> { Error = (int)ErrorCodes.GeneralError }));
             }
@@ -533,16 +539,15 @@ namespace ISeeNIIS
             return Message("Preflight-check: Ok");
         }
 
-        private Stream Message(string Json)
+        private Stream Message(string json)
         {
             //stuff that should be done before returning
             //CORS Headers added
             // ReSharper disable once PossibleNullReferenceException
             WebOperationContext.Current.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
-            var toReturn = new MemoryStream(Encoding.UTF8.GetBytes(Json));
+            var toReturn = new MemoryStream(Encoding.UTF8.GetBytes(json));
             return toReturn;
         }
-
 
         private string StringFromStream(Stream stream)
         {
@@ -555,48 +560,18 @@ namespace ISeeNIIS
             return s;
         }
 
-        private string StringFromStreamDebug(Stream stream)
-        {
-            var s = StringFromStream(stream);
-
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("DEBUG", s);
-
-            var currentFor = Console.ForegroundColor;
-            //var currentBac = Console.BackgroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Stream = |" + s + "|");
-            Console.ForegroundColor = currentFor;
-            return s;
-        }
-
-        private void LogAction(string whatRequest, string forWho)
-        {
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("ACTION", whatRequest + " requested for: " + forWho);
-
-            var currentFor = Console.ForegroundColor;
-            //var currentBac = Console.BackgroundColor;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(whatRequest + " requested for: " + forWho);
-            Console.ForegroundColor = currentFor;
-        }
-
         private void LogError(int error, string message)
         {
             try
             {
-                WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR", message);
+                // ReSharper disable PossibleNullReferenceException
+                WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR-"+error, message);
             }
             catch (Exception e)
             {
-                WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR", "Broke out of error logging");
+                WebOperationContext.Current.OutgoingResponse.Headers.Add("ERROR-"+error+"-BREAK", e.Message);
+                // ReSharper restore PossibleNullReferenceException
             }
-
-
-            var currentFor = Console.ForegroundColor;
-            //var currentBac = Console.BackgroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ERROR#" + error + " " + message);
-            Console.ForegroundColor = currentFor;
         }
     }
 }

@@ -6,6 +6,9 @@ using System.ServiceModel.Web;
 
 namespace ISeeNIIS
 {
+    /// <summary>
+    /// For documentation on the ISeenservice interface see "REST Path specification" in the project description
+    /// </summary>
     [ServiceContract]
     public interface ISeenservice
     {

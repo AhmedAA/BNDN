@@ -5,8 +5,14 @@ using ISeeNEntityModel.POCO;
 
 namespace ISeeNEntityModel.Funcs
 {
+    /// This class handles the user and potato related database calls
     public class UserDB
     {
+        /// <summary>
+        /// Adds a new user to this database
+        /// </summary>
+        /// <param name="user">User to add (id ignored)</param>
+        /// <returns>Potato for the new user</returns>
         public static Potato AddUser(User user)
         {
             var conc = new RentIt02Entities();
@@ -28,6 +34,12 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Returns a potato for a user matching email and password
+        /// </summary>
+        /// <param name="email">Email for user</param>
+        /// <param name="password">Password for user</param>
+        /// <returns>Potato for user</returns>
         public static Potato LoginUser (string email, string password)
         {
             var conc = new RentIt02Entities();
@@ -42,6 +54,12 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Edits account in the database
+        /// </summary>
+        /// <param name="recPotato">Potato matching account</param>
+        /// <param name="recUser">Edited user (id used for overwriting)</param>
+        /// <returns>New user</returns>
         public static User EditAccount(Potato recPotato, User recUser)
         {
             var conc = new RentIt02Entities();
@@ -69,6 +87,11 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Gets a user by looking up potato
+        /// </summary>
+        /// <param name="recPotato">Potato to get user for</param>
+        /// <returns>User for potato</returns>
         public static User GetUserByPotato(Potato recPotato)
         {
             var conc = new RentIt02Entities();
@@ -85,7 +108,12 @@ namespace ISeeNEntityModel.Funcs
                 return qur.First();
             }
         }
-
+        
+        /// <summary>
+        /// Deletes the user of the potato
+        /// </summary>
+        /// <param name="recPotato">Potato whoes user to delete</param>
+        /// <returns>1 if user was deleted</returns>
         public static int DeleteUser(Potato recPotato)
         {
             var userToDelete = GetUserByPotato(recPotato);
@@ -100,6 +128,11 @@ namespace ISeeNEntityModel.Funcs
             return 1;
         }
 
+        /// <summary>
+        /// Returns a "encrypted" potato which matches the id of the user
+        /// </summary>
+        /// <param name="Id">Id of user</param>
+        /// <returns>Potato for user</returns>
         public static Potato PotatoHandle(int Id)
         {
             var conc = new RentIt02Entities();

@@ -9,8 +9,16 @@ using ISeeNEntityModel.POCO;
 
 namespace ISeeNEntityModel.Funcs
 {
+    /// <summary>
+    /// This class handles the media related database calls
+    /// </summary>
     public class MediaDB
     {
+        /// <summary>
+        /// This method adds a media to the database, if it it doesn't already exist
+        /// </summary>
+        /// <param name="media">media to add(id is ignored)</param>
+        /// <returns>added media (id is correct)</returns>
         public static Media AddMedia(Media media)
         {
             //TODO: CHECK IF ADMIN
@@ -35,6 +43,11 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Searches the database with the text parameter
+        /// </summary>
+        /// <param name="textParam">text parameters</param>
+        /// <returns>Matches, ordered by title length.</returns>
         public static IList<Media> SearchText(string textParam)
         {
             var conc = new RentIt02Entities();
@@ -49,6 +62,11 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Searches the database by type
+        /// </summary>
+        /// <param name="type">type of media to look for</param>
+        /// <returns>Matches, ordered by title length.</returns>
         public static IList<Media> SearchType(int type)
         {
             var conc = new RentIt02Entities();
@@ -63,6 +81,12 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Searches by both text param and type
+        /// </summary>
+        /// <param name="textParam">text parameters</param>
+        /// <param name="type">type of media to look for</param>
+        /// <returns>Matches, ordered by title length.</returns>
         public static IList<Media> SearchBoth(string textParam, int type)
         {
             var conc = new RentIt02Entities();
@@ -77,6 +101,10 @@ namespace ISeeNEntityModel.Funcs
             }
         } 
 
+        /// <summary>
+        /// Gets all media in the database
+        /// </summary>
+        /// <returns>List of all media</returns>
         public static IList<Media> GetAll()
         {
             var conc = new RentIt02Entities();
@@ -89,6 +117,11 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Gets a specific media by id
+        /// </summary>
+        /// <param name="id">Id of media to return</param>
+        /// <returns>Media matching id</returns>
         public static Media GetMediaForId(int id)
         {
             var conc = new RentIt02Entities();
@@ -108,6 +141,12 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Deletes a media by id
+        /// </summary>
+        /// <param name="id">Id of media</param>
+        /// <param name="potato">Potato for user deleting</param>
+        /// <returns>returns 1 if deleted</returns>
         public static int DeleteMedia(int id, Potato potato)
         {
             //TODO: CHECK IF ADMIN
@@ -124,6 +163,12 @@ namespace ISeeNEntityModel.Funcs
             return 1;
         }
 
+        /// <summary>
+        /// Edits a media
+        /// </summary>
+        /// <param name="potato">Potato for user editing</param>
+        /// <param name="media">Edited media, id will be used for overwriting current</param>
+        /// <returns>Edited media</returns>
         public static Media EditMedia(Potato potato, Media media)
         {
             //TODO: CHECK IF ADMIN
@@ -150,6 +195,12 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Rents a media for a user
+        /// </summary>
+        /// <param name="id">Media id for rent</param>
+        /// <param name="recPotato">Potato for user renting</param>
+        /// <returns>Media rented</returns>
         public static Media RentMedia(int id, Potato recPotato)
         {
             var conc = new RentIt02Entities();
@@ -175,6 +226,11 @@ namespace ISeeNEntityModel.Funcs
             }
         }
 
+        /// <summary>
+        /// Gets stats for a media by id
+        /// </summary>
+        /// <param name="id">Media id</param>
+        /// <returns>Statistics for this media</returns>
         public static Statistic GetStatsForId(int id)
         {
             var conc = new RentIt02Entities();
