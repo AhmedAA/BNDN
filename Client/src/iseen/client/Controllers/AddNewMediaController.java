@@ -92,20 +92,20 @@ public class AddNewMediaController implements Initializable {
     public void SubmitAction(ActionEvent actionEvent) {
         if (Type.getValue() == MediaTypes.Types.MOVIE){
             Memory.CurrentMedia = new Movie();
-            Memory.CurrentMedia.Type = MediaTypes.Types.MOVIE;
+            Memory.CurrentMedia.Type = MediaTypes.Types.MapEnum(MOVIE);
             System.out.println(Memory.CurrentMedia.Type + "------");
             ((Movie) Memory.CurrentMedia).Director = Specifics[0].getText();
         }
 
         if (Type.getValue() == MediaTypes.Types.MUSIC){
             Memory.CurrentMedia = new Music();
-            Memory.CurrentMedia.Type = MUSIC;
+            Memory.CurrentMedia.Type = MediaTypes.Types.MapEnum(MUSIC);
             ((Music)Memory.CurrentMedia).Artist = Specifics[0].getText();
         }
 
         if (Type.getValue() == MediaTypes.Types.PICTURE) {
             Memory.CurrentMedia = new Picture();
-            Memory.CurrentMedia.Type = PICTURE;
+            Memory.CurrentMedia.Type = MediaTypes.Types.MapEnum(PICTURE);
             ((Picture) Memory.CurrentMedia).Painter = Specifics[0].getText();
         }
 
@@ -119,10 +119,9 @@ public class AddNewMediaController implements Initializable {
 
         Memory.CurrentMedia.Description = Description.getText();
         Memory.CurrentMedia.Image = ImageURL.getText();
-        Memory.CurrentMedia.Type = MOVIE;
 
         try {
-            MediaTools.EditMedia(Memory.CurrentMedia);
+            MediaTools.CreateNewMedia(Memory.CurrentMedia,new byte[]{5,10,20,Byte.MAX_VALUE});
         } catch (Exception e) {
             e.printStackTrace();
         }

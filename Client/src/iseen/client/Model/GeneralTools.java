@@ -39,13 +39,8 @@ public class GeneralTools {
             throw new IllegalArgumentException("Byte array was empty");
 
         StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i<(file.length-1); i++) {
-            sb.append(file[i]);
-            sb.append(',');
-        }
-        sb.append(file[file.length-1]);
-        sb.append(']');
+        //TODO: 
+        sb.append("\"Derp\"");
 
         return sb.toString();
     }

@@ -20,7 +20,7 @@ public class Media {
     public int Id = 0;
     public String Title = "";
     //public int Type = 0;
-    public static MediaTypes.Types Type;
+    public int Type;
     public Date ReleaseDate = new Date();
     public String Description = "";
     public String Image = "";
@@ -42,13 +42,13 @@ public class Media {
             e.printStackTrace();
         }
 
-        if (type == MediaTypes.Types.MapEnum(Type.MOVIE))
+        if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.MOVIE))
             return Movie.FromJson(Json, gson);
-        if (type == MediaTypes.Types.MapEnum(Type.MUSIC))
+        if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.MUSIC))
             return Music.FromJson(Json, gson);
-        if (type == MediaTypes.Types.MapEnum(Type.PICTURE))
+        if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.PICTURE))
             return Picture.FromJson(Json, gson);
-        if (type == MediaTypes.Types.MapEnum(Type.MEDIA))
+        if (type == MediaTypes.Types.MapEnum(MediaTypes.Types.MEDIA))
             return Media._fromJson(Json, gson);
 
 //        if (type == MediaTypes.Movie)
@@ -68,6 +68,7 @@ public class Media {
     }
 
     public String ToJson (Gson gson) {
+        System.out.println(Type);
         return gson.toJson(this);
     }
 
