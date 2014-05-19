@@ -11,10 +11,8 @@ import iseen.client.Main;
 import javafx.stage.FileChooser;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.*;
+import java.io.*;
 
 /**
  * Created by SebastianDybdal on 21-03-2014.
@@ -85,6 +83,14 @@ public class GeneralTools {
         is.close();
 
         return Base64.encode(bytes);
+    }
+
+    public static void SaveFile(String base64string, String filename) throws IOException {
+        byte[] restored = Base64.decode(base64string);
+        File newfile = new File(filename);
+        FileOutputStream output = new FileOutputStream(newfile);
+        output.write(restored);
+        Desktop.getDesktop().open(newfile);
     }
 
     private static JsonObject JsonReport_To_JsonObject (String Json) {
