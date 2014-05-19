@@ -5,10 +5,14 @@ import iseen.client.Model.MediaTools;
 import iseen.client.Storage.Memory;
 import iseen.client.ViewEntities.MediaViewEnt;
 import javafx.event.ActionEvent;
+import javafx.geometry.Orientation;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 
 import java.awt.*;
 import java.io.IOException;
@@ -26,7 +30,9 @@ public class SearchFieldFormController {
             Memory.SearchResult = MediaTools.GetAllMedia();
 
             for (int i = 0; i< Memory.SearchResult.size(); i++) {
-                SearchResults.getChildren().add(new MediaViewEnt(Memory.SearchResult.get(i)));
+                MediaViewEnt mediaViewEnt = new MediaViewEnt(Memory.SearchResult.get(i));
+                SearchResults.getChildren().add(mediaViewEnt);
+                SearchResults.getChildren().add(new Separator(Orientation.HORIZONTAL));
             }
 
         } catch (Exception e) {

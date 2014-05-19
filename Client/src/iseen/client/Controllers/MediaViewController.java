@@ -24,12 +24,20 @@ public class MediaViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         BigTitle.setText(Memory.CurrentMedia.Title);
-        Image.setImage(new javafx.scene.image.Image("http://www.google.dk/images/google_favicon_128.png"));
+        Image.setImage(new javafx.scene.image.Image(Memory.CurrentMedia.Image));
     }
 
     public void BreadCrumbHome(MouseEvent actionEvent) {
         try {
             Main.This().GoToPersonalPage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void BreadCrumbSearch(MouseEvent actionEvent) {
+        try {
+            Main.This().GoToSearchFieldForm();
         } catch (IOException e) {
             e.printStackTrace();
         }

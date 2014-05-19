@@ -23,7 +23,7 @@
 <GridPane.margin>
 <Insets left="20.0" />
 </GridPane.margin></Label><HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="1">
-<children><Label onMouseClicked="#BreadCrumbHome" text="Home" textFill="BLUE" /><Label text="&gt;" /><Label text="Media" />
+<children><Label onMouseClicked="#BreadCrumbHome" text="Home" textFill="BLUE" /><Label text="&gt;" /><Label onMouseClicked="#BreadCrumbSearch" text="Search" textFill="BLUE" /><Label text="&gt;" /><Label text="Media" />
 </children>
 <padding>
 <Insets left="20.0" />
