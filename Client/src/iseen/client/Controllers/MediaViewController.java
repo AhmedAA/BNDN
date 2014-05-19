@@ -34,24 +34,22 @@ public class MediaViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         BigTitle.setText(Memory.CurrentMedia.Title);
         Image.setImage(new javafx.scene.image.Image(Memory.CurrentMedia.Image));
+        MediaInfo.setWrapText(true);
 
-        if (Memory.CurrentMedia.Type == MediaTypes.Types.MOVIE) {
-            Memory.CurrentMedia = new Movie();
-            MediaInfo.appendText(((Movie) Memory.CurrentMedia).Director + "\n");
+        if (Memory.CurrentMedia.Type == MediaTypes.Types.MapEnum(MediaTypes.Types.MOVIE)) {
+            MediaInfo.appendText("Director: " + ((Movie) Memory.CurrentMedia).Director + "\n\n");
         }
 
-        if (Memory.CurrentMedia.Type == MediaTypes.Types.MUSIC) {
-            Memory.CurrentMedia = new Music();
-            MediaInfo.appendText(((Music) Memory.CurrentMedia).Artist + "\n");
+        if (Memory.CurrentMedia.Type == MediaTypes.Types.MapEnum(MediaTypes.Types.MUSIC)) {
+            MediaInfo.appendText(String.format("%s\n\n", "Artist: " + ((Music) Memory.CurrentMedia).Artist));
         }
 
-        if (Memory.CurrentMedia.Type == MediaTypes.Types.PICTURE) {
-            Memory.CurrentMedia = new Picture();
-            MediaInfo.appendText(((Picture) Memory.CurrentMedia).Painter + "\n");
+        if (Memory.CurrentMedia.Type == MediaTypes.Types.MapEnum(MediaTypes.Types.PICTURE)) {
+            MediaInfo.appendText("Painter: " + ((Picture) Memory.CurrentMedia).Painter + "\n\n");
         }
 
-        MediaInfo.appendText(Memory.CurrentMedia.ReleaseDate.toString() + "\n");
-        MediaInfo.appendText(Memory.CurrentMedia.Description + "\n");
+        MediaInfo.appendText("Date Released: " + Memory.CurrentMedia.ReleaseDate.toString() + "\n\n");
+        MediaInfo.appendText("Description: " + Memory.CurrentMedia.Description + "\n");
     }
 
     public void BreadCrumbHome(MouseEvent actionEvent) {
