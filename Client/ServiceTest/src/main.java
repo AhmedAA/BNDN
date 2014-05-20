@@ -1,9 +1,12 @@
+import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.Potato;
 import iseen.client.Entities.User;
+import iseen.client.Model.MediaTools;
 import iseen.client.Model.UserTools;
 import iseen.client.Storage.Memory;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +26,7 @@ public class main {
         List<String> strings = new ArrayList<String>();
         strings.add(testInvalidLogin());
         strings.add(testValidLogin());
+        strings.add(testEditAccount());
 
         System.out.println("\n\n\n\n"); // clear console hack
         for ( int i = 0; i < strings.size(); i++) {
@@ -37,10 +41,11 @@ public class main {
             Potato invalidLogin = UserTools.LoginAccount("notExistingEmail@void.com", "notSoSecretPassword");
             Memory.CurrentPotato = invalidLogin;
             UserTools.GetAccount();
-            return ("Failed - testValidLogin()");
+            UserTools.DeleteAccount();
+            return ("Failed - testInvalidLogin()");
 
         } catch (Exception e) {
-            return ("Passed - testValidLogin()");
+            return ("Passed - testInvalidLogin()");
         }
 
     }
@@ -52,7 +57,7 @@ public class main {
         User bob = new User();
         bob.Name = "Bob";
         bob.Gender = "M";
-        bob.Email = "existing_Mail@rentit.dk";
+        bob.Email = "exMail@rentit.dk";
         bob.Country = "Denmark";
         bob.Bio = "Legal login dude";
         bob.City = "Legal login town";
@@ -67,9 +72,6 @@ public class main {
             Memory.CurrentPotato = bobLoggedIn;
 
             User bobs = UserTools.GetAccount();
-            System.out.println(bobs.Name);
-            System.out.println(bob.Name);
-            // Check whether stuff is correct
             UserTools.DeleteAccount();
 
             if (bobs.Name.equals(bob.Name))
@@ -84,5 +86,53 @@ public class main {
         }
     }
 
-    private static String
+    private static String testEditAccount() {
+
+        // Bob - our test user.
+        User bob = new User();
+        bob.Name = "Bob";
+        bob.Gender = "M";
+        bob.Email = "testEditAccount@rentit.dk";
+        bob.Country = "Denmark";
+        bob.Bio = "Legal login dude";
+        bob.City = "Legal login town";
+        bob.Id = 1;
+        bob.IsAdmin = false;
+        bob.Password = "secretPass";
+
+        try {
+
+            // saving potato
+            Potato bobLoggedIn = UserTools.CreateNewAccount(bob);
+            // set memory.currentPotato
+            Memory.CurrentPotato = bobLoggedIn;
+
+            User bobs = UserTools.GetAccount();
+
+            // John - the new bob.
+            User john = new User();
+            john.Name = "john";
+            john.Gender = "M";
+            john.Email = bobs.Email;
+            john.Country = "Denmark";
+            john.Bio = "Legal login dude";
+            john.City = "Legal login town";
+            john.Id = bobs.Id;
+            john.IsAdmin = false;
+            john.Password = "secretPass";
+
+            User johnEdited = UserTools.EditAccount(john);
+
+            UserTools.DeleteAccount();
+
+            if (john.Name.equals(johnEdited.Name))
+                return "Passed - testEditAccount()";
+            else
+                return "Failed Potato - testEditAccount()";
+
+        } catch (Exception e) {
+            return "Failed - testEditAccount()";
+        }
+    }
+
 }
