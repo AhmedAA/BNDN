@@ -52,7 +52,8 @@ public class UserTools {
     public static String DeleteAccount () throws Exception {
         String response = HttpCommunication.sendPostPut(PATH_DELETE_ACCOUNT,gson.toJson(Memory.CurrentPotato),true);
 
-        int code = GeneralTools.JsonReport_To_DataJsonObject(response).getAsInt();
+        //int code = GeneralTools.JsonReport_To_DataJsonObject(response).getAsInt();
+        int code = GeneralTools.JsonReport_To_JsonObject(response).get("Data").getAsInt();
 
         if (code == 1)
             return "Success";

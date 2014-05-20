@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ISeeNClient.iml" filepath="$PROJECT_DIR$/ISeeNClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/../PopulateDB/PopulateDB/PopulateDB.iml" filepath="$PROJECT_DIR$/../PopulateDB/PopulateDB/PopulateDB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ServiceTest/ServiceTest.iml" filepath="$PROJECT_DIR$/ServiceTest/ServiceTest.iml" />
     </modules>
   </component>
 </project>
