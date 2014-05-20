@@ -25,7 +25,7 @@ public class main {
         strings.add(testValidLogin());
 
         System.out.println("\n\n\n\n"); // clear console hack
-        for ( int i = 0; i < strings.size(); i++) {
+        for (int i = 0; i < strings.size(); i++) {
             System.out.println(strings.get(i));
         }
     }
@@ -83,6 +83,4 @@ public class main {
             return "Failed - testValidLogin()";
         }
     }
-
-    private static String
 }

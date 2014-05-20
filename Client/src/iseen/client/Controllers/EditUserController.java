@@ -1,17 +1,14 @@
 package iseen.client.Controllers;
 
-import iseen.client.Entities.Potato;
 import iseen.client.Entities.User;
 import iseen.client.Main;
-import iseen.client.Model.PotatoTools;
 import iseen.client.Model.UserTools;
 import iseen.client.Storage.Memory;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;

@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public class TestController {
             System.out.println("===========================================");
             System.out.println("Medias received");
             System.out.println("===========================================");
-            for (int i = 0; i<medias.size(); i++) {
+            for (int i = 0; i < medias.size(); i++) {
                 System.out.println("Title: " + medias.get(i).Title);
                 System.out.println("Id: " + medias.get(i).Id);
                 System.out.println("Type: " + medias.get(i).Type);

@@ -9,11 +9,11 @@ import com.google.gson.JsonObject;
 public class Music extends Media {
     public String Artist = "";
 
-    public static Music FromJson (JsonObject Json, Gson gson) {
-        return gson.fromJson(Json,Music.class);
+    public static Music FromJson(JsonObject Json, Gson gson) {
+        return gson.fromJson(Json, Music.class);
     }
 
-    public String ToJson () {
+    public String ToJson() {
         return null;
     }
 }

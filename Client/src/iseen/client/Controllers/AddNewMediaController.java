@@ -16,12 +16,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ResourceBundle;
 
-import static iseen.client.Entities.MediaFormats.MediaTypes.Types.MOVIE;
-import static iseen.client.Entities.MediaFormats.MediaTypes.Types.MUSIC;
-import static iseen.client.Entities.MediaFormats.MediaTypes.Types.PICTURE;
+import static iseen.client.Entities.MediaFormats.MediaTypes.Types.*;
 
 /**
  * Created by Ahmed on 02/04/2014.
@@ -29,9 +26,9 @@ import static iseen.client.Entities.MediaFormats.MediaTypes.Types.PICTURE;
 public class AddNewMediaController implements Initializable {
     //Media currentMedia = Memory.CurrentMedia;
 
+    public static MediaTypes TypesOfMedia;
     public TextField Title;
     public ComboBox Type;
-    public static MediaTypes TypesOfMedia;
     public TextField ReleaseDate;
     public TextField ImageURL;
     public VBox MediaSpecifics;
@@ -90,17 +87,17 @@ public class AddNewMediaController implements Initializable {
     }
 
     public void SubmitAction(ActionEvent actionEvent) {
-        if (Type.getValue() == MediaTypes.Types.MOVIE){
+        if (Type.getValue() == MediaTypes.Types.MOVIE) {
             Memory.CurrentMedia = new Movie();
             Memory.CurrentMedia.Type = MediaTypes.Types.MapEnum(MOVIE);
             System.out.println(Memory.CurrentMedia.Type + "------");
             ((Movie) Memory.CurrentMedia).Director = Specifics[0].getText();
         }
 
-        if (Type.getValue() == MediaTypes.Types.MUSIC){
+        if (Type.getValue() == MediaTypes.Types.MUSIC) {
             Memory.CurrentMedia = new Music();
             Memory.CurrentMedia.Type = MediaTypes.Types.MapEnum(MUSIC);
-            ((Music)Memory.CurrentMedia).Artist = Specifics[0].getText();
+            ((Music) Memory.CurrentMedia).Artist = Specifics[0].getText();
         }
 
         if (Type.getValue() == MediaTypes.Types.PICTURE) {

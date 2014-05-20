@@ -2,12 +2,10 @@ package iseen.client.Entities.MediaFormats;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
 import javafx.beans.property.SimpleStringProperty;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,13 +23,13 @@ public class Media {
     public String Description = "";
     public String Image = "";
 
-    public static Media FromJson (JsonObject Json, Gson gson) throws MediaTypeNotMatchedException {
+    public static Media FromJson(JsonObject Json, Gson gson) throws MediaTypeNotMatchedException {
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         int type = Json.get("Type").getAsInt();
 
         //Handle date to java parsable.
         String rel = Json.get("ReleaseDate").getAsString();
-        String newRel = rel.replace('T',' ');
+        String newRel = rel.replace('T', ' ');
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = formatter.parse(newRel);
@@ -63,16 +61,16 @@ public class Media {
         throw new MediaTypeNotMatchedException("Couldn't find match in MediaTypes");
     }
 
-    private static Media _fromJson (JsonObject Json,Gson gson) {
-        return gson.fromJson(Json,Media.class);
+    private static Media _fromJson(JsonObject Json, Gson gson) {
+        return gson.fromJson(Json, Media.class);
     }
 
-    public String ToJson (Gson gson) {
+    public String ToJson(Gson gson) {
         System.out.println(Type);
         return gson.toJson(this);
     }
 
-    private String _toJson (Gson gson) {
+    private String _toJson(Gson gson) {
         return gson.toJson(this);
     }
 }

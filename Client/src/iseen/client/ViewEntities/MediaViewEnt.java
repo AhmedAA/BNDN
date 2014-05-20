@@ -3,10 +3,7 @@ package iseen.client.ViewEntities;
 import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Main;
 import iseen.client.Storage.Memory;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -55,8 +52,8 @@ public class MediaViewEnt extends HBox {
         vbox.getChildren().add(releasedate);
 
         String text = media.Description;
-        if (text != null && text.length()>500)
-            text = text.substring(0,500);
+        if (text != null && text.length() > 500)
+            text = text.substring(0, 500);
 
         Label description = new Label(text + "...");
         description.setWrapText(true);

@@ -4,8 +4,6 @@ import iseen.client.Entities.User;
 import iseen.client.Main;
 import iseen.client.Model.UserTools;
 import iseen.client.Storage.Memory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -39,7 +37,7 @@ public class CreateUserController implements Initializable {
         user.Password = Password1.getText();
         user.City = City.getText();
         user.Country = Country.getText();
-        user.Gender = (String)Gender.getValue();
+        user.Gender = (String) Gender.getValue();
         user.Bio = Bio.getText();
         user.Id = 1;
 

@@ -9,11 +9,11 @@ import com.google.gson.JsonObject;
 public class Picture extends Media {
     public String Painter = "";
 
-    public static Picture FromJson (JsonObject Json, Gson gson) {
-        return gson.fromJson(Json,Picture.class);
+    public static Picture FromJson(JsonObject Json, Gson gson) {
+        return gson.fromJson(Json, Picture.class);
     }
 
-    public String ToJson () {
+    public String ToJson() {
         return null;
     }
 }

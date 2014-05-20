@@ -1,9 +1,9 @@
 package iseen.client.Controllers;
 
-import com.sun.org.glassfish.gmbal.Description;
-import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.MediaFormats.MediaTypes;
-import iseen.client.Entities.MediaFormats.*;
+import iseen.client.Entities.MediaFormats.Movie;
+import iseen.client.Entities.MediaFormats.Music;
+import iseen.client.Entities.MediaFormats.Picture;
 import iseen.client.Main;
 import iseen.client.Model.MediaTools;
 import iseen.client.Storage.Memory;
@@ -11,19 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 /**
@@ -89,7 +83,7 @@ public class MediaViewController implements Initializable {
 
     public void InvokeInvoked(ActionEvent actionEvent) throws Exception {
         if (MediaTools.CheckRented())
-        MediaTools.UseRent();
+            MediaTools.UseRent();
         else {
             MediaTools.RentMedia(Memory.CurrentMedia.Id);
             MediaTools.UseRent();

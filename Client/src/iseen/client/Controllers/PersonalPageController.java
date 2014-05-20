@@ -46,11 +46,11 @@ public class PersonalPageController implements Initializable {
         }
 
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         User currentUser = Memory.CurrentUser;
-        InfoField.setText(currentUser.Email + " - " + currentUser.City + ", " + currentUser.Country + " - " + currentUser.Gender + " - " + Boolean.toString(currentUser.IsAdmin) );
+        InfoField.setText(currentUser.Email + " - " + currentUser.City + ", " + currentUser.Country + " - " + currentUser.Gender + " - " + Boolean.toString(currentUser.IsAdmin));
         TitlePersonName.setText(currentUser.Name);
 
         //Hack//
@@ -61,10 +61,11 @@ public class PersonalPageController implements Initializable {
                 FrontPane.getChildren().add(new MediaViewEnt(MediaTools.GetMediaById(i)));
                 done = true;
             } catch (Exception e) {
-                i+=10;
+                i++;
             }
         }
         //Hack//
+
     }
 
     public void GoToRentals(ActionEvent actionEvent) {

@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="ISeeNClient">
+    <output-path>$PROJECT_DIR$/out/artifacts/ISeeNClient</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="iseen.client.Main" />
+        <option name="description" value="" />
+        <option name="height" value="500" />
+        <option name="htmlParamFile" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="ISeeN" />
+        <option name="vendor" value="Group 2" />
+        <option name="width" value="750" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="ISeeNClient.jar">
+        <element id="module-output" name="ISeeNClient" />
+        <element id="library" level="project" name="gson-2.2.4" />
+      </element>
+    </root>
+  </artifact>
+</component>

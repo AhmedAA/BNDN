@@ -1,8 +1,6 @@
 package iseen.client.Controllers;
 
-import iseen.client.Entities.User;
 import iseen.client.Main;
-import iseen.client.Model.PotatoTools;
 import iseen.client.Model.UserTools;
 import iseen.client.Storage.Memory;
 import javafx.event.ActionEvent;
@@ -20,7 +18,7 @@ public class AppStartController {
 
     public void LoginAction(ActionEvent actionEvent) {
         try {
-            Memory.CurrentPotato = UserTools.LoginAccount(Email.getText(),Password.getText());
+            Memory.CurrentPotato = UserTools.LoginAccount(Email.getText(), Password.getText());
             Memory.CurrentUser = UserTools.GetAccount();
 
             Main.This().GoToPersonalPage();
@@ -30,6 +28,7 @@ public class AppStartController {
             e.printStackTrace();
         }
     }
+
     public void CreateNewUser(MouseEvent actionEvent) {
         try {
             Main.This().GoToCreateUserForm();

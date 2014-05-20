@@ -1,21 +1,16 @@
 package iseen.client.Model;
 
-import com.google.gson.*;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
-import iseen.client.Entities.MediaFormats.*;
-import iseen.client.Entities.Report;
-import iseen.client.Entities.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import iseen.client.Entities.MediaFormats.Media;
+import iseen.client.Entities.MediaFormats.MediaTypes;
 import iseen.client.Exceptions.GeneralError;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
 import iseen.client.Storage.Memory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +39,9 @@ public class MediaTools {
 
 
     public static List<Media> SearchMedia(String text) throws IOException, GeneralError {
-        if (text.length()<1)
+        if (text.length() < 1)
             return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_ALL_MEDIA));
-        String path = PATH_SEARCH_MEDIA.replaceAll("##PARAMS##",text.replaceAll(" ","%20"));
+        String path = PATH_SEARCH_MEDIA.replaceAll("##PARAMS##", text.replaceAll(" ", "%20"));
         return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(path));
     }
 
@@ -56,7 +51,7 @@ public class MediaTools {
 
     public static Media RentMedia(int id) throws Exception {
 
-        String response = HttpCommunication.sendPostPut(PATH_MEDIA_RENT,"[\"" + id + "\"," + PotatoTools.Potato_To_Json()+ "]",true);
+        String response = HttpCommunication.sendPostPut(PATH_MEDIA_RENT, "[\"" + id + "\"," + PotatoTools.Potato_To_Json() + "]", true);
 
         return JsonReportOfMedia_To_Media(response);
     }
@@ -79,7 +74,7 @@ public class MediaTools {
 
     //TODO: Not sure this method will work.
     public static Media DeleteMedia(int id) throws Exception {
-        String response = HttpCommunication.sendPostPut(PATH_DELETE_MEDIA,"[\"" + id + "\",\"" + PotatoTools.Potato_To_Json()+ "\"]",true);
+        String response = HttpCommunication.sendPostPut(PATH_DELETE_MEDIA, "[\"" + id + "\",\"" + PotatoTools.Potato_To_Json() + "\"]", true);
 
         return JsonReportOfMedia_To_Media(response);
     }
@@ -99,7 +94,7 @@ public class MediaTools {
 
         sb.append(']');
 
-        String response = HttpCommunication.sendPostPut(PATH_EDIT_MEDIA,sb.toString(),false);
+        String response = HttpCommunication.sendPostPut(PATH_EDIT_MEDIA, sb.toString(), false);
 
         return JsonReportOfMedia_To_Media(response);
     }
@@ -155,11 +150,11 @@ public class MediaTools {
             sb.append(".jpg");
 
         //File handling
-        GeneralTools.SaveFile(data.getAsString(),sb.toString());
+        GeneralTools.SaveFile(data.getAsString(), sb.toString());
     }
 
     public static List<Media> GetAllRents() throws Exception {
-        String response = HttpCommunication.sendPostPut(PATH_GET_ALL_RENTALS,PotatoTools.Potato_To_Json(),true);
+        String response = HttpCommunication.sendPostPut(PATH_GET_ALL_RENTALS, PotatoTools.Potato_To_Json(), true);
 
         JsonArray data = GeneralTools.JsonReport_To_DataJsonArray(response);
 
@@ -167,13 +162,13 @@ public class MediaTools {
         List<Media> medias = new ArrayList<Media>();
         List<Integer> mediaIds = new ArrayList<Integer>();
 
-        for (int i = 0; i<data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             JsonObject elem = data.get(i).getAsJsonObject();
 
             mediaIds.add(elem.get("MediaId").getAsInt());
         }
 
-        for (int i = 0; i<mediaIds.size(); i++) {
+        for (int i = 0; i < mediaIds.size(); i++) {
             medias.add(GetMediaById(mediaIds.get(i)));
         }
 
@@ -189,7 +184,7 @@ public class MediaTools {
 
         System.out.println(media.Title);
 
-        return Media.FromJson(data,gson);
+        return Media.FromJson(data, gson);
     }
 
     private static List<Media> JsonReportOfListOfMedia_To_ListOfMedia(String Json) throws GeneralError {
@@ -199,7 +194,7 @@ public class MediaTools {
 
         //To list of media
         List<Media> medias = new ArrayList<Media>();
-        for (int i = 0; i<data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             JsonObject elem = data.get(i).getAsJsonObject();
 
             //try to parse into media

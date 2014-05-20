@@ -5,11 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import iseen.client.Entities.Report;
 import iseen.client.Exceptions.GeneralError;
 import iseen.client.Main;
 import javafx.stage.FileChooser;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.awt.*;
 import java.io.*;
@@ -18,7 +16,7 @@ import java.io.*;
  * Created by SebastianDybdal on 21-03-2014.
  */
 public class GeneralTools {
-    public static JsonArray JsonReport_To_DataJsonArray (String Json) throws GeneralError {
+    public static JsonArray JsonReport_To_DataJsonArray(String Json) throws GeneralError {
         //Unpack report into data and error JSON strings
         JsonObject JsonReport = JsonReport_To_JsonObject(Json);
 
@@ -29,7 +27,7 @@ public class GeneralTools {
         return data;
     }
 
-    public static JsonObject JsonReport_To_DataJsonObject (String Json) throws GeneralError {
+    public static JsonObject JsonReport_To_DataJsonObject(String Json) throws GeneralError {
         //Unpack report into data and error JSON strings
         JsonObject JsonReport = JsonReport_To_JsonObject(Json);
 
@@ -42,17 +40,17 @@ public class GeneralTools {
 
     public static String File_To_Base64() {
         try {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(Main.This()._primaryStage);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            File file = fileChooser.showOpenDialog(Main.This()._primaryStage);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append('\"');
+            StringBuilder sb = new StringBuilder();
+            sb.append('\"');
 
-        sb.append(Base64FromFile(file));
+            sb.append(Base64FromFile(file));
 
-        sb.append('\"');
-        return sb.toString();
+            sb.append('\"');
+            return sb.toString();
 
         } catch (IOException e) {
             return File_To_Base64();
@@ -67,17 +65,17 @@ public class GeneralTools {
             throw new IOException("File was too big");
         }
 
-        byte[] bytes = new byte[(int)length];
+        byte[] bytes = new byte[(int) length];
 
         int offset = 0;
         int numRead = 0;
         while (offset < bytes.length
-                && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+                && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
             offset += numRead;
         }
 
         if (offset < bytes.length) {
-            throw new IOException("Could not completely read file "+file.getName());
+            throw new IOException("Could not completely read file " + file.getName());
         }
 
         is.close();
@@ -93,14 +91,14 @@ public class GeneralTools {
         Desktop.getDesktop().open(newfile);
     }
 
-    public static JsonObject JsonReport_To_JsonObject (String Json) {
+    public static JsonObject JsonReport_To_JsonObject(String Json) {
         //Unpack report into data and error JSON strings
         JsonElement top = new JsonParser().parse(Json);
         JsonObject JsonReport = top.getAsJsonObject();
         return JsonReport;
     }
 
-    private static void HandleError (JsonElement error) throws GeneralError {
+    private static void HandleError(JsonElement error) throws GeneralError {
         if (Integer.parseInt(error.toString()) != 0)
             throw new GeneralError("Error received: " + error.toString());
     }

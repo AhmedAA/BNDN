@@ -1,0 +1,43 @@
+<html><head>
+  <SCRIPT src="http://java.com/js/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'ISeeNClient.jnlp'
+            },
+            {
+                javafx : '2.2+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbed_ISeeNClient_id() {
+        dtjava.embed(
+            {
+                id : 'ISeeNClient_id',
+                url : 'ISeeNClient.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : 750,
+                height : 500
+            },
+            {
+                javafx : '2.2+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbed_ISeeNClient_id);
+</script>
+
+</head><body>
+<h2>Test page for <b>ISeeNClient</b></h2>
+  <b>Webstart:</b> <a href='ISeeNClient.jnlp' onclick="return launchApplication('ISeeNClient.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder'></div>
+</body></html>

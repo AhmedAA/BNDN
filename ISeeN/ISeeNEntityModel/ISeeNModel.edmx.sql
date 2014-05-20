@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/06/2014 11:09:34
+-- Date Created: 05/20/2014 20:22:17
 -- Generated from EDMX file: C:\Users\SebastianDybdal\Documents\GitHub\BNDN\ISeeN\ISeeNEntityModel\ISeeNModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [RentIt02Test];
+USE [RentIt02];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO

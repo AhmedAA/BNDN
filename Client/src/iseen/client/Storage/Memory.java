@@ -4,7 +4,6 @@ import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.Potato;
 import iseen.client.Entities.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

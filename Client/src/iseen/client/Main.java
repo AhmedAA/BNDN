@@ -1,12 +1,5 @@
 package iseen.client;
 
-import iseen.client.Entities.Potato;
-import iseen.client.Entities.User;
-import iseen.client.Model.GeneralTools;
-import iseen.client.Model.HttpCommunication;
-import iseen.client.Model.MediaTools;
-import iseen.client.Model.UserTools;
-import iseen.client.Storage.Memory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,10 +11,18 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    public Stage _primaryStage;
     private static Main _this;
+    public Stage _primaryStage;
 
-    public void start(Stage primaryStage) throws Exception{
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    public static Main This() {
+        return _this;
+    }
+
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Views/AppStartView.fxml"));
         primaryStage.setTitle("iSeen");
         Scene login = new Scene(root, 750, 500);
@@ -58,19 +59,11 @@ public class Main extends Application {
 
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    public static Main This () {
-        return _this;
-    }
-
-    public void GoToPersonalPage () throws IOException {
+    public void GoToPersonalPage() throws IOException {
         GoToPage("Views/PersonalPageView.fxml");
     }
 
-    public void GoToCreateUserForm () throws IOException {
+    public void GoToCreateUserForm() throws IOException {
         GoToPage("Views/CreateUserForm.fxml");
     }
 
