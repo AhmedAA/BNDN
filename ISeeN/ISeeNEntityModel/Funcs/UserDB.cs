@@ -48,6 +48,8 @@ namespace ISeeNEntityModel.Funcs
                 var emailqur = from u in conc.UserSet
                     where u.Email == email
                     select u;
+                if (!emailqur.Any())
+                    throw new InvalidCredentialException("User name was not found!");
                 if (emailqur.First().Password == password)
                     return PotatoHandle(emailqur.First().Id);
                 throw new InvalidCredentialException("Password was not correct");
