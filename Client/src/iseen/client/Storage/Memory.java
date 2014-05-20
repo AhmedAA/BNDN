@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * Created by seb_000 on 20-03-2014.
+ *
+ * Used to handle recently used media, instead of looking them up every time.
  */
 public class Memory {
     public static User CurrentUser;

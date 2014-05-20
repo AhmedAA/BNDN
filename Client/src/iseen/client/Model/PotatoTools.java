@@ -9,6 +9,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by seb_000 on 20-03-2014.
+ *
+ * Used to handle a users token.
+ *
+ * Transforms an internal potato to a JSON potato, and vice versa.
  */
 public class PotatoTools {
 
