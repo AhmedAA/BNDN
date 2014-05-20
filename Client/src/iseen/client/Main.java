@@ -23,7 +23,7 @@ public class Main extends Application {
 
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Views/AppStartView.fxml"));
-        primaryStage.setTitle("Test");
+        primaryStage.setTitle("iSeen");
         Scene login = new Scene(root, 750, 500);
         primaryStage.setScene(login);
         primaryStage.initStyle(StageStyle.UNIFIED);
