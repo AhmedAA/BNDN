@@ -54,9 +54,13 @@ public class MediaViewEnt extends HBox {
 
         vbox.getChildren().add(releasedate);
 
-        Label description = new Label(media.Description);
+        String text = media.Description;
+        if (text != null && text.length()>500)
+            text = text.substring(0,500);
+
+        Label description = new Label(text + "...");
         description.setWrapText(true);
-        description.setMaxWidth(550);
+        description.setMaxWidth(500);
 
         vbox.getChildren().add(description);
     }

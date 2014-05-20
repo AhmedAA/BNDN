@@ -44,6 +44,8 @@ public class MediaTools {
 
 
     public static List<Media> SearchMedia(String text) throws IOException, GeneralError {
+        if (text.length()<1)
+            return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_ALL_MEDIA));
         String path = PATH_SEARCH_MEDIA.replaceAll("##PARAMS##",text.replaceAll(" ","%20"));
         return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(path));
     }

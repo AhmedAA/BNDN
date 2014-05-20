@@ -2,10 +2,13 @@ package iseen.client.Controllers;
 
 import iseen.client.Entities.User;
 import iseen.client.Main;
+import iseen.client.Model.MediaTools;
 import iseen.client.Storage.Memory;
+import iseen.client.ViewEntities.MediaViewEnt;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +20,7 @@ import java.util.ResourceBundle;
 public class PersonalPageController implements Initializable {
     public Label TitlePersonName;
     public Label InfoField;
+    public AnchorPane FrontPane;
 
     public void FindNewMediaAction(ActionEvent actionEvent) {
         try {
@@ -48,6 +52,19 @@ public class PersonalPageController implements Initializable {
         User currentUser = Memory.CurrentUser;
         InfoField.setText(currentUser.Email + " - " + currentUser.City + ", " + currentUser.Country + " - " + currentUser.Gender + " - " + Boolean.toString(currentUser.IsAdmin) );
         TitlePersonName.setText(currentUser.Name);
+
+        //Hack//
+        int i = 0;
+        boolean done = false;
+        while (!done) {
+            try {
+                FrontPane.getChildren().add(new MediaViewEnt(MediaTools.GetMediaById(i)));
+                done = true;
+            } catch (Exception e) {
+                i+=10;
+            }
+        }
+        //Hack//
     }
 
     public void GoToRentals(ActionEvent actionEvent) {

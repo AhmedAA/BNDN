@@ -1,5 +1,6 @@
 package iseen.client.Controllers;
 
+import com.sun.org.glassfish.gmbal.Description;
 import iseen.client.Entities.MediaFormats.Media;
 import iseen.client.Entities.MediaFormats.MediaTypes;
 import iseen.client.Entities.MediaFormats.*;
@@ -32,29 +33,33 @@ public class MediaViewController implements Initializable {
     public Label BigTitle;
     public ImageView Image;
     public VBox Properties;
-    public TextArea MediaInfo;
     public Button InvokeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         BigTitle.setText(Memory.CurrentMedia.Title);
+        BigTitle.setWrapText(true);
         Image.setImage(new javafx.scene.image.Image(Memory.CurrentMedia.Image));
-        MediaInfo.setWrapText(true);
 
         if (Memory.CurrentMedia.Type == MediaTypes.Types.MapEnum(MediaTypes.Types.MOVIE)) {
-            MediaInfo.appendText("Director: " + ((Movie) Memory.CurrentMedia).Director + "\n\n");
+            Properties.getChildren().add(new Label("Director: " + ((Movie) Memory.CurrentMedia).Director));
         }
 
         if (Memory.CurrentMedia.Type == MediaTypes.Types.MapEnum(MediaTypes.Types.MUSIC)) {
-            MediaInfo.appendText(String.format("%s\n\n", "Artist: " + ((Music) Memory.CurrentMedia).Artist));
+            Properties.getChildren().add(new Label("Artist: " + ((Music) Memory.CurrentMedia).Artist));
         }
 
         if (Memory.CurrentMedia.Type == MediaTypes.Types.MapEnum(MediaTypes.Types.PICTURE)) {
-            MediaInfo.appendText("Painter: " + ((Picture) Memory.CurrentMedia).Painter + "\n\n");
+            Properties.getChildren().add(new Label("Painter: " + ((Picture) Memory.CurrentMedia).Painter));
         }
 
-        MediaInfo.appendText("Date Released: " + Memory.CurrentMedia.ReleaseDate.toString() + "\n\n");
-        MediaInfo.appendText("Description: " + Memory.CurrentMedia.Description + "\n");
+        Properties.getChildren().add(new Label("Date Released: " + Memory.CurrentMedia.ReleaseDate.toString()));
+
+        Label decription = new Label("Description: " + Memory.CurrentMedia.Description);
+        decription.setWrapText(true);
+        decription.maxWidth(500);
+
+        Properties.getChildren().add(decription);
 
         try {
             if (MediaTools.CheckRented())
@@ -93,7 +98,6 @@ public class MediaViewController implements Initializable {
     }
 
     public void GetStats(ActionEvent actionEvent) {
-
         JOptionPane.showMessageDialog(null, MediaTools.StatsMedia() + " rents are for " + BigTitle.getText());
     }
 }
