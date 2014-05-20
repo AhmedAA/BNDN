@@ -14,6 +14,11 @@ import java.io.*;
 
 /**
  * Created by SebastianDybdal on 21-03-2014.
+ *
+ * Used to do general data handling.
+ * Manipulates internal reports to json objects, and json objects to internal reports.
+ *
+ * Also encrypts files as base64 blobs, and decrypts them.
  */
 public class GeneralTools {
     public static JsonArray JsonReport_To_DataJsonArray(String Json) throws GeneralError {

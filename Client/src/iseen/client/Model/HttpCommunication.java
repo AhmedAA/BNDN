@@ -9,6 +9,9 @@ import java.net.URL;
 
 /**
  * Created by SebastianDybdal on 18-03-2014.
+ *
+ * Used for basic http communication with the server ISeen server, placed on ITUs rentit server.
+ * The other classes use this send put and get requests.
  */
 public class HttpCommunication {
 

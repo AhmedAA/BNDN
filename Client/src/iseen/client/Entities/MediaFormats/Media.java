@@ -14,7 +14,6 @@ import java.util.Date;
  * Created by SebastianDybdal on 18-03-2014.
  */
 public class Media {
-    public SimpleStringProperty test;
     public int Id = 0;
     public String Title = "";
     //public int Type = 0;

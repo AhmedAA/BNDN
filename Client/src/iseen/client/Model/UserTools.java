@@ -9,6 +9,9 @@ import iseen.client.Storage.Memory;
 
 /**
  * Created by seb_000 on 25-03-2014.
+ *
+ * Used to handle user information.
+ * Create and edit users.
  */
 public class UserTools {
     private static String PATH_NEW_ACCOUNT = "account/new";

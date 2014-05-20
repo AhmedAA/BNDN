@@ -16,6 +16,9 @@ import java.util.List;
 
 /**
  * Created by ahmed on 20/03/14.
+ *
+ * Used to manipulate media, and fetch media from the server.
+ * Further used to pull statistics of media, and rent logic.
  */
 public class MediaTools {
 
