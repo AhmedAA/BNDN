@@ -32,7 +32,7 @@ public class Main extends Application {
         _this = this;
 
         this.setUserAgentStylesheet(STYLESHEET_MODENA);
-
+        primaryStage.resizableProperty().setValue(false);
         primaryStage.show();
 
 

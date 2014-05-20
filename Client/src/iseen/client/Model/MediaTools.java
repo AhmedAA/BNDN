@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class MediaTools {
 
-    private static String PATH_TEST1 = "test/1";
     private static String PATH_ALL_MEDIA = "media";
     private static String PATH_MEDIA_BY_ID = "media/byid/";
     private static String PATH_MEDIA_STATS = "media/stats/";
@@ -211,6 +210,22 @@ public class MediaTools {
         }
 
         return medias;
+    }
+
+    public static String StatsMedia() {
+        try {
+            String response = HttpCommunication.sendGet(PATH_MEDIA_STATS + Memory.CurrentMedia.Id);
+            JsonObject jesp = GeneralTools.JsonReport_To_JsonObject(response);
+
+            jesp = jesp.getAsJsonObject("Data");
+
+            int thisrents = jesp.getAsJsonPrimitive("ThisAmountOfRents").getAsInt();
+            int totalrents = jesp.getAsJsonPrimitive("TotalAmountOfRents").getAsInt();
+
+            return thisrents + " out of " + totalrents;
+        } catch (IOException e) {
+            return "You wouldn't believe how many";
+        }
     }
 }
 

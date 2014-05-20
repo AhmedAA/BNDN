@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -89,5 +90,10 @@ public class MediaViewController implements Initializable {
             MediaTools.UseRent();
             InvokeButton.setText("Click to enjoy this media");
         }
+    }
+
+    public void GetStats(ActionEvent actionEvent) {
+
+        JOptionPane.showMessageDialog(null, MediaTools.StatsMedia() + " rents are for " + BigTitle.getText());
     }
 }

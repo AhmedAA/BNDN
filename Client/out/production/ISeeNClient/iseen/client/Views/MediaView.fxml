@@ -31,8 +31,14 @@
 <children><ImageView fx:id="Image" fitHeight="394.0" fitWidth="251.0" pickOnBounds="true" preserveRatio="true">
 <image>
 <Image url="http://www.itu.dk/billedarkiv/Logo/Logofiler/ITU_logo_ENG_SH.jpg" />
-</image></ImageView><Separator orientation="VERTICAL" prefHeight="406.0" prefWidth="40.0" /><VBox fx:id="Properties" prefHeight="406.0" prefWidth="312.0" HBox.hgrow="ALWAYS">
-<children><Button fx:id="InvokeButton" mnemonicParsing="false" onAction="#InvokeInvoked" text="Rent" /><TextArea fx:id="MediaInfo" editable="false" prefHeight="406.0" prefWidth="479.0" />
+</image></ImageView><Separator orientation="VERTICAL" prefHeight="406.0" prefWidth="40.0" /><VBox fx:id="Properties" spacing="5.0" HBox.hgrow="ALWAYS">
+<children>
+                  <HBox spacing="5.0">
+                     <children>
+                        <Button fx:id="InvokeButton" mnemonicParsing="false" onAction="#InvokeInvoked" text="Rent" />
+                        <Button mnemonicParsing="false" onAction="#GetStats" text="Get Stats" />
+                     </children>
+                  </HBox><TextArea fx:id="MediaInfo" editable="false" opacity="0.0" prefHeight="406.0" prefWidth="479.0" />
 </children></VBox>
 </children></HBox>
 </children>
