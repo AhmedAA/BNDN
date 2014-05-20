@@ -49,4 +49,12 @@ public class PersonalPageController implements Initializable {
         InfoField.setText(currentUser.Email + " - " + currentUser.City + ", " + currentUser.Country + " - " + currentUser.Gender + " - " + Boolean.toString(currentUser.IsAdmin) );
         TitlePersonName.setText(currentUser.Name);
     }
+
+    public void GoToRentals(ActionEvent actionEvent) {
+        try {
+            Main.This().GoToRentals();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

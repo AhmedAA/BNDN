@@ -5,6 +5,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import iseen.client.Entities.MediaFormats.*;
 import iseen.client.Entities.Report;
+import iseen.client.Entities.User;
 import iseen.client.Exceptions.GeneralError;
 import iseen.client.Exceptions.MediaTypeNotMatchedException;
 import iseen.client.Storage.Memory;
@@ -33,11 +34,19 @@ public class MediaTools {
     private static String PATH_DELETE_MEDIA = "media/delete";
     private static String PATH_CHECK_RENT = "rent/user/hasRented";
     private static String PATH_GET_FILE = "Rent/File/Get";
+    private static String PATH_SEARCH_MEDIA = "Search/##PARAMS##";
+    private static String PATH_GET_ALL_RENTALS = "Rent/User/All";
 
     private static Gson gson = new Gson();
 
     public static List<Media> GetAllMedia() throws Exception {
         return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(PATH_ALL_MEDIA));
+    }
+
+
+    public static List<Media> SearchMedia(String text) throws IOException, GeneralError {
+        String path = PATH_SEARCH_MEDIA.replaceAll("##PARAMS##",text.replaceAll(" ","%20"));
+        return JsonReportOfListOfMedia_To_ListOfMedia(HttpCommunication.sendGet(path));
     }
 
     public static Media GetMediaById(int id) throws MediaTypeNotMatchedException, GeneralError, IOException {
@@ -148,6 +157,28 @@ public class MediaTools {
         GeneralTools.SaveFile(data.getAsString(),sb.toString());
     }
 
+    public static List<Media> GetAllRents() throws Exception {
+        String response = HttpCommunication.sendPostPut(PATH_GET_ALL_RENTALS,PotatoTools.Potato_To_Json(),true);
+
+        JsonArray data = GeneralTools.JsonReport_To_DataJsonArray(response);
+
+        //get each media from rental
+        List<Media> medias = new ArrayList<Media>();
+        List<Integer> mediaIds = new ArrayList<Integer>();
+
+        for (int i = 0; i<data.size(); i++) {
+            JsonObject elem = data.get(i).getAsJsonObject();
+
+            mediaIds.add(elem.get("MediaId").getAsInt());
+        }
+
+        for (int i = 0; i<mediaIds.size(); i++) {
+            medias.add(GetMediaById(mediaIds.get(i)));
+        }
+
+        return medias;
+    }
+
     private static Media JsonReportOfMedia_To_Media(String Json) throws GeneralError, MediaTypeNotMatchedException {
         System.out.println(Json);
         //Get data from json report
@@ -181,6 +212,5 @@ public class MediaTools {
 
         return medias;
     }
-
 }
 

@@ -90,8 +90,13 @@ public class Main extends Application {
         GoToPage("Views/AddNewMediaForm.fxml");
     }
 
+    public void GoToRentals() throws IOException {
+        GoToPage("Views/Rentals.fxml");
+    }
+
     private void GoToPage(String url) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url));
         _primaryStage.setScene(new Scene(root, 750, 500));
     }
+
 }

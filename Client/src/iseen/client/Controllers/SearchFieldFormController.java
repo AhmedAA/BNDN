@@ -27,7 +27,7 @@ public class SearchFieldFormController {
 
     public void SearchAction(ActionEvent actionEvent) {
         try {
-            Memory.SearchResult = MediaTools.GetAllMedia();
+            Memory.SearchResult = MediaTools.SearchMedia(SearchField.getText());
 
             for (int i = 0; i< Memory.SearchResult.size(); i++) {
                 MediaViewEnt mediaViewEnt = new MediaViewEnt(Memory.SearchResult.get(i));
